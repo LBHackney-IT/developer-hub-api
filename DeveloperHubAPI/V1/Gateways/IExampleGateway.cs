@@ -5,8 +5,8 @@ namespace DeveloperHubAPI.V1.Gateways
 {
     public interface IExampleGateway
     {
-        Entity GetEntityById(int id);
+        Task<DeveloperHub> GetEntityById(DeveloperHubQuery query);
 
-        List<Entity> GetAll();
+        // List<Entity> GetAll();
     }
 }
