@@ -15,14 +15,14 @@ namespace DeveloperHubAPI.V1.Gateways
             _dynamoDbContext = dynamoDbContext;
         }
 
-        public List<Entity> GetAll()
-        {
-            return new List<Entity>();
-        }
+        // public List<DeveloperHub> GetAll()
+        // {
+        //     return new List<DeveloperHub>();
+        // }
 
-        public Entity GetEntityById(int id)
+        public async Task<DeveloperHub> GetEntityById(DeveloperHubQuery query)
         {
-            var result = _dynamoDbContext.LoadAsync<DatabaseEntity>(id).GetAwaiter().GetResult();
+            var result = await _dynamoDbContext.LoadAsync<DeveloperHub>(query.Id).ConfigureAwait(false); 
             return result?.ToDomain();
         }
     }
