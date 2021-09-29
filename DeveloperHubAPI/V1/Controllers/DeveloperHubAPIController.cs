@@ -5,14 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeveloperHubAPI.V1.Controllers
 {
-    [ApiController]
-    //TODO: Rename to match the APIs endpoint
-    [Route("api/v1/residents")]
+    [DeveloperHubController]
+    [Route("api/v1/developerhub")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    //TODO: rename class to match the API name
     public class DeveloperHubAPIController : BaseController
     {
+        // rename fields
         private readonly IGetAllUseCase _getAllUseCase;
         private readonly IGetByIdUseCase _getByIdUseCase;
         public DeveloperHubAPIController(IGetAllUseCase getAllUseCase, IGetByIdUseCase getByIdUseCase)
@@ -21,31 +20,31 @@ namespace DeveloperHubAPI.V1.Controllers
             _getByIdUseCase = getByIdUseCase;
         }
 
-        //TODO: add xml comments containing information that will be included in the auto generated swagger docs (https://github.com/LBHackney-IT/lbh-base-api/wiki/Controllers-and-Response-Objects)
         /// <summary>
-        /// ...
+        /// All data retrieved, in a list object
         /// </summary>
-        /// <response code="200">...</response>
+        /// <response code="200">Success</response>
         /// <response code="400">Invalid Query Parameter.</response>
-        [ProducesResponseType(typeof(ResponseObjectList), StatusCodes.Status200OK)]
-        [HttpGet]
-        public IActionResult ListContacts()
-        {
-            return Ok(_getAllUseCase.Execute());
-        }
+        // [ProducesResponseType(typeof(DeveloperHubList), StatusCodes.Status200OK)]
+        // [HttpGet]
+        // public IActionResult DeveloperHubList()
+        // {
+        //     return Ok(_getAllUseCase.Execute());
+        // }
 
         /// <summary>
-        /// ...
+        /// Retrieve all data by person ID
         /// </summary>
-        /// <response code="200">...</response>
-        /// <response code="404">No ? found for the specified ID</response>
-        [ProducesResponseType(typeof(ResponseObject), StatusCodes.Status200OK)]
+        /// <response code="200">Success</response>
+        /// <response code="404">No data found for the specified ID</response>
+        [ProducesResponseType(typeof(DeveloperHubResponse), StatusCodes.Status200OK)]
         [HttpGet]
-        //TODO: rename to match the identifier that will be used
-        [Route("{yourId}")]
-        public IActionResult ViewRecord(int yourId)
+        [Route("{Id}")]
+        public IActionResult ViewDeveloperHub([FromQuery] DeveloperHubQuery query)
         {
-            return Ok(_getByIdUseCase.Execute(yourId));
+            const response = _getByIdUseCase.Execute(query)
+            if (response == null) return NotFound();
+            return Ok(response);
         }
     }
 }
