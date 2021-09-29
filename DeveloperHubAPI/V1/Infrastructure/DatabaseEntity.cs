@@ -4,27 +4,34 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DeveloperHubAPI.V1.Infrastructure
 {
-    //TODO: rename table and add needed fields relating to the table columns.
-    // There's an example of this in the wiki https://github.com/LBHackney-IT/lbh-base-api/wiki/DatabaseContext
-
-    //TODO: Pick the attributes for the required data source, delete the others as appropriate
-    // Postgres will use the "Table" and "Column" attributes
-    // DynamoDB will use the "DynamoDBTable", "DynamoDBHashKey" and "DynamoDBProperty" attributes
-
-    //TODO: For DynamoDB...
-    // * The table name must match that specified in the terraform step that provisions the DynamoDb resource
-    // * The name of the hash key property must match that specified in the terraform step that provisions the DynamoDb resource
-
-    [Table("example_table")]
-    [DynamoDBTable("example_table", LowerCamelCaseProperties = true)]
+    
+    [DynamoDBTable("DeveloperHub", LowerCamelCaseProperties = true)]
     public class DatabaseEntity
     {
-        [Column("id")]
+        
         [DynamoDBHashKey]
         public int Id { get; set; }
 
-        [Column("created_at")]
         [DynamoDBProperty]
-        public DateTime CreatedAt { get; set; }
+        public string  ApiName { get; set; }
+
+        [DynamoDBProperty]
+        public string  Description { get; set; }
+
+        [DynamoDBProperty]
+        public string  GithubLink { get; set; }
+
+        [DynamoDBProperty]
+        public string  SwaggerLink { get; set; }
+
+        [DynamoDBProperty]
+        public string  DevelopmentBaseURL { get; set; }
+
+        [DynamoDBProperty]
+        public string  StagingBaseURL { get; set; }
+
+        [DynamoDBProperty]
+        public string  ApiSpecificationLink { get; set; }
+
     }
 }
