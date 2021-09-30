@@ -5,7 +5,7 @@ namespace DeveloperHubAPI.V1.Gateways
 {
     public interface IDeveloperHubGateway
     {
-        Task<DeveloperHub> GetDeveloperHubById(DeveloperHubQuery query);
+        DeveloperHub GetDeveloperHubById(DeveloperHubQuery query);
 
         // List<Entity> GetAll();
     }
