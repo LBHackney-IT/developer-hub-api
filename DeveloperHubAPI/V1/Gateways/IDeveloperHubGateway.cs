@@ -7,6 +7,6 @@ namespace DeveloperHubAPI.V1.Gateways
     {
         DeveloperHub GetDeveloperHubById(DeveloperHubQuery query);
 
-        // List<Entity> GetAll();
+        // public List<DeveloperHub> GetAll()
     }
 }
