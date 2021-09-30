@@ -4,7 +4,7 @@ namespace DeveloperHubAPI.V1.Domain
 {
       public class DeveloperHub
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         
         public string  ApiName { get; set; }
 
