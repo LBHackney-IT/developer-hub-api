@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DeveloperHubAPI.V1.Gateways
 {
-    public class DynamoDbGateway : IExampleGateway
+    public class DynamoDbGateway : IDeveloperHubGateway
     {
         private readonly IDynamoDBContext _dynamoDbContext;
 
@@ -15,15 +15,15 @@ namespace DeveloperHubAPI.V1.Gateways
             _dynamoDbContext = dynamoDbContext;
         }
 
-        // public List<DeveloperHub> GetAll()
-        // {
-        //     return new List<DeveloperHub>();
-        // }
-
-        public async Task<DeveloperHub> GetEntityById(DeveloperHubQuery query)
+        public async Task<DeveloperHub> GetDeveloperHubById(DeveloperHubQuery query)
         {
             var result = await _dynamoDbContext.LoadAsync<DeveloperHub>(query.Id).ConfigureAwait(false); 
             return result?.ToDomain();
         }
+
+        // public List<DeveloperHub> GetAll()
+        // {
+        //     return new List<DeveloperHub>();
+        // }
     }
 }

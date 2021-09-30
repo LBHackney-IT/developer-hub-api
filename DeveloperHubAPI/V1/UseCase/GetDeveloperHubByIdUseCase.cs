@@ -5,17 +5,18 @@ using DeveloperHubAPI.V1.UseCase.Interfaces;
 
 namespace DeveloperHubAPI.V1.UseCase
 {
-    public class GetDeveloperHubByIdUseCase : IGetByIdUseCase
+    public class GetDeveloperHubByIdUseCase : IGetDeveloperHubByIdUseCase
     {
-        private IExampleGateway _gateway;
-        public GetByIdUseCase(IExampleGateway gateway)
+        private IDeveloperHubGateway _gateway;
+        
+        public GetDeveloperHubByIdUseCase(IDeveloperHubGateway gateway)
         {
             _gateway = gateway;
         }
 
         public async Task<DeveloperHub> Execute(DeveloperHubQuery query)
         {
-            return await _gateway.GetEntityById(query).ConfigureAwait(false);
+            return await _gateway.GetDeveloperHubById(query).ConfigureAwait(false);
         }
     }
 }

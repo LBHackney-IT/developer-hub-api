@@ -3,9 +3,9 @@ using DeveloperHubAPI.V1.Domain;
 
 namespace DeveloperHubAPI.V1.Gateways
 {
-    public interface IExampleGateway
+    public interface IDeveloperHubGateway
     {
-        Task<DeveloperHub> GetEntityById(DeveloperHubQuery query);
+        Task<DeveloperHub> GetDeveloperHubById(DeveloperHubQuery query);
 
         // List<Entity> GetAll();
     }

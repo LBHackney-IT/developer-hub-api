@@ -11,26 +11,13 @@ namespace DeveloperHubAPI.V1.Controllers
     [ApiVersion("1.0")]
     public class DeveloperHubAPIController : BaseController
     {
-        // rename fields
         private readonly IGetAllUseCase _getAllUseCase;
-        private readonly IGetByIdUseCase _getByIdUseCase;
-        public DeveloperHubAPIController(IGetAllUseCase getAllUseCase, IGetByIdUseCase getByIdUseCase)
+        private readonly IGetDeveloperHubByIdUseCase _getDeveloperHubByIdUseCase;
+        public DeveloperHubAPIController(IGetAllUseCase getAllUseCase, IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase)
         {
             _getAllUseCase = getAllUseCase;
-            _getByIdUseCase = getByIdUseCase;
+            _getDeveloperHubByIdUseCase = getDeveloperHubByIdUseCase;
         }
-
-        /// <summary>
-        /// All data retrieved, in a list object
-        /// </summary>
-        /// <response code="200">Success</response>
-        /// <response code="400">Invalid Query Parameter.</response>
-        // [ProducesResponseType(typeof(DeveloperHubList), StatusCodes.Status200OK)]
-        // [HttpGet]
-        // public IActionResult DeveloperHubList()
-        // {
-        //     return Ok(_getAllUseCase.Execute());
-        // }
 
         /// <summary>
         /// Retrieve all data by person ID
@@ -42,9 +29,22 @@ namespace DeveloperHubAPI.V1.Controllers
         [Route("{Id}")]
         public IActionResult ViewDeveloperHub([FromQuery] DeveloperHubQuery query)
         {
-            const response = _getByIdUseCase.Execute(query)
+            const response = _getDeveloperHubByIdUseCase.Execute(query)
             if (response == null) return NotFound();
             return Ok(response);
         }
+
+         /// <summary>
+        /// All data retrieved, in a list object
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="400">Invalid Query Parameter.</response>
+        // [ProducesResponseType(typeof(DeveloperHubList), StatusCodes.Status200OK)]
+        // [HttpGet]
+        // public IActionResult DeveloperHubList()
+        // {
+        //     return Ok(_getAllUseCase.Execute());
+        // }
+
     }
 }
