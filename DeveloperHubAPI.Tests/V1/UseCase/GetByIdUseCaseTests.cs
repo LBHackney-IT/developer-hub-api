@@ -5,16 +5,16 @@ using NUnit.Framework;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
 {
-    public class GetByIdUseCaseTests
+    public class GetDeveloperHubByIdUseCaseTests
     {
-        private Mock<IExampleGateway> _mockGateway;
-        private GetByIdUseCase _classUnderTest;
+        private Mock<IDeveloperHubGateway> _mockGateway;
+        private GetDeveloperHubByIdUseCase _classUnderTest;
 
         [SetUp]
         public void SetUp()
         {
-            _mockGateway = new Mock<IExampleGateway>();
-            _classUnderTest = new GetByIdUseCase(_mockGateway.Object);
+            _mockGateway = new Mock<IDeveloperHubGateway>();
+            _classUnderTest = new GetDeveloperHubByIdUseCase(_mockGateway.Object);
         }
 
         //TODO: test to check that the use case retrieves the correct record from the database.
