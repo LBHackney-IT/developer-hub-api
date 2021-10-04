@@ -4,13 +4,10 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1
 ENV DOTNET_CLI_TELEMETRY_OPTOUT='true'
 
 ENV DynamoDb_LocalMode='true'
-ARG LBHPACKAGESTOKEN
-ENV LBHPACKAGESTOKEN=$LBHPACKAGESTOKEN
 
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY /nuget.config /root/.nuget/nuget/nuget.config
 COPY ./DeveloperHubAPI.sln ./
 COPY ./DeveloperHubAPI/DeveloperHubAPI.csproj ./DeveloperHubAPI/
 COPY ./DeveloperHubAPI.Tests/DeveloperHubAPI.Tests.csproj ./DeveloperHubAPI.Tests/
