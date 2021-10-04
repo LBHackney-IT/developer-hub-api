@@ -8,17 +8,23 @@ namespace DeveloperHubAPI.Tests.V1.Helper
     {
         public static DatabaseEntity CreateDatabaseEntity()
         {
-            var entity = new Fixture().Create<Entity>();
+            var entity = new Fixture().Create<DatabaseEntity>();
 
             return CreateDatabaseEntityFrom(entity);
         }
 
-        public static DatabaseEntity CreateDatabaseEntityFrom(Entity entity)
+        public static DatabaseEntity CreateDatabaseEntityFrom(DatabaseEntity databaseEntity)
         {
             return new DatabaseEntity
             {
-                Id = entity.Id,
-                CreatedAt = entity.CreatedAt,
+                Id = databaseEntity.Id,
+                ApiName = databaseEntity.ApiName,
+                Description = databaseEntity.Description,
+                GithubLink = databaseEntity.GithubLink,
+                SwaggerLink = databaseEntity.SwaggerLink,
+                DevelopmentBaseURL = databaseEntity.DevelopmentBaseURL,
+                StagingBaseURL = databaseEntity.StagingBaseURL,
+                ApiSpecificationLink = databaseEntity.ApiSpecificationLink
             };
         }
     }
