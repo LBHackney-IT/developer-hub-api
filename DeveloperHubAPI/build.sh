@@ -18,4 +18,4 @@ then
 fi
 
 dotnet restore
-dotnet lambda package --configuration release --framework netcoreapp3.1 --output-package ./bin/release/netcoreapp3.1/dynamodb-developer-hub-api.zip
+dotnet lambda package --configuration release --framework netcoreapp3.1 --output-package ./bin/release/netcoreapp3.1/developer-hub-api.zip

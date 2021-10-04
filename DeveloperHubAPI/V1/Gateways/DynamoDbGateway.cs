@@ -1,8 +1,10 @@
 using Amazon.DynamoDBv2.DataModel;
+using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Gateways
 {
@@ -18,7 +20,7 @@ namespace DeveloperHubAPI.V1.Gateways
         public async Task<DeveloperHub> GetDeveloperHubById(DeveloperHubQuery query)
         {
             var result = await _dynamoDbContext.LoadAsync<DeveloperHub>(query.Id).ConfigureAwait(false); 
-            return result?.ToDomain();
+            return result;
         }
 
         // public List<DeveloperHub> GetAll()

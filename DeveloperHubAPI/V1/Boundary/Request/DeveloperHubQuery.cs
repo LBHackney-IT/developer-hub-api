@@ -1,11 +1,13 @@
 
 
-namespace DeveloperHubAPI.V1.Domain 
+using Microsoft.AspNetCore.Mvc;
+
+namespace DeveloperHubAPI.V1.Boundary.Request 
 {
 
     public class DeveloperHubQuery 
     {
-        [FromRoute("id")]
+        [FromRoute(Name = "id")]
         public string Id { get; set; }
     }
 }

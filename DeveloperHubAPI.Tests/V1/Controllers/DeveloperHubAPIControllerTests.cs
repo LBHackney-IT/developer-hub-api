@@ -1,10 +1,9 @@
 using AutoFixture;
-using DynamodbTraining.V1.Boundary.Request;
-using DynamodbTraining.V1.Boundary.Response;
-using DynamodbTraining.V1.Controllers;
-using DynamodbTraining.V1.Domain;
-using DynamodbTraining.V1.Factories;
-using DynamodbTraining.V1.UseCase.Interfaces;
+using DeveloperHubAPI.V1.Boundary.Request;
+using DeveloperHubAPI.V1.Controllers;
+using DeveloperHubAPI.V1.Domain;
+using DeveloperHubAPI.V1.Factories;
+using DeveloperHubAPI.V1.UseCase.Interfaces;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -18,34 +17,32 @@ namespace DynamodbTraining.Tests.V1.Controllers
 {
     public class DynamodbTrainingControllerTests
     {
-        private readonly Mock<IDeveloperHubByIdCase> _mockGetDeveloperHubByIdUseCase;
+        private readonly Mock<IGetDeveloperHubByIdUseCase> _mockGetDeveloperHubByIdUseCase;
         private readonly DeveloperHubAPIController _classUnderTest;
-        private readonly ResponseFactory _responseFactory;
         private readonly Fixture _fixture = new Fixture();
 
 
-        public DeveloperHubAPIControllerTests()
+        public DynamodbTrainingControllerTests()
         {
             _mockGetDeveloperHubByIdUseCase = new Mock<IGetDeveloperHubByIdUseCase>();
-            _responseFactory = new ResponseFactory();
 
             _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object);
         }
 
-        private DeveloperHubQuery ConstructQuery()
+        private static DeveloperHubQuery ConstructQuery()
         {
-            return new DeveloperHubQuery() { Id = Guid.NewGuid() };
+            return new DeveloperHubQuery() { Id = Guid.NewGuid().ToString() };
         }
 
         [Fact]
-        public async Task GetDeveloperHubByIdAsyncNotFoundReturnsNotFound()
+        public void GetDeveloperHubByIdAsyncNotFoundReturnsNotFound()
         {
             // Arrange
             var query = ConstructQuery();
             _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync((DeveloperHub) null);
 
             // Act
-            var response = await _classUnderTest.ViewRecord(query).ConfigureAwait(false);
+            var response = _classUnderTest.ViewDeveloperHub(query);
 
             // Assert
             response.Should().BeOfType(typeof(NotFoundObjectResult));
@@ -53,15 +50,15 @@ namespace DynamodbTraining.Tests.V1.Controllers
         }
 
         [Fact]
-        public async Task GetDeveloperHubByIdAsyncFoundReturnsResponse()
+        public void GetDeveloperHubByIdAsyncFoundReturnsResponse()
         {
             // Arrange
             var query = ConstructQuery();
             var developerHubResponse = _fixture.Create<DeveloperHub>();
-            _mockGetByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync(developerHubResponse);
+            _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync(developerHubResponse);
 
             // Act
-            var response = await _classUnderTest.ViewDeveloperHub(query).ConfigureAwait(false);
+            var response = _classUnderTest.ViewDeveloperHub(query);
 
             // Assert
             response.Should().BeOfType(typeof(OkObjectResult));
@@ -77,7 +74,7 @@ namespace DynamodbTraining.Tests.V1.Controllers
             _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ThrowsAsync(exception);
 
             // Act
-            Func<Task<IActionResult>> func = async () => await _classUnderTest.ViewDeveloperHub(query).ConfigureAwait(false);
+            Func<Task<IActionResult>> func = () => (Task<IActionResult>) _classUnderTest.ViewDeveloperHub(query);
 
             // Assert
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);

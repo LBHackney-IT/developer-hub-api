@@ -14,7 +14,7 @@ namespace DeveloperHubAPI.V1.Domain
 
         public string  SwaggerLink { get; set; }
 
-        public string  DevelopmentBaseURL { get; set; }
+        public string DevelopmentBaseURL { get; set; }
 
         public string  StagingBaseURL { get; set; }
 

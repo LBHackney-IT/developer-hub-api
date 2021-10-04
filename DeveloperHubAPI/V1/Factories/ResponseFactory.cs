@@ -7,21 +7,20 @@ namespace DeveloperHubAPI.V1.Factories
 {
     public static class ResponseFactory
     {
-        public static DeveloperHubResponse ToResponse(this DeveloperHub domain)
+        public static DevelopmentHubResponse ToResponse(this DeveloperHub domain)
         {
-            return new ResponseObject() {
+            return new DevelopmentHubResponse() {
                 Id = domain.Id,
                 ApiName = domain.ApiName,
                 Description = domain.Description,
                 GithubLink = domain.GithubLink,
                 SwaggerLink = domain.SwaggerLink,
-                DevelopmentBaseURL = domain.DevelopmentBaseURL,
                 StagingBaseURL = domain.StagingBaseURL,
                 ApiSpecificationLink = domain.ApiSpecificationLink
             };
         }
 
-        public static List<DeveloperHubList> ToResponse(this IEnumerable<DeveloperHub> domainList)
+        public static List<DevelopmentHubResponse> ToResponse(this IEnumerable<DeveloperHub> domainList)
         {
             return domainList.Select(domain => domain.ToResponse()).ToList();
         }

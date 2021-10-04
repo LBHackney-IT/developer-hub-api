@@ -155,7 +155,6 @@ namespace DeveloperHubAPI
 
         private static void RegisterUseCases(IServiceCollection services)
         {
-            services.AddScoped<IGetAllUseCase, GetAllUseCase>();
             services.AddScoped<IGetDeveloperHubByIdUseCase, GetDeveloperHubByIdUseCase>();
         }
 

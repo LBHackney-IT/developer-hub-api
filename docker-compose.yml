@@ -1,8 +1,8 @@
 version: "3.2"
 
 services:
-  dynamodb-developer-hub-api:
-    image: dynamodb-developer-hub-api
+  developer-hub-api:
+    image: developer-hub-api
     build:
       context: DeveloperHubAPI/
       dockerfile: ./Dockerfile
@@ -23,8 +23,8 @@ services:
     volumes:
       - ./database:/docker-entrypoint-initdb.d
 
-  dynamodb-developer-hub-api-test:
-    image: dynamodb-developer-hub-api-test
+  developer-hub-api-test:
+    image: developer-hub-api-test
     build:
       context: .
       dockerfile: DeveloperHubAPI.Tests/Dockerfile

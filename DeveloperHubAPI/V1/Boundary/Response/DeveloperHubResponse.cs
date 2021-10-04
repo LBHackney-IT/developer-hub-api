@@ -23,10 +23,10 @@ namespace DeveloperHubAPI.V1.Boundary.Response
          public string StagingLinks { get; set; }
         /// <example>"https://github.com/"</example>
 
-        public string  StagingBaseURL { get; set; }
+        public string StagingBaseURL { get; set; }
         ///<example>"https://github.com/"</example>
 
         public string  ApiSpecificationLink { get; set; }
-        ///<example>"https://github.com/"</example>
+        ////<example>"https://github.com/"</example>
     }
 }
