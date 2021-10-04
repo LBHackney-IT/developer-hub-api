@@ -29,7 +29,7 @@ namespace DeveloperHubAPI.V1.Controllers
         [Route("{Id}")]
         public IActionResult ViewDeveloperHub([FromQuery] DeveloperHubQuery query)
         {
-            const response = _getDeveloperHubByIdUseCase.Execute(query)
+            const response = _getDeveloperHubByIdUseCase.Execute(query);
             if (response == null) return NotFound();
             return Ok(response);
         }
