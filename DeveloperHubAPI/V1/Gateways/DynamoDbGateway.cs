@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Gateways
 {
-    public class DynamoDbGateway : IDeveloperHubGateway
+    public class DynamoDbGateway : IDynamoDbGateway
     {
         private readonly IDynamoDBContext _dynamoDbContext;
 
@@ -19,8 +19,8 @@ namespace DeveloperHubAPI.V1.Gateways
 
         public async Task<DeveloperHub> GetDeveloperHubById(DeveloperHubQuery query)
         {
-            var result = await _dynamoDbContext.LoadAsync<DeveloperHub>(query.Id).ConfigureAwait(false); 
-            return result;
+            var result = await _dynamoDbContext.LoadAsync<DatabaseEntity>(query.Id).ConfigureAwait(false); 
+            return result?.ToDomain();
         }
 
         // public List<DeveloperHub> GetAll()

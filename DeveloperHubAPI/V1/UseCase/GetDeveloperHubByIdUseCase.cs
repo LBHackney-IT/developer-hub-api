@@ -10,9 +10,9 @@ namespace DeveloperHubAPI.V1.UseCase
 {
     public class GetDeveloperHubByIdUseCase : IGetDeveloperHubByIdUseCase
     {
-        private IDeveloperHubGateway _gateway;
+        private IDynamoDbGateway _gateway;
         
-        public GetDeveloperHubByIdUseCase(IDeveloperHubGateway gateway)
+        public GetDeveloperHubByIdUseCase(IDynamoDbGateway gateway)
         {
             _gateway = gateway;
         }

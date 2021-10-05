@@ -149,7 +149,7 @@ namespace DeveloperHubAPI
         private static void RegisterGateways(IServiceCollection services)
         {
 
-            services.AddScoped<IDeveloperHubGateway, DynamoDbGateway>();
+            services.AddScoped<IDynamoDbGateway, DynamoDbGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
