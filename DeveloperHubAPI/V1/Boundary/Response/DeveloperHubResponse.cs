@@ -1,6 +1,6 @@
 namespace DeveloperHubAPI.V1.Boundary.Response
 {
-    public class DevelopmentHubResponse
+    public class DeveloperHubResponse
     {
         public string Id { get; set; }
         ///<example>"123"</example>

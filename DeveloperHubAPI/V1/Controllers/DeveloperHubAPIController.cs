@@ -20,11 +20,11 @@ namespace DeveloperHubAPI.V1.Controllers
         }
 
         /// <summary>
-        /// Retrieve all data by person ID
+        /// Retrieve all data by ID
         /// </summary>
         /// <response code="200">Success</response>
         /// <response code="404">No data found for the specified ID</response>
-        [ProducesResponseType(typeof(DevelopmentHubResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DeveloperHubResponse), StatusCodes.Status200OK)]
         [HttpGet]
         [Route("{Id}")]
         public IActionResult ViewDeveloperHub([FromQuery] DeveloperHubQuery query)
