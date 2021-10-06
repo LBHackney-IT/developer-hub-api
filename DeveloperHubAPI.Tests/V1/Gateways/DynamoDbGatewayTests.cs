@@ -30,26 +30,25 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
         [Test]
         public void GetEntityByIdReturnsNullIfEntityDoesntExist()
         {
-            var response = _classUnderTest.GetEntityById(123);
+            var response = _classUnderTest.GetDeveloperHubById(123);
 
             response.Should().BeNull();
         }
 
         [Test]
-        public void GetEntityByIdReturnsTheEntityIfItExists()
+        public void GetDeveloperHubByIdReturnsDeveloperHubIfItExists()
         {
-            var entity = _fixture.Create<Entity>();
+            var entity = _fixture.Create<DeveloperHub>();
             var dbEntity = DatabaseEntityHelper.CreateDatabaseEntityFrom(entity);
 
             _dynamoDb.Setup(x => x.LoadAsync<DatabaseEntity>(entity.Id, default))
                      .ReturnsAsync(dbEntity);
 
-            var response = _classUnderTest.GetEntityById(entity.Id);
+            var response = _classUnderTest.GetDeveloperHubById(entity.Id);
 
             _dynamoDb.Verify(x => x.LoadAsync<DatabaseEntity>(entity.Id, default), Times.Once);
 
             entity.Id.Should().Be(response.Id);
-            entity.CreatedAt.Should().BeSameDateAs(response.CreatedAt);
         }
     }
 }

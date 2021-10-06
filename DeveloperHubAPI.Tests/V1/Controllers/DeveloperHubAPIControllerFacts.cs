@@ -32,18 +32,18 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
 
         private static DeveloperHubQuery ConstructQuery()
         {
-            return new DeveloperHubQuery() { Id = Guid.NewGuid().ToString() }; // check if this is ok
+            return new DeveloperHubQuery() { Id = "1" }; 
         }
 
         [Fact]
-        public async Task GetDeveloperHubByIdReturnsOkResponse() // check expected vs actual response
+        public async Task GetDeveloperHubByIdReturnsOkResponse() 
         {
             // Arrange
             var expectedResponse = _fixture.Create<DeveloperHub>();
-            _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(expectedResponse.Id)).ReturnsAsync(expectedResponse);
+            _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(expectedResponse.Id.ToString())).ReturnsAsync(expectedResponse);
 
             // Act
-            var actualResponse = await _classUnderTest.ViewDeveloperHub(expectedResponse.Id).ConfigureAwait(false) as OkObjectResult;
+            var actualResponse = await _classUnderTest.ViewDeveloperHub(expectedResponse.Id.ToString()).ConfigureAwait(false) as OkObjectResult;
 
             // Assert
             actualResponse.Should().NotBeNull();
