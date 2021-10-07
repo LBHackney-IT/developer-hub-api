@@ -54,14 +54,14 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         }
 
         [Fact]
-        public void GetDeveloperHubByIdAsyncNotFoundReturnsNotFound()
+        public async Task GetDeveloperHubByIdAsyncNotFoundReturnsNotFound()
         {
             // Arrange
             var query = ConstructQuery();
             _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync((DeveloperHub) null);
 
             // Act
-            var response = _classUnderTest.ViewDeveloperHub(query);
+            var response = await _classUnderTest.ViewDeveloperHub(query).ConfigureAwait(false);
 
             // Assert
             response.Should().BeOfType(typeof(NotFoundObjectResult));
@@ -69,7 +69,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         }
 
         [Fact]
-        public void GetDeveloperHubByIdAsyncFoundReturnsResponse()
+        public async Task GetDeveloperHubByIdAsyncFoundReturnsResponse()
         {
             // Arrange
             var query = ConstructQuery();
@@ -77,7 +77,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync(developerHubResponse);
 
             // Act
-            var response = _classUnderTest.ViewDeveloperHub(query);
+            var response = await _classUnderTest.ViewDeveloperHub(query).ConfigureAwait(false);
 
             // Assert
             response.Should().BeOfType(typeof(OkObjectResult));

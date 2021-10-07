@@ -31,7 +31,7 @@ namespace DeveloperHubAPI.V1.Controllers
         public async Task<IActionResult> ViewDeveloperHub([FromQuery] DeveloperHubQuery query)
         {
             var response = await _getDeveloperHubByIdUseCase.Execute(query).ConfigureAwait(false);
-            if (response == null) return NotFound();
+            if (response == null) return NotFound(query.Id);
             return Ok(response);
         }
 
