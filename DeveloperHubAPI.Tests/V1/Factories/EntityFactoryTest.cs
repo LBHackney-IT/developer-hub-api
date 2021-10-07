@@ -12,8 +12,6 @@ namespace DeveloperHubAPI.Tests.V1.Factories
     {
         private readonly Fixture _fixture = new Fixture();
 
-        //TODO: add assertions for all the fields being mapped in `EntityFactory.ToDomain()`. Also be sure to add test cases for
-        // any edge cases that might exist.
         [Test]
         public void CanMapADatabaseEntityToADomainObject()
         {
@@ -30,8 +28,6 @@ namespace DeveloperHubAPI.Tests.V1.Factories
             databaseEntity.ApiSpecificationLink.Should().Be(entity.ApiSpecificationLink);
         }
 
-        //TODO: add assertions for all the fields being mapped in `EntityFactory.ToDatabase()`. Also be sure to add test cases for
-        // any edge cases that might exist.
         [Test]
         public void CanMapDeveloperHubToADatabaseObject()
         {

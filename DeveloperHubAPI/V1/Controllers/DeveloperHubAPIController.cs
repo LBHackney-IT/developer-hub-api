@@ -4,6 +4,7 @@ using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Controllers
 {
@@ -27,9 +28,9 @@ namespace DeveloperHubAPI.V1.Controllers
         [ProducesResponseType(typeof(DeveloperHubResponse), StatusCodes.Status200OK)]
         [HttpGet]
         [Route("{Id}")]
-        public IActionResult ViewDeveloperHub([FromQuery] DeveloperHubQuery query)
+        public async Task<IActionResult> ViewDeveloperHub([FromQuery] DeveloperHubQuery query)
         {
-            var response = _getDeveloperHubByIdUseCase.Execute(query);
+            var response = await _getDeveloperHubByIdUseCase.Execute(query).ConfigureAwait(false);
             if (response == null) return NotFound();
             return Ok(response);
         }

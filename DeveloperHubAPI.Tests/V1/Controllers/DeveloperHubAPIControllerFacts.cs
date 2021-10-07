@@ -40,10 +40,12 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         {
             // Arrange
             var expectedResponse = _fixture.Create<DeveloperHub>();
-            _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(expectedResponse.Id.ToString())).ReturnsAsync(expectedResponse);
+            var query = ConstructQuery();
+            _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync(expectedResponse);
+            
 
             // Act
-            var actualResponse = await _classUnderTest.ViewDeveloperHub(expectedResponse.Id.ToString()).ConfigureAwait(false) as OkObjectResult;
+            var actualResponse = await _classUnderTest.ViewDeveloperHub(query).ConfigureAwait(false) as OkObjectResult;
 
             // Assert
             actualResponse.Should().NotBeNull();

@@ -4,15 +4,13 @@ using DeveloperHubAPI.Tests.V1.Helper;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Gateways;
 using DeveloperHubAPI.V1.Infrastructure;
+using DeveloperHubAPI.V1.Boundary.Request;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {
-    //TODO: Remove this file if DynamoDb gateway not being used
-    //TODO: Rename Tests to match gateway name
-    //For instruction on how to run tests please see the wiki: https://github.com/LBHackney-IT/lbh-base-api/wiki/Running-the-test-suite.
     [TestFixture]
     public class DynamoDbGatewayTests
     {
@@ -27,10 +25,16 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             _classUnderTest = new DynamoDbGateway(_dynamoDb.Object);
         }
 
-        [Test]
-        public void GetEntityByIdReturnsNullIfEntityDoesntExist()
+        private static DeveloperHubQuery ConstructQuery()
         {
-            var response = _classUnderTest.GetDeveloperHubById(123);
+            return new DeveloperHubQuery() { Id = "1" }; 
+        }
+
+        [Test]
+        public void GetDeveloperHubByIdReturnsNullIfEntityDoesntExist()
+        {
+            var query = ConstructQuery();
+            var response = _classUnderTest.GetDeveloperHubById(query);
 
             response.Should().BeNull();
         }
@@ -40,15 +44,16 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
         {
             var entity = _fixture.Create<DeveloperHub>();
             var dbEntity = DatabaseEntityHelper.CreateDatabaseEntityFrom(entity);
+            var query = ConstructQuery();
 
             _dynamoDb.Setup(x => x.LoadAsync<DatabaseEntity>(entity.Id, default))
                      .ReturnsAsync(dbEntity);
 
-            var response = _classUnderTest.GetDeveloperHubById(entity.Id);
+            var response = _classUnderTest.GetDeveloperHubById(query);
 
-            _dynamoDb.Verify(x => x.LoadAsync<DatabaseEntity>(entity.Id, default), Times.Once);
+            _dynamoDb.Verify(x => x.LoadAsync<DatabaseEntity>(query, default), Times.Once);
 
-            entity.Id.Should().Be(response.Id);
+            query.Should().Be(response.Id);
         }
     }
 }
