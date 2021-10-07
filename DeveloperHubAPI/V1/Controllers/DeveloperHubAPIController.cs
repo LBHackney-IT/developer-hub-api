@@ -15,7 +15,7 @@ namespace DeveloperHubAPI.V1.Controllers
     public class DeveloperHubAPIController : BaseController
     {
         private readonly IGetDeveloperHubByIdUseCase _getDeveloperHubByIdUseCase;
-        public DeveloperHubAPIController( IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase)
+        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase)
         {
             _getDeveloperHubByIdUseCase = getDeveloperHubByIdUseCase;
         }

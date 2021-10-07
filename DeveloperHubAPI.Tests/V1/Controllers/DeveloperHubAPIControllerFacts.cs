@@ -32,17 +32,17 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
 
         private static DeveloperHubQuery ConstructQuery()
         {
-            return new DeveloperHubQuery() { Id = "1" }; 
+            return new DeveloperHubQuery() { Id = "1" };
         }
 
         [Fact]
-        public async Task GetDeveloperHubByIdReturnsOkResponse() 
+        public async Task GetDeveloperHubByIdReturnsOkResponse()
         {
             // Arrange
             var expectedResponse = _fixture.Create<DeveloperHub>();
             var query = ConstructQuery();
             _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync(expectedResponse);
-            
+
 
             // Act
             var actualResponse = await _classUnderTest.ViewDeveloperHub(query).ConfigureAwait(false) as OkObjectResult;

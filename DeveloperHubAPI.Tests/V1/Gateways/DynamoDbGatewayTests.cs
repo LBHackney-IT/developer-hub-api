@@ -27,7 +27,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
 
         private static DeveloperHubQuery ConstructQuery()
         {
-            return new DeveloperHubQuery() { Id = "1" }; 
+            return new DeveloperHubQuery() { Id = "1" };
         }
 
         [Test]

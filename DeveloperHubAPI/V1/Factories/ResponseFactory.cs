@@ -9,7 +9,8 @@ namespace DeveloperHubAPI.V1.Factories
     {
         public static DeveloperHubResponse ToResponse(this DeveloperHub domain)
         {
-            return new DeveloperHubResponse() {
+            return new DeveloperHubResponse()
+            {
                 Id = domain.Id,
                 ApiName = domain.ApiName,
                 Description = domain.Description,

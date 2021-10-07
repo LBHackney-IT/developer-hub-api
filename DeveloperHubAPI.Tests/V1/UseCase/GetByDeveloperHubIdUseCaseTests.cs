@@ -17,7 +17,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         private GetDeveloperHubByIdUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
 
-        
+
         public GetDeveloperHubByIdUseCaseTests()
         {
             _mockGateway = new Mock<IDynamoDbGateway>();
@@ -26,7 +26,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
 
         private static DeveloperHubQuery ConstructQuery()
         {
-            return new DeveloperHubQuery() { Id = "1"};
+            return new DeveloperHubQuery() { Id = "1" };
         }
 
         [Fact]

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DeveloperHubAPI.V1.Boundary.Request 
+namespace DeveloperHubAPI.V1.Boundary.Request
 {
 
-    public class DeveloperHubQuery 
+    public class DeveloperHubQuery
     {
-        [FromRoute( Name = "id" )]
+        [FromRoute(Name = "id")]
         public string Id { get; set; }
     }
 }
