@@ -1,19 +1,29 @@
+using System.Collections.Generic;
+using AutoFixture;
+using FluentAssertions;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
+using DeveloperHubAPI.V1.Infrastructure;
 using NUnit.Framework;
 
 namespace DeveloperHubAPI.Tests.V1.Factories
 {
     public class ResponseFactoryTest
     {
-        //TODO: add assertions for all the fields being mapped in `ResponseFactory.ToResponse()`. Also be sure to add test cases for
-        // any edge cases that might exist.
         [Test]
         public void CanMapADatabaseEntityToADomainObject()
         {
-            var domain = new DeveloperHub();
-            var response = domain.ToResponse();
-            //TODO: check here that all of the fields have been mapped correctly. i.e. response.fieldOne.Should().Be("one")
+            var dbEntity = new DatabaseEntity();
+            var response = dbEntity.ToDomain();
+            
+            dbEntity.Id.Should().Be(response.Id);
+            dbEntity.ApiName.Should().Be(response.ApiName);
+            dbEntity.Description.Should().Be(response.Description);
+            dbEntity.GithubLink.Should().Be(response.GithubLink);
+            dbEntity.SwaggerLink.Should().Be(response.SwaggerLink);
+            dbEntity.DevelopmentBaseURL.Should().Be(response.DevelopmentBaseURL);
+            dbEntity.StagingBaseURL.Should().Be(response.StagingBaseURL);
+            dbEntity.ApiSpecificationLink.Should().Be(response.ApiSpecificationLink);
         }
     }
 }

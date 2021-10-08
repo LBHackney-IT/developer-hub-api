@@ -6,19 +6,20 @@ using DeveloperHubAPI.V1.Boundary.Request;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
-using Xunit;
+using NUnit.Framework;
 using AutoFixture;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
-{
+{   
+    [TestFixture]
     public class GetDeveloperHubByIdUseCaseTests
     {
         private Mock<IDynamoDbGateway> _mockGateway;
         private GetDeveloperHubByIdUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
 
-
-        public GetDeveloperHubByIdUseCaseTests()
+        [SetUp]
+        public void SetUp()
         {
             _mockGateway = new Mock<IDynamoDbGateway>();
             _classUnderTest = new GetDeveloperHubByIdUseCase(_mockGateway.Object);
@@ -29,7 +30,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             return new DeveloperHubQuery() { Id = "1" };
         }
 
-        [Fact]
+        [Test]
         public async Task GetDeveloperHubByIdUseCaseGatewayReturnsNullReturnsNull()
         {
             // Arrange
@@ -43,7 +44,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             response.Should().BeNull();
         }
 
-        [Fact]
+        [Test]
         public async Task GetDeveloperHubByIdAsyncFoundReturnsResponse()
         {
             // Arrange
@@ -58,7 +59,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             response.Should().BeEquivalentTo(developerHub);
         }
 
-        [Fact]
+        [Test]
         public void GetDeveloperHubByIdAsyncExceptionIsThrown()
         {
             // Arrange
