@@ -15,7 +15,7 @@ namespace DeveloperHubAPI.Tests.V1.Factories
         {
             var dbEntity = new DatabaseEntity();
             var response = dbEntity.ToDomain();
-            
+
             dbEntity.Id.Should().Be(response.Id);
             dbEntity.ApiName.Should().Be(response.ApiName);
             dbEntity.Description.Should().Be(response.Description);

@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.Tests.V1.Controllers
-{   
+{
     [TestFixture]
     public class DeveloperHubAPIControllerTests
     {

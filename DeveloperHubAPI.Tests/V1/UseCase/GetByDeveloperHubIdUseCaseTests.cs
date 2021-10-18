@@ -10,7 +10,7 @@ using NUnit.Framework;
 using AutoFixture;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
-{   
+{
     [TestFixture]
     public class GetDeveloperHubByIdUseCaseTests
     {
