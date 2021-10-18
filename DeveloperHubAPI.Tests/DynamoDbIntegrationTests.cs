@@ -9,15 +9,15 @@ namespace DeveloperHubAPI.Tests
 {
     public class DynamoDbIntegrationTests<TStartup> where TStartup : class
     {
-        protected HttpClient Client { get; private set; }
+        public HttpClient Client { get; private set; }
+        public IDynamoDBContext DynamoDbContext => _factory?.DynamoDbContext;
         private DynamoDbMockWebApplicationFactory<TStartup> _factory;
-        protected IDynamoDBContext DynamoDbContext => _factory?.DynamoDbContext;
         protected List<Action> CleanupActions { get; set; }
 
         private readonly List<TableDef> _tables = new List<TableDef>
         {
-    
-            new TableDef { Name = "DeveloperHub", KeyName = "id", KeyType = ScalarAttributeType.N }
+
+            new TableDef { Name = "DeveloperHub", KeyName = "id", KeyType = ScalarAttributeType.S }
         };
 
         private static void EnsureEnvVarConfigured(string name, string defaultValue)
@@ -32,6 +32,7 @@ namespace DeveloperHubAPI.Tests
             EnsureEnvVarConfigured("DynamoDb_LocalMode", "true");
             EnsureEnvVarConfigured("DynamoDb_LocalServiceUrl", "http://localhost:8000");
             _factory = new DynamoDbMockWebApplicationFactory<TStartup>(_tables);
+            Client = _factory.CreateClient();
         }
 
         [OneTimeTearDown]

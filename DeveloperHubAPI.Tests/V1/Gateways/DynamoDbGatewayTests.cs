@@ -1,21 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Amazon.DynamoDBv2.DataModel;
 using AutoFixture;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Gateways;
-using DeveloperHubAPI.V1.Infrastructure;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Factories;
 using FluentAssertions;
-using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {
-    [TestFixture]
+    [TestFixture("DynamoDb collection")]
     public class DynamoDbGatewayTests : IDisposable
     {
         private IDynamoDBContext _dynamoDb;
@@ -23,10 +20,16 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
         private readonly List<Action> _cleanup = new List<Action>();
         private readonly Fixture _fixture = new Fixture();
 
+        // public DynamoDbGatewayTests(DynamoDbIntegrationTests<Startup> dbTestFixture)
+        // {
+        //     _dynamoDb = dbTestFixture.DynamoDbContext;
+        //     _classUnderTest = new DynamoDbGateway(_dynamoDb);
+        // }
+
         [SetUp]
-        public void Setup()
+        public void SetUp(DynamoDbIntegrationTests<Startup> dbTestFixture)
         {
-            _dynamoDb = new IDynamoDBContext();
+            _dynamoDb = dbTestFixture.DynamoDbContext;
             _classUnderTest = new DynamoDbGateway(_dynamoDb);
         }
 
@@ -69,12 +72,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             var dbEntity = entity.ToDatabase();
             var query = ConstructQuery();
 
-            _dynamoDb.Setup(x => x.LoadAsync<DatabaseEntity>(query, default))
-                     .ReturnsAsync(dbEntity); 
-
             var response = _classUnderTest.GetDeveloperHubById(query);
-
-            _dynamoDb.Verify(x => x.LoadAsync<DatabaseEntity>(query, default), Times.Once);
 
             query.Should().Be(response.Id);
         }
