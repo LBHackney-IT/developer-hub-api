@@ -6,25 +6,19 @@ using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Gateways;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Factories;
+using DeveloperHubAPI.V1.Infrastructure;
 using FluentAssertions;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {
-    [TestFixture("DynamoDb collection")]
-    public class DynamoDbGatewayTests : IDisposable
+    [TestFixture]
+    public class DynamoDbGatewayTests : DynamoDbIntegrationTests<Startup>
     {
         private IDynamoDBContext _dynamoDb;
         private DynamoDbGateway _classUnderTest;
-        private readonly List<Action> _cleanup = new List<Action>();
         private readonly Fixture _fixture = new Fixture();
-
-        // public DynamoDbGatewayTests(DynamoDbIntegrationTests<Startup> dbTestFixture)
-        // {
-        //     _dynamoDb = dbTestFixture.DynamoDbContext;
-        //     _classUnderTest = new DynamoDbGateway(_dynamoDb);
-        // }
 
         [SetUp]
         public void SetUp(DynamoDbIntegrationTests<Startup> dbTestFixture)
@@ -33,34 +27,16 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             _classUnderTest = new DynamoDbGateway(_dynamoDb);
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private bool _disposed;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing && !_disposed)
-            {
-                foreach (var action in _cleanup)
-                    action();
-
-                _disposed = true;
-            }
-        }
-
         private static DeveloperHubQuery ConstructQuery()
         {
             return new DeveloperHubQuery() { Id = "1" };
         }
 
         [Test]
-        public void GetDeveloperHubByIdReturnsNullIfEntityDoesntExist()
+        public async Task GetDeveloperHubByIdReturnsNullIfEntityDoesntExist()
         {
             var query = ConstructQuery();
-            var response = _classUnderTest.GetDeveloperHubById(query);
+            var response = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false); // amend so query type will return null
 
             response.Should().BeNull();
         }
@@ -78,47 +54,26 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
         }
 
         [Test]
-        public async Task GetDeveloperHubByIdReturnsResponseIfItExists()
-        {
+        public async Task VerifiesGatewayMethodsAddToDB()
+        {   
             // Arrange
-            var entity = _fixture.Create<DeveloperHub>();
-            var dbEntity = entity.ToDatabase();
-
-            await _dynamoDb.SaveAsync(dbEntity).ConfigureAwait(false);
-            _cleanup.Add(async () => await _dynamoDb.DeleteAsync(dbEntity).ConfigureAwait(false));
-
-            // Act
             var query = ConstructQuery();
-            var response = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
+            var entity = _fixture.Build<DatabaseEntity>()
+                                    .With(x => x.ApiName, "DeveloperHub").Create();
+            InsertDataToDynamoDB(entity);
+            
+            // Act
+            var result = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
 
             // Assert
-            response.ApiName.Should().Be(entity.ApiName);
-            response.Description.Should().Be(entity.Description);
-            response.GithubLink.Should().Be(entity.GithubLink);
-            response.SwaggerLink.Should().Be(entity.SwaggerLink);
-            response.DevelopmentBaseURL.Should().Be(entity.DevelopmentBaseURL);
-            response.StagingBaseURL.Should().Be(entity.StagingBaseURL);
-            response.ApiSpecificationLink.Should().Be(entity.ApiSpecificationLink);
+            result.Should().BeEquivalentTo(entity);
         }
 
-        // [Test]
-        // public void GetDeveloperHubByIdExceptionThrow()
-        // {
-        //      // Arrange
-        //     var mockDynamoDb = new DynamoDBContext();
-        //     _classUnderTest = new DynamoDbGateway(mockDynamoDb);
-        //     var id = Guid.NewGuid();
-        //     var query = ConstructQuery();
-        //     var exception = new ApplicationException("Test exception");
-        //     mockDynamoDb.Setup(x => x.LoadAsync<DatabaseEntity>(id, default))
-        //                 .ThrowsAsync(exception);
+        private void InsertDataToDynamoDB(DatabaseEntity entity)
+        {
+            DynamoDbContext.SaveAsync<DatabaseEntity>(entity).ConfigureAwait(false);
+            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync(entity).ConfigureAwait(false));
+        }
 
-        //     // Act
-        //     Func<Task<DeveloperHub>> func = async () => await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
-
-        //     // Assert
-        //     func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
-        //     mockDynamoDb.Verify(x => x.LoadAsync<DatabaseEntity>(query, default), Times.Once);
-        // }
     }
 }
