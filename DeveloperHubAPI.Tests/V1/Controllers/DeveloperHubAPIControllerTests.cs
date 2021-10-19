@@ -1,17 +1,13 @@
 using AutoFixture;
 using DeveloperHubAPI.V1.Boundary.Request;
-using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Controllers;
 using DeveloperHubAPI.V1.Domain;
-using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.Tests.V1.Controllers
