@@ -1,6 +1,5 @@
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Boundary.Response;
-using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
