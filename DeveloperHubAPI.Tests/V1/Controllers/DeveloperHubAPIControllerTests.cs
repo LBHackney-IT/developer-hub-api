@@ -66,22 +66,6 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         }
 
         [Test]
-        public async Task GetDeveloperHubByIdAsyncFoundReturnsResponse()
-        {
-            // Arrange
-            var query = ConstructQuery();
-            var developerHubResponse = _fixture.Create<DeveloperHubApi>();
-            _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync(developerHubResponse);
-
-            // Act
-            var response = await _classUnderTest.ViewDeveloperHub(query).ConfigureAwait(false);
-
-            // Assert
-            response.Should().BeOfType(typeof(OkObjectResult));
-            (response as OkObjectResult).Value.Should().BeEquivalentTo(developerHubResponse);
-        }
-
-        [Test]
         public void GetDeveloperHubByIdAsyncExceptionIsThrown()
         {
             // Arrange
