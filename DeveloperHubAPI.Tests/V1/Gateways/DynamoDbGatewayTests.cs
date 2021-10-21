@@ -41,7 +41,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
 
         [Test]
         public async Task VerifiesGatewayMethodsAddToDB()
-        {   
+        {
             // Arrange
             var query = ConstructQuery();
             var entity = _fixture.Build<DatabaseEntity>()
@@ -49,7 +49,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
                                     .With(x => x.ApiName, "DeveloperHubApi")
                                     .Create();
             InsertDataToDynamoDB(entity);
-            
+
             // Act
             var result = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
 
