@@ -16,15 +16,13 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
     [TestFixture]
     public class DynamoDbGatewayTests : DynamoDbIntegrationTests<Startup>
     {
-        private IDynamoDBContext _dynamoDb;
         private DynamoDbGateway _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
-        public void SetUp(DynamoDbIntegrationTests<Startup> dbTestFixture)
+        public void SetUp()
         {
-            _dynamoDb = dbTestFixture.DynamoDbContext;
-            _classUnderTest = new DynamoDbGateway(_dynamoDb);
+            _classUnderTest = new DynamoDbGateway(DynamoDbContext);
         }
 
         private static DeveloperHubQuery ConstructQuery()
@@ -42,24 +40,14 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
         }
 
         [Test]
-        public void GetDeveloperHubByIdReturnsDeveloperHubIfItExists()
-        {
-            var entity = _fixture.Create<DeveloperHub>();
-            var dbEntity = entity.ToDatabase();
-            var query = ConstructQuery();
-
-            var response = _classUnderTest.GetDeveloperHubById(query);
-
-            query.Should().Be(response.Id);
-        }
-
-        [Test]
         public async Task VerifiesGatewayMethodsAddToDB()
         {   
             // Arrange
             var query = ConstructQuery();
             var entity = _fixture.Build<DatabaseEntity>()
-                                    .With(x => x.ApiName, "DeveloperHub").Create();
+                                    .With(x => x.Id, query.Id)
+                                    .With(x => x.ApiName, "DeveloperHub")
+                                    .Create();
             InsertDataToDynamoDB(entity);
             
             // Act
