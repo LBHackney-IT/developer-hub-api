@@ -31,7 +31,7 @@ namespace DeveloperHubAPI.Tests.V1.Factories
         [Test]
         public void CanMapDeveloperHubToADatabaseObject()
         {
-            var entity = _fixture.Create<DeveloperHub>();
+            var entity = _fixture.Create<DeveloperHubApi>();
             var databaseEntity = entity.ToDatabase();
 
             entity.Id.Should().Be(databaseEntity.Id);

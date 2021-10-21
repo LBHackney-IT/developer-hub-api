@@ -46,7 +46,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             var query = ConstructQuery();
             var entity = _fixture.Build<DatabaseEntity>()
                                     .With(x => x.Id, query.Id)
-                                    .With(x => x.ApiName, "DeveloperHub")
+                                    .With(x => x.ApiName, "DeveloperHubApi")
                                     .Create();
             InsertDataToDynamoDB(entity);
             

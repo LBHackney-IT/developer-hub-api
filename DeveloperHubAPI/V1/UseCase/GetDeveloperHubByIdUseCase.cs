@@ -17,7 +17,7 @@ namespace DeveloperHubAPI.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<DeveloperHub> Execute(DeveloperHubQuery query)
+        public async Task<DeveloperHubApi> Execute(DeveloperHubQuery query)
         {
             return await _gateway.GetDeveloperHubById(query).ConfigureAwait(false);
         }

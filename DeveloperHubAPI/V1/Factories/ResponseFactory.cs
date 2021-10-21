@@ -7,7 +7,7 @@ namespace DeveloperHubAPI.V1.Factories
 {
     public static class ResponseFactory
     {
-        public static DeveloperHubResponse ToResponse(this DeveloperHub domain)
+        public static DeveloperHubResponse ToResponse(this DeveloperHubApi domain)
         {
             return new DeveloperHubResponse()
             {
@@ -21,7 +21,7 @@ namespace DeveloperHubAPI.V1.Factories
             };
         }
 
-        public static List<DeveloperHubResponse> ToResponse(this IEnumerable<DeveloperHub> domainList)
+        public static List<DeveloperHubResponse> ToResponse(this IEnumerable<DeveloperHubApi> domainList)
         {
             return domainList.Select(domain => domain.ToResponse()).ToList();
         }

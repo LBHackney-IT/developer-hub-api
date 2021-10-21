@@ -2,7 +2,7 @@ using System;
 
 namespace DeveloperHubAPI.V1.Domain
 {
-    public class DeveloperHub
+    public class DeveloperHubApi
     {
         public string Id { get; set; }
 

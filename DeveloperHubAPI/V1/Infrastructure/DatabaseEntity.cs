@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DeveloperHubAPI.V1.Infrastructure
 {
 
-    [DynamoDBTable("DeveloperHub", LowerCamelCaseProperties = true)]
+    [DynamoDBTable("DeveloperHubApi", LowerCamelCaseProperties = true)]
     public class DatabaseEntity
     {
 
