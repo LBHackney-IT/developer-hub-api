@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DeveloperHubAPI.V1.Controllers
 {
     [ApiController]
-    [Route("api/v1/developerhub")]
+    [Route("api/v1/developerhubapi")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
     public class DeveloperHubAPIController : BaseController

@@ -22,10 +22,5 @@ namespace DeveloperHubAPI.V1.Gateways
             var result = await _dynamoDbContext.LoadAsync<DatabaseEntity>(query.Id).ConfigureAwait(false);
             return result?.ToDomain();
         }
-
-        // public List<DeveloperHub> GetAll()
-        // {
-        //     return new List<DeveloperHub>();
-        // }
     }
 }
