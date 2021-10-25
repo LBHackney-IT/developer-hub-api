@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using Amazon.DynamoDBv2.DataModel;
 using AutoFixture;
-using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Gateways;
 using DeveloperHubAPI.V1.Boundary.Request;
-using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using FluentAssertions;
 using NUnit.Framework;
@@ -34,7 +29,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
         public async Task GetDeveloperHubByIdReturnsNullIfEntityDoesntExist()
         {
             var query = ConstructQuery();
-            var response = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false); // amend test so query type will return null
+            var response = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
 
             response.Should().BeNull();
         }
