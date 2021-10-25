@@ -35,7 +35,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         {
             // Arrange
             var query = ConstructQuery();
-            _mockGateway.Setup(x => x.GetDeveloperHubById(query)).ReturnsAsync((DeveloperHubApi) null);
+            _mockGateway.Setup(x => x.GetDeveloperHubById(query)).ReturnsAsync((DevelopersHubApi) null);
 
             // Act
             var response = await _classUnderTest.Execute(query).ConfigureAwait(false);
@@ -49,7 +49,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         {
             // Arrange
             var query = ConstructQuery();
-            var developerHubApi = _fixture.Create<DeveloperHubApi>();
+            var developerHubApi = _fixture.Create<DevelopersHubApi>();
             _mockGateway.Setup(x => x.GetDeveloperHubById(query)).ReturnsAsync(developerHubApi);
 
             // Act
@@ -68,7 +68,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             _mockGateway.Setup(x => x.GetDeveloperHubById(query)).ThrowsAsync(exception);
 
             // Act
-            Func<Task<DeveloperHubApi>> func = async () => await _classUnderTest.Execute(query).ConfigureAwait(false);
+            Func<Task<DevelopersHubApi>> func = async () => await _classUnderTest.Execute(query).ConfigureAwait(false);
 
             // Assert
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);

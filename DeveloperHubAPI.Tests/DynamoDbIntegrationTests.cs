@@ -17,7 +17,7 @@ namespace DeveloperHubAPI.Tests
         private readonly List<TableDef> _tables = new List<TableDef>
         {
 
-            new TableDef { Name = "DeveloperHubApi", KeyName = "id", KeyType = ScalarAttributeType.S }
+            new TableDef { Name = "DevelopersHubApi", KeyName = "id", KeyType = ScalarAttributeType.S }
         };
 
         private static void EnsureEnvVarConfigured(string name, string defaultValue)

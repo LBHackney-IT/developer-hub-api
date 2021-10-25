@@ -17,7 +17,7 @@ namespace DeveloperHubAPI.V1.Gateways
             _dynamoDbContext = dynamoDbContext;
         }
 
-        public async Task<DeveloperHubApi> GetDeveloperHubById(DeveloperHubQuery query)
+        public async Task<DevelopersHubApi> GetDeveloperHubById(DeveloperHubQuery query)
         {
             var result = await _dynamoDbContext.LoadAsync<DatabaseEntity>(query.Id).ConfigureAwait(false);
             return result?.ToDomain();

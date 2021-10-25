@@ -7,6 +7,6 @@ namespace DeveloperHubAPI.V1.UseCase.Interfaces
 {
     public interface IGetDeveloperHubByIdUseCase
     {
-        Task<DeveloperHubApi> Execute(DeveloperHubQuery query);
+        Task<DevelopersHubApi> Execute(DeveloperHubQuery query);
     }
 }

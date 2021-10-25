@@ -36,7 +36,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         public async Task GetDeveloperHubByIdReturnsOkResponse()
         {
             // Arrange
-            var expectedResponse = _fixture.Create<DeveloperHubApi>();
+            var expectedResponse = _fixture.Create<DevelopersHubApi>();
             var query = ConstructQuery();
             _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync(expectedResponse);
 
@@ -55,7 +55,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         {
             // Arrange
             var query = ConstructQuery();
-            _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync((DeveloperHubApi) null);
+            _mockGetDeveloperHubByIdUseCase.Setup(x => x.Execute(query)).ReturnsAsync((DevelopersHubApi) null);
 
             // Act
             var response = await _classUnderTest.ViewDeveloperHub(query).ConfigureAwait(false);

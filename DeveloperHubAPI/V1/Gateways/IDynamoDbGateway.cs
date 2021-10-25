@@ -7,6 +7,6 @@ namespace DeveloperHubAPI.V1.Gateways
 {
     public interface IDynamoDbGateway
     {
-        Task<DeveloperHubApi> GetDeveloperHubById(DeveloperHubQuery query);
+        Task<DevelopersHubApi> GetDeveloperHubById(DeveloperHubQuery query);
     }
 }
