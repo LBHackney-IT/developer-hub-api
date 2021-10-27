@@ -1,8 +1,4 @@
 using AutoFixture;
-using DeveloperHubAPI;
-using DeveloperHubAPI.Tests;
-using DeveloperHubAPI.V1.Domain;
-using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -14,7 +10,7 @@ using System.Threading.Tasks;
 namespace DeveloperHubAPI.Tests.V1.E2ETests
 {
 
-public class GetByIdE2ETests : DynamoDbIntegrationTests<Startup>
+    public class GetByIdE2ETests : DynamoDbIntegrationTests<Startup>
 {
    private readonly Fixture _fixture = new Fixture();
 

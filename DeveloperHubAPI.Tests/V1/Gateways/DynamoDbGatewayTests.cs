@@ -7,7 +7,6 @@ using DeveloperHubAPI.V1.Factories;
 using FluentAssertions;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using Amazon.DynamoDBv2.DataModel;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {

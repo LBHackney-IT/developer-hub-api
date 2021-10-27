@@ -1,6 +1,4 @@
 using Amazon.DynamoDBv2.DataModel;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DeveloperHubAPI.V1.Infrastructure
 {
