@@ -1,4 +1,6 @@
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.XRay.Recorder.Core;
+using Amazon.XRay.Recorder.Core.Strategies;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
@@ -19,6 +21,7 @@ namespace DeveloperHubAPI.V1.Gateways
 
         public async Task<DevelopersHubApi> GetDeveloperHubById(DeveloperHubQuery query)
         {
+            AWSXRayRecorder.Instance.ContextMissingStrategy = ContextMissingStrategy.LOG_ERROR;
             var result = await _dynamoDbContext.LoadAsync<DatabaseEntity>(query.Id).ConfigureAwait(false);
             return result?.ToDomain();
         }

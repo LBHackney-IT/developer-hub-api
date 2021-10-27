@@ -29,6 +29,7 @@ namespace DeveloperHubAPI.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+
             EnsureEnvVarConfigured("DynamoDb_LocalMode", "true");
             EnsureEnvVarConfigured("DynamoDb_LocalServiceUrl", "http://localhost:8000");
             _factory = new DynamoDbMockWebApplicationFactory<TStartup>(_tables);

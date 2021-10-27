@@ -22,6 +22,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Amazon.XRay.Recorder.Core;
 
 namespace DeveloperHubAPI
 {
@@ -32,6 +33,8 @@ namespace DeveloperHubAPI
             Configuration = configuration;
 
             AWSSDKHandler.RegisterXRayForAllServices();
+            AWSXRayRecorder.InitializeInstance(configuration); // pass IConfiguration object that reads appsettings.json file
+
         }
 
         public IConfiguration Configuration { get; }

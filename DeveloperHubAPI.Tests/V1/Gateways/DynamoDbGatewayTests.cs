@@ -31,7 +31,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
         [Test]
         public async Task GetDeveloperHubByIdReturnsNullIfEntityDoesntExist()
         {
-            var query = ConstructQuery(null);
+            var query = ConstructQuery("1");
             var response = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
 
             response.Should().BeNull();
