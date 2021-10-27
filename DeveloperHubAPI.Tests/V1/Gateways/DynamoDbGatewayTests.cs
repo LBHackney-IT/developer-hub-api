@@ -2,9 +2,12 @@ using AutoFixture;
 using DeveloperHubAPI.V1.Gateways;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Infrastructure;
+using DeveloperHubAPI.V1.Domain;
+using DeveloperHubAPI.V1.Factories;
 using FluentAssertions;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using Amazon.DynamoDBv2.DataModel;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {
@@ -20,15 +23,15 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             _classUnderTest = new DynamoDbGateway(DynamoDbContext);
         }
 
-        private static DeveloperHubQuery ConstructQuery()
+        private static DeveloperHubQuery ConstructQuery(string id)
         {
-            return new DeveloperHubQuery() { Id = "1" };
+            return new DeveloperHubQuery() { Id = id };
         }
 
         [Test]
         public async Task GetDeveloperHubByIdReturnsNullIfEntityDoesntExist()
         {
-            var query = ConstructQuery();
+            var query = ConstructQuery(null);
             var response = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
 
             response.Should().BeNull();
@@ -38,12 +41,12 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
         public async Task VerifiesGatewayMethodsAddToDB()
         {
             // Arrange
-            var query = ConstructQuery();
-            var entity = _fixture.Build<DatabaseEntity>()
-                                    .With(x => x.Id, query.Id)
+            var entity = _fixture.Build<DevelopersHubApi>()
                                     .With(x => x.ApiName, "DevelopersHubApi")
                                     .Create();
-            InsertDataToDynamoDB(entity);
+            var dbEntity = entity.ToDatabase();
+            await InsertDataToDynamoDB(dbEntity).ConfigureAwait(false);
+            var query = ConstructQuery(entity.Id);
 
             // Act
             var result = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
@@ -52,9 +55,9 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             result.Should().BeEquivalentTo(entity);
         }
 
-        private void InsertDataToDynamoDB(DatabaseEntity entity)
+        private async Task InsertDataToDynamoDB(DatabaseEntity entity)
         {
-            DynamoDbContext.SaveAsync<DatabaseEntity>(entity).ConfigureAwait(false);
+            await DynamoDbContext.SaveAsync<DatabaseEntity>(entity).ConfigureAwait(false);
             CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync(entity).ConfigureAwait(false));
         }
 
