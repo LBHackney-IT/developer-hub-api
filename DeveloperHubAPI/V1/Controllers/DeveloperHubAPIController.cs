@@ -27,7 +27,7 @@ namespace DeveloperHubAPI.V1.Controllers
         [ProducesResponseType(typeof(DeveloperHubResponse), StatusCodes.Status200OK)]
         [HttpGet]
         [Route("{Id}")]
-        public async Task<IActionResult> ViewDeveloperHub([FromQuery] DeveloperHubQuery query)
+        public async Task<IActionResult> ViewDeveloperHub([FromRoute] DeveloperHubQuery query)
         {
             var response = await _getDeveloperHubByIdUseCase.Execute(query).ConfigureAwait(false);
             if (response == null) return NotFound(query.Id);
