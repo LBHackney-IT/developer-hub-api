@@ -33,7 +33,6 @@ namespace DeveloperHubAPI
             Configuration = configuration;
 
             AWSSDKHandler.RegisterXRayForAllServices();
-            AWSXRayRecorder.InitializeInstance(configuration); // pass IConfiguration object that reads appsettings.json file
 
         }
 
