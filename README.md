@@ -1,15 +1,12 @@
-# LBH Base API
+# Developers Hub API
 
-Base API is a boilerplate code for being reused for new APIs for LBH
+This is the API that provides the data for the [Developers Hub project](https://github.com/LBHackney-IT/developers-hub-frontend).
 
 ## Stack
 
 - .NET Core as a web framework.
 - nUnit as a test framework.
-
-## Dependencies
-
-- Universal Housing Simulator
+- DynamoDB as a datastore.
 
 ## Contributing
 
@@ -18,44 +15,7 @@ Base API is a boilerplate code for being reused for new APIs for LBH
 1. Install [Docker][docker-download].
 2. Install [AWS CLI][AWS-CLI].
 3. Clone this repository.
-4. Rename the initial template.
-5. Open it in your IDE.
-
-### Renaming
-
-The renaming of `base-api` into `SomethingElseApi` can be done by running a Renamer powershell script. To do so:
-1. Open the powershell and navigate to this directory's root.
-2. Run the script using the following command:
-```
-.\Renamer.ps1 -apiName My_Api
-```
-
-If your ***script execution policy*** prevents you from running the script, you can temporarily ***bypass*** that with:
-```
-powershell -noprofile -ExecutionPolicy Bypass -file .\Renamer.ps1 -apiName My_Api
-```
-
-Or you can change your execution policy, prior to running the script, permanently with _(this disables security so, be cautious)_:
-```
-Set-ExecutionPolicy Unrestricted
-```
-
-After the renaming is done, the ***script will ask you if you want to delete it as well***, as it's useless now - It's your choice.
-
-#### On OSX
-
-Use Docker to run this script on Macs:
-```
-docker run -it -v `pwd`:/app mcr.microsoft.com/powershell
-```
-
-#### On *nix
-
-Run the renamer.sh bash script from the project root:
-```
-./rename.sh MyApiName
-```
-Ideally you should provide a script argument in PascalCase as in the example. The script will rename all instances of base api without changing the original casing.
+4. Open it in your IDE.
 
 ### Development
 
@@ -63,9 +23,6 @@ To serve the application, run it using your IDE of choice, we use Visual Studio 
 
 **Note**
 When running locally the appropriate database conneciton details are still needed.
-##### Postgres
-For Postgres an approprate `CONNECTION_STRING` environment variable is needed,
-and if you want to use a local Postgres instance then that will of course need to be installed and running.
 ##### DynamoDb
 To use a local instance of DynamoDb, this will need to be installed. This is most easily done using [Docker](https://www.docker.com/products/docker-desktop).
 Run the following command, specifying the local path where you want the container's shared volume to be stored.
@@ -91,7 +48,7 @@ $ make build && make serve
 
 ### Release process
 
-We use a pull request workflow, where changes are made on a branch and approved by one or more other maintainers before the developer can merge into `master` branch.
+We use a pull request workflow, where changes are made on a branch and approved by one or more other maintainers before the developer can merge into the `master` branch.
 
 ![Circle CI Workflow Example](docs/circle_ci_workflow.png)
 
@@ -104,7 +61,7 @@ Then we have an automated six step deployment process, which runs in CircleCI.
 5. We manually confirm a production deployment in the CircleCI workflow once we're happy with our changes in staging.
 6. The application is deployed to production.
 
-Our staging and production environments are hosted by AWS. We would deploy to production per each feature/config merged into  `master`  branch.
+Our staging and production environments are hosted by AWS. We would deploy to production per each feature/config merged into the `master`  branch.
 
 ### Creating A PR
 
@@ -131,35 +88,6 @@ Documentation on how to do this can be found [here](https://docs.microsoft.com/e
 $ make test
 ```
 
-To run database tests locally (e.g. via Visual Studio) and you are using Postgres the `CONNECTION_STRING` environment variable will need to be populated with:
-
-`Host=localhost;Database=testdb;Username=postgres;Password=mypassword"`
-
-Note: The Host name needs to be the name of the stub database docker-compose service, in order to run tests via Docker.
-
-If changes to the database schema are made then the docker image for the database will have to be removed and recreated. The restart-db make command will do this for you.
-
-### Agreed Testing Approach
-- Use nUnit, FluentAssertions and Moq
-- Always follow a TDD approach
-- Tests should be independent of each other
-- Gateway tests should interact with a real test instance of the database
-- Test coverage should never go down
-- All use cases should be covered by E2E tests
-- Optimise when test run speed starts to hinder development
-- Unit tests and E2E tests should run in CI
-- Test database schemas should match up with production database schema
-- Have integration tests which test from the PostgreSQL database to API Gateway
-
-## Data Migrations
-### A good data migration
-- Record failure logs
-- Automated
-- Reliable
-- As close to real time as possible
-- Observable monitoring in place
-- Should not affect any existing databases
-
 ## Contacts
 
 ### Active Maintainers
@@ -173,6 +101,4 @@ If changes to the database schema are made then the docker image for the databas
 - **Rashmi Shetty**, Product Owner at London Borough of Hackney (rashmi.shetty@hackney.gov.uk)
 
 [docker-download]: https://www.docker.com/products/docker-desktop
-[universal-housing-simulator]: https://github.com/LBHackney-IT/lbh-universal-housing-simulator
-[made-tech]: https://madetech.com/
 [AWS-CLI]: https://aws.amazon.com/cli/

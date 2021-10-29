@@ -7,14 +7,21 @@ namespace DeveloperHubAPI.V1.Factories
 {
     public static class ResponseFactory
     {
-        //TODO: Map the fields in the domain object(s) to fields in the response object(s).
-        // More information on this can be found here https://github.com/LBHackney-IT/lbh-base-api/wiki/Factory-object-mappings
-        public static ResponseObject ToResponse(this Entity domain)
+        public static DeveloperHubResponse ToResponse(this DevelopersHubApi domain)
         {
-            return new ResponseObject();
+            return new DeveloperHubResponse()
+            {
+                Id = domain.Id,
+                ApiName = domain.ApiName,
+                Description = domain.Description,
+                GithubLink = domain.GithubLink,
+                SwaggerLink = domain.SwaggerLink,
+                StagingBaseURL = domain.StagingBaseURL,
+                ApiSpecificationLink = domain.ApiSpecificationLink
+            };
         }
 
-        public static List<ResponseObject> ToResponse(this IEnumerable<Entity> domainList)
+        public static List<DeveloperHubResponse> ToResponse(this IEnumerable<DevelopersHubApi> domainList)
         {
             return domainList.Select(domain => domain.ToResponse()).ToList();
         }

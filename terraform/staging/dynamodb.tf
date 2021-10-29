@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "developerhubapi_dynamodb_table" {
-    name                  = "DeveloperHub"
+    name                  = "DevelopersHubApi"
     billing_mode          = "PROVISIONED"
     read_capacity         = 10
     write_capacity        = 10

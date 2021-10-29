@@ -1,55 +1,64 @@
-using Amazon.DynamoDBv2.DataModel;
 using AutoFixture;
-using DeveloperHubAPI.Tests.V1.Helper;
-using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Gateways;
+using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Infrastructure;
+using DeveloperHubAPI.V1.Domain;
+using DeveloperHubAPI.V1.Factories;
 using FluentAssertions;
-using Moq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {
-    //TODO: Remove this file if DynamoDb gateway not being used
-    //TODO: Rename Tests to match gateway name
-    //For instruction on how to run tests please see the wiki: https://github.com/LBHackney-IT/lbh-base-api/wiki/Running-the-test-suite.
     [TestFixture]
-    public class DynamoDbGatewayTests
+    public class DynamoDbGatewayTests : DynamoDbIntegrationTests<Startup>
     {
-        private readonly Fixture _fixture = new Fixture();
-        private Mock<IDynamoDBContext> _dynamoDb;
         private DynamoDbGateway _classUnderTest;
+        private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
-            _dynamoDb = new Mock<IDynamoDBContext>();
-            _classUnderTest = new DynamoDbGateway(_dynamoDb.Object);
+            _classUnderTest = new DynamoDbGateway(DynamoDbContext);
+        }
+
+        private static DeveloperHubQuery ConstructQuery(string id)
+        {
+            return new DeveloperHubQuery() { Id = id };
         }
 
         [Test]
-        public void GetEntityByIdReturnsNullIfEntityDoesntExist()
+        public async Task GetDeveloperHubByIdReturnsNullIfEntityDoesntExist()
         {
-            var response = _classUnderTest.GetEntityById(123);
+            var query = ConstructQuery("1");
+            var response = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
 
             response.Should().BeNull();
         }
 
         [Test]
-        public void GetEntityByIdReturnsTheEntityIfItExists()
+        public async Task VerifiesGatewayMethodsAddToDB()
         {
-            var entity = _fixture.Create<Entity>();
-            var dbEntity = DatabaseEntityHelper.CreateDatabaseEntityFrom(entity);
+            // Arrange
+            var entity = _fixture.Build<DevelopersHubApi>()
+                                    .With(x => x.ApiName, "DevelopersHubApi")
+                                    .Create();
+            var dbEntity = entity.ToDatabase();
+            await InsertDataToDynamoDB(dbEntity).ConfigureAwait(false);
+            var query = ConstructQuery(entity.Id);
 
-            _dynamoDb.Setup(x => x.LoadAsync<DatabaseEntity>(entity.Id, default))
-                     .ReturnsAsync(dbEntity);
+            // Act
+            var result = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
 
-            var response = _classUnderTest.GetEntityById(entity.Id);
-
-            _dynamoDb.Verify(x => x.LoadAsync<DatabaseEntity>(entity.Id, default), Times.Once);
-
-            entity.Id.Should().Be(response.Id);
-            entity.CreatedAt.Should().BeSameDateAs(response.CreatedAt);
+            // Assert
+            result.Should().BeEquivalentTo(entity);
         }
+
+        private async Task InsertDataToDynamoDB(DatabaseEntity entity)
+        {
+            await DynamoDbContext.SaveAsync<DatabaseEntity>(entity).ConfigureAwait(false);
+            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync(entity).ConfigureAwait(false));
+        }
+
     }
 }
