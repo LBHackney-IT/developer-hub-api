@@ -1,4 +1,4 @@
-service: dynamodb-developer-hub-api
+service: developer-hub-api
 provider:
   name: aws
   runtime: dotnetcore3.1
@@ -20,7 +20,7 @@ provider:
           rateLimit: 100
 
 package:
-  artifact: ./bin/release/netcoreapp3.1/dynamodb-developer-hub-api.zip
+  artifact: ./bin/release/netcoreapp3.1/developer-hub-api.zip
 
 functions:
   DeveloperHubAPI:
@@ -55,8 +55,30 @@ resources:
         ManagedPolicyArns:
           - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
           - arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
-          - arn:aws:iam::${self:provider.account}:policy/base-api/lambda-dynamodb-developer-hub-api
         Policies:
+          - PolicyName: dynamoDBAccess
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - "dynamodb:BatchGet*"
+                    - "dynamodb:BatchWrite"
+                    - "dynamodb:DeleteItem"
+                    - "dynamodb:DescribeStream"
+                    - "dynamodb:DescribeTable"
+                    - "dynamodb:Get*"
+                    - "dynamodb:PutItem"
+                    - "dynamodb:Query"
+                    - "dynamodb:Scan"
+                    - "dynamodb:UpdateItem"
+                  Resource:
+                    - 'Fn::Join':
+                        - ':'
+                        - - 'arn:aws:dynamodb'
+                          - Ref: 'AWS::Region'
+                          - Ref: 'AWS::AccountId'
+                          - 'table/DevelopersHubApi'
           - PolicyName: manageLogs
             PolicyDocument:
               Version: '2012-10-17'

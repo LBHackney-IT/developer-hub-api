@@ -1,35 +1,23 @@
-using Amazon.DynamoDBv2.DataModel;
+using System;
 
-namespace DeveloperHubAPI.V1.Infrastructure
+namespace DeveloperHubAPI.V1.Domain
 {
-
-    [DynamoDBTable("DevelopersHubApi", LowerCamelCaseProperties = true)]
-    public class DatabaseEntity
+    public class DevelopersHubApi
     {
-
-        [DynamoDBHashKey]
         public string Id { get; set; }
 
-        [DynamoDBProperty]
         public string ApiName { get; set; }
 
-        [DynamoDBProperty]
         public string Description { get; set; }
 
-        [DynamoDBProperty]
         public string GithubLink { get; set; }
 
-        [DynamoDBProperty]
         public string SwaggerLink { get; set; }
 
-        [DynamoDBProperty]
         public string DevelopmentBaseURL { get; set; }
 
-        [DynamoDBProperty]
         public string StagingBaseURL { get; set; }
 
-        [DynamoDBProperty]
         public string ApiSpecificationLink { get; set; }
-
     }
 }

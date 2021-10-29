@@ -12,8 +12,6 @@ namespace DeveloperHubAPI.Tests.V1.Factories
     {
         private readonly Fixture _fixture = new Fixture();
 
-        //TODO: add assertions for all the fields being mapped in `EntityFactory.ToDomain()`. Also be sure to add test cases for
-        // any edge cases that might exist.
         [Test]
         public void CanMapADatabaseEntityToADomainObject()
         {
@@ -21,19 +19,29 @@ namespace DeveloperHubAPI.Tests.V1.Factories
             var entity = databaseEntity.ToDomain();
 
             databaseEntity.Id.Should().Be(entity.Id);
-            databaseEntity.CreatedAt.Should().BeSameDateAs(entity.CreatedAt);
+            databaseEntity.ApiName.Should().Be(entity.ApiName);
+            databaseEntity.Description.Should().Be(entity.Description);
+            databaseEntity.GithubLink.Should().Be(entity.GithubLink);
+            databaseEntity.SwaggerLink.Should().Be(entity.SwaggerLink);
+            databaseEntity.DevelopmentBaseURL.Should().Be(entity.DevelopmentBaseURL);
+            databaseEntity.StagingBaseURL.Should().Be(entity.StagingBaseURL);
+            databaseEntity.ApiSpecificationLink.Should().Be(entity.ApiSpecificationLink);
         }
 
-        //TODO: add assertions for all the fields being mapped in `EntityFactory.ToDatabase()`. Also be sure to add test cases for
-        // any edge cases that might exist.
         [Test]
-        public void CanMapADomainEntityToADatabaseObject()
+        public void CanMapDeveloperHubToADatabaseObject()
         {
-            var entity = _fixture.Create<Entity>();
+            var entity = _fixture.Create<DevelopersHubApi>();
             var databaseEntity = entity.ToDatabase();
 
             entity.Id.Should().Be(databaseEntity.Id);
-            entity.CreatedAt.Should().BeSameDateAs(databaseEntity.CreatedAt);
+            entity.ApiName.Should().Be(databaseEntity.ApiName);
+            entity.Description.Should().Be(databaseEntity.Description);
+            entity.GithubLink.Should().Be(databaseEntity.GithubLink);
+            entity.SwaggerLink.Should().Be(databaseEntity.SwaggerLink);
+            entity.DevelopmentBaseURL.Should().Be(databaseEntity.DevelopmentBaseURL);
+            entity.StagingBaseURL.Should().Be(databaseEntity.StagingBaseURL);
+            entity.ApiSpecificationLink.Should().Be(databaseEntity.ApiSpecificationLink);
         }
     }
 }

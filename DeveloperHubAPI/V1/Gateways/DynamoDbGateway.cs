@@ -1,12 +1,16 @@
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.XRay.Recorder.Core;
+using Amazon.XRay.Recorder.Core.Strategies;
+using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Gateways
 {
-    public class DynamoDbGateway : IExampleGateway
+    public class DynamoDbGateway : IDynamoDbGateway
     {
         private readonly IDynamoDBContext _dynamoDbContext;
 
@@ -15,14 +19,10 @@ namespace DeveloperHubAPI.V1.Gateways
             _dynamoDbContext = dynamoDbContext;
         }
 
-        public List<Entity> GetAll()
+        public async Task<DevelopersHubApi> GetDeveloperHubById(DeveloperHubQuery query)
         {
-            return new List<Entity>();
-        }
-
-        public Entity GetEntityById(int id)
-        {
-            var result = _dynamoDbContext.LoadAsync<DatabaseEntity>(id).GetAwaiter().GetResult();
+            AWSXRayRecorder.Instance.ContextMissingStrategy = ContextMissingStrategy.LOG_ERROR;
+            var result = await _dynamoDbContext.LoadAsync<DatabaseEntity>(query.Id).ConfigureAwait(false);
             return result?.ToDomain();
         }
     }

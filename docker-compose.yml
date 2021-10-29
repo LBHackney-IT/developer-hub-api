@@ -1,8 +1,8 @@
 version: "3.2"
 
 services:
-  dynamodb-developer-hub-api:
-    image: dynamodb-developer-hub-api
+  developer-hub-api:
+    image: developer-hub-api
     build:
       context: DeveloperHubAPI/
       dockerfile: ./Dockerfile
@@ -15,16 +15,10 @@ services:
      - AWS_ACCESS_KEY_ID=local
      - AWS_SECRET_ACCESS_KEY=local
     links:
-      - dev-database
-  dev-database:
-    env_file:
-      - database.env
-    image: postgres:12
-    volumes:
-      - ./database:/docker-entrypoint-initdb.d
+      - dynamodb-database
 
-  dynamodb-developer-hub-api-test:
-    image: dynamodb-developer-hub-api-test
+  developer-hub-api-test:
+    image: developer-hub-api-test
     build:
       context: .
       dockerfile: DeveloperHubAPI.Tests/Dockerfile
@@ -37,7 +31,7 @@ services:
     links:
      - dynamodb-database
 
- dynamodb-database:
-   image: amazon/dynamodb-local
-   ports:
+  dynamodb-database:
+    image: amazon/dynamodb-local
+    ports:
      - 8000:8000
