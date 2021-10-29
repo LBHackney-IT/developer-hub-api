@@ -79,13 +79,13 @@ commands:
       - run:
           name: Build lambda
           command: |
-            cd ./DevelopersHubApi/
+            cd ./developer-hub-api/
             chmod +x ./build.sh
             ./build.sh
       - run:
           name: Deploy lambda
           command: |
-            cd ./DevelopersHubApi/
+            cd ./developer-hub-api/
             sls deploy --stage <<parameters.stage>> --account <<parameters.aws-account>> --conceal
 
 jobs:
