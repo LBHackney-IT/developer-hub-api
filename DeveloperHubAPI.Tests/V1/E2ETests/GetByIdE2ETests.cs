@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.Tests.V1.E2ETests
 {
-
+    [TestFixture]
     public class GetByIdE2ETests : DynamoDbIntegrationTests<Startup>
     {
         private readonly Fixture _fixture = new Fixture();
@@ -48,7 +48,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
-        public async Task GetNoteBydIdFoundReturnsResponse()
+        public async Task GetDeveloperHubApiBydIdFoundReturnsResponse()
         {
             var entity = ConstructTestEntity();
             await SetupTestData(entity).ConfigureAwait(false);
