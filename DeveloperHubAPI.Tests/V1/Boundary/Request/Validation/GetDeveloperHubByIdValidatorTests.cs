@@ -16,7 +16,7 @@ namespace DeveloperHubAPI.Tests.V1.Boundary.Request.Validation
         }
 
         [Test]
-        public void QueryShouldErrorWithEmptyTargetId()
+        public void QueryShouldErrorWithEmptyId()
         {
             var query = new DeveloperHubQuery() { Id = string.Empty };
             var result = _sut.TestValidate(query);
@@ -24,7 +24,7 @@ namespace DeveloperHubAPI.Tests.V1.Boundary.Request.Validation
         }
 
         [Test]
-        public void QueryShouldErrorWithNullTargetId()
+        public void QueryShouldErrorWithNullId()
         {
             var query = new DeveloperHubQuery();
             var result = _sut.TestValidate(query);
