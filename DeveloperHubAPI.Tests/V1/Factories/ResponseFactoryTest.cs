@@ -21,8 +21,6 @@ namespace DeveloperHubAPI.Tests.V1.Factories
             dbEntity.Description.Should().Be(response.Description);
             dbEntity.GithubLink.Should().Be(response.GithubLink);
             dbEntity.SwaggerLink.Should().Be(response.SwaggerLink);
-            dbEntity.DevelopmentBaseURL.Should().Be(response.DevelopmentBaseURL);
-            dbEntity.StagingBaseURL.Should().Be(response.StagingBaseURL);
             dbEntity.ApiSpecificationLink.Should().Be(response.ApiSpecificationLink);
         }
     }

@@ -23,12 +23,6 @@ namespace DeveloperHubAPI.V1.Infrastructure
         public string SwaggerLink { get; set; }
 
         [DynamoDBProperty]
-        public string DevelopmentBaseURL { get; set; }
-
-        [DynamoDBProperty]
-        public string StagingBaseURL { get; set; }
-
-        [DynamoDBProperty]
         public string ApiSpecificationLink { get; set; }
 
     }

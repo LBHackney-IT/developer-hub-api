@@ -16,7 +16,6 @@ namespace DeveloperHubAPI.V1.Factories
                 Description = domain.Description,
                 GithubLink = domain.GithubLink,
                 SwaggerLink = domain.SwaggerLink,
-                StagingBaseURL = domain.StagingBaseURL,
                 ApiSpecificationLink = domain.ApiSpecificationLink
             };
         }

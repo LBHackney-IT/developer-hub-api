@@ -23,8 +23,6 @@ namespace DeveloperHubAPI.Tests.V1.Factories
             databaseEntity.Description.Should().Be(entity.Description);
             databaseEntity.GithubLink.Should().Be(entity.GithubLink);
             databaseEntity.SwaggerLink.Should().Be(entity.SwaggerLink);
-            databaseEntity.DevelopmentBaseURL.Should().Be(entity.DevelopmentBaseURL);
-            databaseEntity.StagingBaseURL.Should().Be(entity.StagingBaseURL);
             databaseEntity.ApiSpecificationLink.Should().Be(entity.ApiSpecificationLink);
         }
 
@@ -39,8 +37,6 @@ namespace DeveloperHubAPI.Tests.V1.Factories
             entity.Description.Should().Be(databaseEntity.Description);
             entity.GithubLink.Should().Be(databaseEntity.GithubLink);
             entity.SwaggerLink.Should().Be(databaseEntity.SwaggerLink);
-            entity.DevelopmentBaseURL.Should().Be(databaseEntity.DevelopmentBaseURL);
-            entity.StagingBaseURL.Should().Be(databaseEntity.StagingBaseURL);
             entity.ApiSpecificationLink.Should().Be(databaseEntity.ApiSpecificationLink);
         }
     }
