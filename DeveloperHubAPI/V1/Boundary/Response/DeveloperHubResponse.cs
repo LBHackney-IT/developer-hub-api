@@ -17,10 +17,7 @@ namespace DeveloperHubAPI.V1.Boundary.Response
         public string SwaggerLink { get; set; }
         ///<example>"https://github.com/"</example>
 
-        public string DevelopmentLinks { get; set; }
-        /// <example>"https://github.com/"</example>
-
-        public string StagingLinks { get; set; }
+        public string DevelopmentBaseURL { get; set; }
         /// <example>"https://github.com/"</example>
 
         public string StagingBaseURL { get; set; }
