@@ -31,16 +31,16 @@ functions:
             identitySource: method.request.header.Authorization
             managedExternally: true
           cors:
-                origin: '*'
-                headers:
-                  - Content-Type
-                  - X-Amz-Date
-                  - Authorization
-                  - X-Api-Key
-                  - X-Amz-Security-Token
-                  - X-Amz-User-Agent
-                  - x-correlation-id
-                allowCredentials: false
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - x-correlation-id
+            allowCredentials: false
       - http:
           path: /swagger/{proxy+}
           method: GET
