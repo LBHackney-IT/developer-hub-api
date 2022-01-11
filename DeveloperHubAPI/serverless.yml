@@ -19,6 +19,7 @@ functions:
     name: ${self:service}-${self:provider.stage}
     handler: DeveloperHubAPI::DeveloperHubAPI.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
+    environment:
     events:
       - http:
           path: /{proxy+}
