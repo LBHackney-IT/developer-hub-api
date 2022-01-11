@@ -6,7 +6,7 @@ provider:
   tracing:
     lambda: true
     apiGateway: true
-  vpc: ${self:custom.vpc.${opt:stage}}
+    vpc: ${self:custom.vpc.${opt:stage}}
   stage: ${opt:stage}
   account: ${opt:account}
   region: eu-west-2
@@ -19,7 +19,7 @@ functions:
     name: ${self:service}-${self:provider.stage}
     handler: DeveloperHubAPI::DeveloperHubAPI.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
-    environment:
+  environment:
     events:
       - http:
           path: /{proxy+}
