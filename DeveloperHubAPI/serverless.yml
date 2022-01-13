@@ -28,6 +28,7 @@ functions:
             arn: ${ssm:/api-authenticator/${self:provider.stage}/arn}
             identitySource: method.request.header.Authorization
             type: request
+            resultTtlInSeconds: 0
           cors:
             origin: '*'
             headers:
