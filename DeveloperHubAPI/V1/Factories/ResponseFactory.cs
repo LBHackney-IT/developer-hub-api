@@ -25,5 +25,15 @@ namespace DeveloperHubAPI.V1.Factories
         {
             return domainList.Select(domain => domain.ToResponse()).ToList();
         }
+        public static ApplicationResponse ToResponse(this Application domain)
+        {
+            return new ApplicationResponse()
+            {
+                Name = domain.Name,
+                Link = domain.Link,
+
+            };
+        }
+
     }
 }

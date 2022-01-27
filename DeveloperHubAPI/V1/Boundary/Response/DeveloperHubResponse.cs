@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 namespace DeveloperHubAPI.V1.Boundary.Response
 {
     public class DeveloperHubResponse
@@ -25,5 +26,7 @@ namespace DeveloperHubAPI.V1.Boundary.Response
 
         public string ApiSpecificationLink { get; set; }
         ////<example>"https://github.com/"</example>
+
+        public List<ApplicationResponse> Applications { get; set; }
     }
 }
