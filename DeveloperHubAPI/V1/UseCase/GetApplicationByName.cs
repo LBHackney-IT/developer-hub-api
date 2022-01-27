@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.UseCase
 {
-    public class GetDeveloperHubByIdUseCase : IGetDeveloperHubByIdUseCase
+    public class GetApplicationByNameUseCase : IGetApplicationByNameUseCase
     {
         private IDynamoDbGateway _gateway;
 
-        public GetDeveloperHubByIdUseCase(IDynamoDbGateway gateway)
+        public GetApplicationByNameUseCase(IDynamoDbGateway gateway)
         {
             _gateway = gateway;
         }
 
-        public async Task<DevelopersHubApi> Execute(DeveloperHubQuery query)
+        public async Task<Application> Execute(ApplicationByNameRequest query)
         {
-            return await _gateway.GetDeveloperHubById(query.Id).ConfigureAwait(false);
+           var api = await _gateway.GetDeveloperHubById(query.Id).ConfigureAwait(false);
+           return api.Applications.Find( x => x.Name == query.ApplicationName);
         }
     }
 }

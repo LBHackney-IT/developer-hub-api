@@ -30,6 +30,9 @@ namespace DeveloperHubAPI.V1.Infrastructure
 
         [DynamoDBProperty]
         public string ApiSpecificationLink { get; set; }
+        
+        [DynamoDBProperty]
+        public List<Application> Applications { get; set; }
 
     }
 }
