@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 namespace DeveloperHubAPI.V1.Boundary.Response
 {
     public class DeveloperHubResponse
