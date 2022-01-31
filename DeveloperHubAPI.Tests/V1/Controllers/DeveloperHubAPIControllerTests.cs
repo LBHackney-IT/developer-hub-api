@@ -16,6 +16,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
     public class DeveloperHubAPIControllerTests
     {
         private Mock<IGetDeveloperHubByIdUseCase> _mockGetDeveloperHubByIdUseCase;
+        private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;
         private DeveloperHubAPIController _classUnderTest;
         private Fixture _fixture = new Fixture();
 
@@ -23,8 +24,9 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         public void Init()
         {
             _mockGetDeveloperHubByIdUseCase = new Mock<IGetDeveloperHubByIdUseCase>();
+            _mockGetApplicationByNameUseCase = new Mock<IGetApplicationByNameUseCase>();
 
-            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object);
+            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object);
         }
 
         private static DeveloperHubQuery ConstructQuery()

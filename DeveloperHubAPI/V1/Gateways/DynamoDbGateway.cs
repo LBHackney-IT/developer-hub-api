@@ -20,7 +20,8 @@ namespace DeveloperHubAPI.V1.Gateways
         }
 
         public async Task<DevelopersHubApi> GetDeveloperHubById(string id)
-        {
+        {   
+            AWSXRayRecorder.Instance.ContextMissingStrategy = ContextMissingStrategy.LOG_ERROR;
             var result = await _dynamoDbContext.LoadAsync<DatabaseEntity>(id).ConfigureAwait(false);
             return result?.ToDomain();
         }
