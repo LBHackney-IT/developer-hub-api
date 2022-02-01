@@ -1,5 +1,6 @@
 using AutoFixture;
 using DeveloperHubAPI.V1.Boundary.Request;
+using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Controllers;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
@@ -81,6 +82,35 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             // Assert
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
         }
+
+        [Test]
+
+        public async Task GetApplicationByIdReturnsTheApplication()
+        {
+            //Arrange
+
+            var application = _fixture.Create<ApplicationResponse>();
+            var query = _fixture.Build<ApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
+            _mockGetApplicationByNameUseCase.Setup(x => x.Execute(query)).ReturnsAsync(application);
+
+            //Act
+
+            var result = await _classUnderTest.GetApplication(query).ConfigureAwait(false) as OkObjectResult;
+
+            //Assert
+            result.StatusCode.Should().Be(200);
+            result.Value.Should().Be(application);
+        }
+
+        // public async Task GetApplicationByNameReturnsNotFoundAsync()
+        // {
+
+        // }
+
+        // public async Task GetApplicationByNameExceptionIsThrown()
+        // {
+
+        // }
 
     }
 }
