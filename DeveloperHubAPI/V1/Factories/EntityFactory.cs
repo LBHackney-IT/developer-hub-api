@@ -16,7 +16,8 @@ namespace DeveloperHubAPI.V1.Factories
                 SwaggerLink = databaseEntity.SwaggerLink,
                 DevelopmentBaseURL = databaseEntity.DevelopmentBaseURL,
                 StagingBaseURL = databaseEntity.StagingBaseURL,
-                ApiSpecificationLink = databaseEntity.ApiSpecificationLink
+                ApiSpecificationLink = databaseEntity.ApiSpecificationLink,
+                Applications = databaseEntity.Applications
             };
         }
 
@@ -32,7 +33,8 @@ namespace DeveloperHubAPI.V1.Factories
                 SwaggerLink = developerHubApi.SwaggerLink,
                 DevelopmentBaseURL = developerHubApi.DevelopmentBaseURL,
                 StagingBaseURL = developerHubApi.StagingBaseURL,
-                ApiSpecificationLink = developerHubApi.ApiSpecificationLink
+                ApiSpecificationLink = developerHubApi.ApiSpecificationLink,
+                Applications = developerHubApi.Applications
             };
         }
     }
