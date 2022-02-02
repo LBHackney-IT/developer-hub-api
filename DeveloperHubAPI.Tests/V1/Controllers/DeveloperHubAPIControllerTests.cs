@@ -101,16 +101,35 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             result.StatusCode.Should().Be(200);
             result.Value.Should().Be(application);
         }
+        [Test]
+        public async Task GetApplicationByNameReturnsNotFoundAsync()
+        {
+            // Arrange             
+            var application = _fixture.Create<ApplicationResponse>();
+            var query = _fixture.Create<ApplicationByNameRequest>();
+            // Act
+            var result = await _classUnderTest.GetApplication(query).ConfigureAwait(false) as NotFoundObjectResult;
+            // Assert
+            result.Value.Should().Be(query.ApplicationName);
+            result.StatusCode.Should().Be(404);
+        }
+        [Test]
+        public void GetApplicationByNameExceptionIsThrown()
+        {
+            // Arrange
 
-        // public async Task GetApplicationByNameReturnsNotFoundAsync()
-        // {
+            var application = _fixture.Create<ApplicationResponse>();
+            var query = _fixture.Create<ApplicationByNameRequest>();
+            var exception = _fixture.Create<ApplicationException>();
+            _mockGetApplicationByNameUseCase.Setup(x => x.Execute(query)).ThrowsAsync(exception);
 
-        // }
+            // Act 
 
-        // public async Task GetApplicationByNameExceptionIsThrown()
-        // {
+            Func<Task<IActionResult>> func = () => (Task<IActionResult>) _classUnderTest.GetApplication(query);
 
-        // }
+            // Assert
+            func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
+        }
 
     }
 }

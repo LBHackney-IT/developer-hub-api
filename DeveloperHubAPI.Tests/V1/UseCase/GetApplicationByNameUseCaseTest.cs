@@ -44,5 +44,34 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             //Assert
             result.Should().BeEquivalentTo(application.ToResponse());
         }
+
+        [Test]
+        public void GetApplicationByNameUseCaseAsyncExceptionIsThrown()
+        {
+            // Arrange
+            var application = _fixture.Create<DevelopersHubApi>();
+            var query = _fixture.Create<ApplicationByNameRequest>();
+            var exception = new ApplicationException("Test exception");
+            _mockGateway.Setup(x => x.GetDeveloperHubById(query.Id)).ThrowsAsync(exception);
+            // Act
+            Func<Task<ApplicationResponse>> func = async () => await _classUnderTest.Execute(query).ConfigureAwait(false);
+            // Assert
+            func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
+
+        }
+
+        [Test]
+
+        public async Task GetApplicationByNameUseCaseReturnsNullIfApplicationDoesNotExist()
+        {
+            // Arrange
+            var application = _fixture.Create<Application>();
+            var query = _fixture.Create<ApplicationByNameRequest>();
+            _mockGateway.Setup(x => x.GetDeveloperHubById(query.Id)).ReturnsAsync((DevelopersHubApi) null);
+            // Act
+            var result = await _classUnderTest.Execute(query).ConfigureAwait(false);
+            // Assert 
+            result.Should().BeNull();
+        }
     }
 }

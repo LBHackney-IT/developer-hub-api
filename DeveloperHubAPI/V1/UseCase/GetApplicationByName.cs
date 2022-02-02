@@ -19,6 +19,8 @@ namespace DeveloperHubAPI.V1.UseCase
         public async Task<ApplicationResponse> Execute(ApplicationByNameRequest query)
         {
             var api = await _gateway.GetDeveloperHubById(query.Id).ConfigureAwait(false);
+            if (api == null)
+                return null;
             var application = api.Applications.Find(x => x.Name == query.ApplicationName);
 
             return application?.ToResponse();

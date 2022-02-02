@@ -3,6 +3,7 @@ using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Controllers
@@ -52,5 +53,9 @@ namespace DeveloperHubAPI.V1.Controllers
             return Ok(response);
         }
 
+        public object GetApplication()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
