@@ -52,10 +52,5 @@ namespace DeveloperHubAPI.V1.Controllers
             if (response == null) return NotFound(query.ApplicationName);
             return Ok(response);
         }
-
-        public object GetApplication()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
