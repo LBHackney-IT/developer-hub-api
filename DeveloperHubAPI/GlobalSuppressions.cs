@@ -8,5 +8,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Design", "CA1056:Uri properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:DeveloperHubAPI.V1.Boundary.Response.DeveloperHubResponse.StagingBaseURL")]
 [assembly: SuppressMessage("Design", "CA1056:Uri properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:DeveloperHubAPI.V1.Domain.DevelopersHubApi.DevelopmentBaseURL")]
 [assembly: SuppressMessage("Design", "CA1056:Uri properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:DeveloperHubAPI.V1.Domain.DevelopersHubApi.StagingBaseURL")]
-[assembly: SuppressMessage("Design", "CA1056:Uri properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:DeveloperHubAPI.V1.Infrastructure.DatabaseEntity.DevelopmentBaseURL")]
-[assembly: SuppressMessage("Design", "CA1056:Uri properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:DeveloperHubAPI.V1.Infrastructure.DatabaseEntity.StagingBaseURL")]
+[assembly: SuppressMessage("Design", "CA1056:Uri properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:DeveloperHubAPI.V1.Infrastructure.DeveloperHubDb.DevelopmentBaseURL")]
+[assembly: SuppressMessage("Design", "CA1056:Uri properties should not be strings", Justification = "<Pending>", Scope = "member", Target = "~P:DeveloperHubAPI.V1.Infrastructure.DeveloperHubDb.StagingBaseURL")]

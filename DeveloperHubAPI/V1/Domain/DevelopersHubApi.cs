@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace DeveloperHubAPI.V1.Domain
 {
@@ -19,5 +20,7 @@ namespace DeveloperHubAPI.V1.Domain
         public string StagingBaseURL { get; set; }
 
         public string ApiSpecificationLink { get; set; }
+
+        public List<Application> Applications { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Controllers
@@ -14,10 +15,13 @@ namespace DeveloperHubAPI.V1.Controllers
     public class DeveloperHubAPIController : BaseController
     {
         private readonly IGetDeveloperHubByIdUseCase _getDeveloperHubByIdUseCase;
-        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase)
+        private readonly IGetApplicationByNameUseCase _getApplicationByNameUseCase;
+        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase)
         {
             _getDeveloperHubByIdUseCase = getDeveloperHubByIdUseCase;
+            _getApplicationByNameUseCase = getApplicationByNameUseCase;
         }
+
 
         /// <summary>
         /// Retrieve all data by ID
@@ -34,5 +38,19 @@ namespace DeveloperHubAPI.V1.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// retrieves information about an application that consumes the api
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="404">No data found for the specified ID</response>
+        [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status200OK)]
+        [HttpGet]
+        [Route("{id}/{applicationName}")]
+        public async Task<IActionResult> GetApplication([FromRoute] ApplicationByNameRequest query)
+        {
+            var response = await _getApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
+            if (response == null) return NotFound(query.ApplicationName);
+            return Ok(response);
+        }
     }
 }

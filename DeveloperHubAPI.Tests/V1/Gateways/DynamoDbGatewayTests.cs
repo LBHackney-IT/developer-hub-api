@@ -22,22 +22,17 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             _classUnderTest = new DynamoDbGateway(DynamoDbContext);
         }
 
-        private static DeveloperHubQuery ConstructQuery(string id)
-        {
-            return new DeveloperHubQuery() { Id = id };
-        }
-
         [Test]
         public async Task GetDeveloperHubByIdReturnsNullIfEntityDoesntExist()
         {
-            var query = ConstructQuery("1");
-            var response = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
+            var id = "random";
+            var response = await _classUnderTest.GetDeveloperHubById(id).ConfigureAwait(false);
 
             response.Should().BeNull();
         }
 
         [Test]
-        public async Task VerifiesGatewayMethodsAddToDB()
+        public async Task GetDeveloperHubByIdReturnsTheEntityFromTheDatabase()
         {
             // Arrange
             var entity = _fixture.Build<DevelopersHubApi>()
@@ -45,18 +40,17 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
                                     .Create();
             var dbEntity = entity.ToDatabase();
             await InsertDataToDynamoDB(dbEntity).ConfigureAwait(false);
-            var query = ConstructQuery(entity.Id);
 
             // Act
-            var result = await _classUnderTest.GetDeveloperHubById(query).ConfigureAwait(false);
+            var result = await _classUnderTest.GetDeveloperHubById(entity.Id).ConfigureAwait(false);
 
             // Assert
             result.Should().BeEquivalentTo(entity);
         }
 
-        private async Task InsertDataToDynamoDB(DatabaseEntity entity)
+        private async Task InsertDataToDynamoDB(DeveloperHubDb entity)
         {
-            await DynamoDbContext.SaveAsync<DatabaseEntity>(entity).ConfigureAwait(false);
+            await DynamoDbContext.SaveAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
             CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync(entity).ConfigureAwait(false));
         }
 

@@ -1,16 +1,18 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1
 
-# disable microsoft telematry
-ENV DOTNET_CLI_TELEMETRY_OPTOUT='true'
+ARG LBHPACKAGESTOKEN
+ENV LBHPACKAGESTOKEN=$LBHPACKAGESTOKEN
 
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+# Copy csproj and nuget config and restore as distinct layers
+COPY .//DeveloperHubAPI.csproj ./
+COPY /NuGet.Config /root/.nuget/NuGet/NuGet.Config
+
+RUN dotnet restore ./DeveloperHubAPI.csproj
 
 # Copy everything else and build
-COPY . ./
+COPY ./DeveloperHubAPI ./
 RUN dotnet build -c Release -o out
 RUN dotnet publish -c Release -o out
 

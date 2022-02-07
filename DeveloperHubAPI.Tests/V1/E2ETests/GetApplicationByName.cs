@@ -1,4 +1,7 @@
 using AutoFixture;
+using DeveloperHubAPI.V1.Boundary.Response;
+using DeveloperHubAPI.V1.Domain;
+using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 namespace DeveloperHubAPI.Tests.V1.E2ETests
 {
     [TestFixture]
-    public class GetByIdE2ETests : DynamoDbIntegrationTests<Startup>
+    public class GetApplicationByNameTests : DynamoDbIntegrationTests<Startup>
     {
         private readonly Fixture _fixture = new Fixture();
 
@@ -36,32 +39,43 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             await DynamoDbContext.SaveAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
             CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
         }
-
         [Test]
-        public async Task GetEntityByIdNotFoundReturns404()
+        public async Task GetApplicationByNameReturns404()
         {
-            int id = 123456789;
-            var uri = new Uri($"api/v1/developerhubapi/{id}", UriKind.Relative);
+            // Arrange  
+            var id = 123456789;
+            var applicationName = "random";
+            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationName}", UriKind.Relative);
+
+            // Act
             var response = await Client.GetAsync(uri).ConfigureAwait(false);
 
+            // Assert
+
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
         }
 
         [Test]
-        public async Task GetDeveloperHubApiBydIdFoundReturnsResponse()
+        public async Task GetApplicationByIdReturnsTheApplication()
         {
-            var entity = ConstructTestEntity();
-            await SetupTestData(entity).ConfigureAwait(false);
+            // Arrange
+            var application = _fixture.Create<Application>();
+            var api = _fixture.Create<DevelopersHubApi>();
+            api.Applications.Add(application);
+            await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
+            var uri = new Uri($"api/v1/developerhubapi/{api.Id}/{application.Name}", UriKind.Relative);
 
-            var uri = new Uri($"api/v1/developerhubapi/{entity.Id}", UriKind.Relative);
+            //Act
             var response = await Client.GetAsync(uri).ConfigureAwait(false);
 
+            // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var apiEntity = JsonConvert.DeserializeObject<DeveloperHubDb>(responseContent);
+            var apiEntity = JsonConvert.DeserializeObject<ApplicationResponse>(responseContent);
 
-            apiEntity.Should().BeEquivalentTo(entity);
+            apiEntity.Should().BeEquivalentTo(application);
         }
     }
 }
