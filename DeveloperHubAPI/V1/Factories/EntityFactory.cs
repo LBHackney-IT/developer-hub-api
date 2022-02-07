@@ -5,7 +5,7 @@ namespace DeveloperHubAPI.V1.Factories
 {
     public static class EntityFactory
     {
-        public static DevelopersHubApi ToDomain(this DatabaseEntity databaseEntity)
+        public static DevelopersHubApi ToDomain(this DeveloperHubDb databaseEntity)
         {
             return new DevelopersHubApi
             {
@@ -21,10 +21,10 @@ namespace DeveloperHubAPI.V1.Factories
             };
         }
 
-        public static DatabaseEntity ToDatabase(this DevelopersHubApi developerHubApi)
+        public static DeveloperHubDb ToDatabase(this DevelopersHubApi developerHubApi)
         {
 
-            return new DatabaseEntity
+            return new DeveloperHubDb
             {
                 Id = developerHubApi.Id,
                 ApiName = developerHubApi.ApiName,

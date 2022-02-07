@@ -7,7 +7,7 @@ namespace DeveloperHubAPI.V1.Infrastructure
 {
 
     [DynamoDBTable("DevelopersHubApi", LowerCamelCaseProperties = true)]
-    public class DatabaseEntity
+    public class DeveloperHubDb
     {
 
         [DynamoDBHashKey]

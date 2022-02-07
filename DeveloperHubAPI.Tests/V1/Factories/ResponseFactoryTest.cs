@@ -13,7 +13,7 @@ namespace DeveloperHubAPI.Tests.V1.Factories
         [Test]
         public void CanMapADatabaseEntityToADomainObject()
         {
-            var dbEntity = new DatabaseEntity();
+            var dbEntity = new DeveloperHubDb();
             var response = dbEntity.ToDomain();
 
             dbEntity.Id.Should().Be(response.Id);

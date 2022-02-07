@@ -22,10 +22,5 @@ namespace DeveloperHubAPI.V1.UseCase
         {
             return await _gateway.GetDeveloperHubById(query.Id).ConfigureAwait(false);
         }
-
-        public Task Execute(ApplicationByNameRequest query)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

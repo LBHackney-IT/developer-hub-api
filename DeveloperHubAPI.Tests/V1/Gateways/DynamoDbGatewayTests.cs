@@ -48,9 +48,9 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             result.Should().BeEquivalentTo(entity);
         }
 
-        private async Task InsertDataToDynamoDB(DatabaseEntity entity)
+        private async Task InsertDataToDynamoDB(DeveloperHubDb entity)
         {
-            await DynamoDbContext.SaveAsync<DatabaseEntity>(entity).ConfigureAwait(false);
+            await DynamoDbContext.SaveAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
             CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync(entity).ConfigureAwait(false));
         }
 

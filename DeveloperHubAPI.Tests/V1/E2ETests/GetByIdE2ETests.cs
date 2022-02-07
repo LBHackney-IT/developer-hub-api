@@ -19,9 +19,9 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         /// </summary>
         /// <param name="databaseEntity"></param>
         /// <returns></returns>
-        private DatabaseEntity ConstructTestEntity()
+        private DeveloperHubDb ConstructTestEntity()
         {
-            var entity = _fixture.Create<DatabaseEntity>();
+            var entity = _fixture.Create<DeveloperHubDb>();
             return entity;
         }
 
@@ -31,10 +31,10 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         /// </summary>
         /// <param name="databaseEntity"></param>
         /// <returns></returns>
-        private async Task SetupTestData(DatabaseEntity entity)
+        private async Task SetupTestData(DeveloperHubDb entity)
         {
-            await DynamoDbContext.SaveAsync<DatabaseEntity>(entity).ConfigureAwait(false);
-            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DatabaseEntity>(entity.Id).ConfigureAwait(false));
+            await DynamoDbContext.SaveAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
+            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var apiEntity = JsonConvert.DeserializeObject<DatabaseEntity>(responseContent);
+            var apiEntity = JsonConvert.DeserializeObject<DeveloperHubDb>(responseContent);
 
             apiEntity.Should().BeEquivalentTo(entity);
         }
