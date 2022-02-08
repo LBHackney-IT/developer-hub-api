@@ -8,7 +8,6 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using AutoFixture;
-using DeveloperHubAPI.V1.Infrastructure;
 using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Factories;
 

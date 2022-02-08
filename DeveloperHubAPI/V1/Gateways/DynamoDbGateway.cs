@@ -1,11 +1,9 @@
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.XRay.Recorder.Core;
 using Amazon.XRay.Recorder.Core.Strategies;
-using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Gateways

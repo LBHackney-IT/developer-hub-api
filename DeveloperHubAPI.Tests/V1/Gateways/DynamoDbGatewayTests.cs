@@ -1,6 +1,5 @@
 using AutoFixture;
 using DeveloperHubAPI.V1.Gateways;
-using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Infrastructure;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;

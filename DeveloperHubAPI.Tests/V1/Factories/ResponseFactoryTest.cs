@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using AutoFixture;
 using FluentAssertions;
-using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using NUnit.Framework;
