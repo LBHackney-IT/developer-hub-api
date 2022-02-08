@@ -4,7 +4,6 @@ using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using Hackney.Core.DynamoDb;
 using Hackney.Core.DynamoDb.HealthCheck;
 using Hackney.Core.HealthCheck;
-using Hackney.Core.Http;
 using Hackney.Core.JWT;
 using Hackney.Core.Logging;
 using Hackney.Core.Middleware.CorrelationId;
@@ -43,7 +42,6 @@ namespace DeveloperHubAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
             AWSSDKHandler.RegisterXRayForAllServices();
         }
 
@@ -55,7 +53,6 @@ namespace DeveloperHubAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddHttpClient();
 
             services
                 .AddMvc()
@@ -134,30 +131,18 @@ namespace DeveloperHubAPI
             });
 
             services.ConfigureLambdaLogging(Configuration);
-
             AWSXRayRecorder.InitializeInstance(Configuration);
             AWSXRayRecorder.RegisterLogger(LoggingOptions.SystemDiagnostics);
 
-            services.ConfigureDynamoDB();
             services.AddLogCallAspect();
-
-
+            services.ConfigureDynamoDB();
             RegisterGateways(services);
             RegisterUseCases(services);
 
-            ConfigureHackneyCoreDI(services);
-
-        }
-
-        private static void ConfigureHackneyCoreDI(IServiceCollection services)
-        {
-            services.AddTokenFactory()
-                .AddHttpContextWrapper();
         }
 
         private static void RegisterGateways(IServiceCollection services)
         {
-
             services.AddScoped<IDynamoDbGateway, DynamoDbGateway>();
         }
 
@@ -171,11 +156,10 @@ namespace DeveloperHubAPI
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             app.UseCors(builder => builder
-                  .AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .WithExposedHeaders("ETag", "If-Match", "x-correlation-id"));
-
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithExposedHeaders("x-correlation-id"));
 
             if (env.IsDevelopment())
             {

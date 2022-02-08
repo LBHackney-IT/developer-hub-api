@@ -5,7 +5,10 @@ using DeveloperHubAPI.V1.Controllers;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using FluentAssertions;
+using Hackney.Core.Logging;
+using Hackney.Core.Testing.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -20,6 +23,14 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;
         private DeveloperHubAPIController _classUnderTest;
         private Fixture _fixture = new Fixture();
+        public Mock<ILogger<LogCallAspect>> MockLogger { get; private set; }
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            MockLogger = LogCallAspectFixture.SetupLogCallAspect();
+        }
+
 
         [SetUp]
         public void Init()

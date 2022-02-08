@@ -1,5 +1,10 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Hackney.Core.Logging;
+using Hackney.Core.Testing.Shared;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,6 +18,7 @@ namespace DeveloperHubAPI.Tests
         public IDynamoDBContext DynamoDbContext => _factory?.DynamoDbContext;
         private DynamoDbMockWebApplicationFactory<TStartup> _factory;
         protected List<Action> CleanupActions { get; set; }
+        public Mock<ILogger<LogCallAspect>> MockLogger { get; private set; }
 
         private readonly List<TableDef> _tables = new List<TableDef>
         {
@@ -26,10 +32,11 @@ namespace DeveloperHubAPI.Tests
                 Environment.SetEnvironmentVariable(name, defaultValue);
         }
 
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-
+            MockLogger = LogCallAspectFixture.SetupLogCallAspect();
             EnsureEnvVarConfigured("DynamoDb_LocalMode", "true");
             EnsureEnvVarConfigured("DynamoDb_LocalServiceUrl", "http://localhost:8000");
             _factory = new DynamoDbMockWebApplicationFactory<TStartup>(_tables);

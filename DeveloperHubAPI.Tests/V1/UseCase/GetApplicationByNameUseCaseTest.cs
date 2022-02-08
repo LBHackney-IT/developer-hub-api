@@ -10,6 +10,9 @@ using NUnit.Framework;
 using AutoFixture;
 using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Factories;
+using Hackney.Core.Testing.Shared;
+using Microsoft.Extensions.Logging;
+using Hackney.Core.Logging;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
 {
@@ -19,6 +22,13 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         private Mock<IDynamoDbGateway> _mockGateway;
         private GetApplicationByNameUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
+        public Mock<ILogger<LogCallAspect>> MockLogger { get; private set; }
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            MockLogger = LogCallAspectFixture.SetupLogCallAspect();
+        }
 
         [SetUp]
         public void SetUp()

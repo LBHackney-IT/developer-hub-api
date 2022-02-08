@@ -1,8 +1,10 @@
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
+using Hackney.Core.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Controllers
@@ -29,6 +31,7 @@ namespace DeveloperHubAPI.V1.Controllers
         /// <response code="404">No data found for the specified ID</response>
         [ProducesResponseType(typeof(DeveloperHubResponse), StatusCodes.Status200OK)]
         [HttpGet]
+        [LogCall(LogLevel.Information)]
         [Route("{Id}")]
         public async Task<IActionResult> ViewDeveloperHub([FromRoute] DeveloperHubQuery query)
         {
@@ -44,6 +47,7 @@ namespace DeveloperHubAPI.V1.Controllers
         /// <response code="404">No data found for the specified ID</response>
         [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status200OK)]
         [HttpGet]
+        [LogCall(LogLevel.Information)]
         [Route("{id}/{applicationName}")]
         public async Task<IActionResult> GetApplication([FromRoute] ApplicationByNameRequest query)
         {
