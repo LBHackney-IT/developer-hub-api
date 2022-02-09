@@ -1,6 +1,4 @@
 using Amazon.DynamoDBv2.DataModel;
-using Amazon.XRay.Recorder.Core;
-using Amazon.XRay.Recorder.Core.Strategies;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;

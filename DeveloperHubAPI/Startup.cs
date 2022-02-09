@@ -4,6 +4,7 @@ using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using Hackney.Core.DynamoDb;
 using Hackney.Core.DynamoDb.HealthCheck;
 using Hackney.Core.HealthCheck;
+using Hackney.Core.Http;
 using Hackney.Core.JWT;
 using Hackney.Core.Logging;
 using Hackney.Core.Middleware.CorrelationId;
@@ -61,6 +62,8 @@ namespace DeveloperHubAPI
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            // services.AddFluentValidation(Assembly.GetAssembly(typeof(ProcessDataValidator)));
 
             services.AddApiVersioning(o =>
             {
@@ -134,12 +137,24 @@ namespace DeveloperHubAPI
             AWSXRayRecorder.InitializeInstance(Configuration);
             AWSXRayRecorder.RegisterLogger(LoggingOptions.SystemDiagnostics);
 
-            services.AddLogCallAspect();
             services.ConfigureDynamoDB();
+            services.AddLogCallAspect();
+
+
             RegisterGateways(services);
             RegisterUseCases(services);
 
+            ConfigureHackneyCoreDI(services);
+
         }
+
+        private static void ConfigureHackneyCoreDI(IServiceCollection services)
+        {
+            services.AddTokenFactory()
+                .AddHttpContextWrapper();
+        }
+
+
 
         private static void RegisterGateways(IServiceCollection services)
         {

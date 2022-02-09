@@ -4,6 +4,9 @@ using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using FluentAssertions;
+using Hackney.Core.Logging;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
@@ -16,29 +19,20 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
     public class GetApplicationByNameTests : DynamoDbIntegrationTests<Startup>
     {
         private readonly Fixture _fixture = new Fixture();
+        public Mock<ILogger<LogCallAspect>> MockLogger { get; private set; }
 
-        /// <summary>
-        /// Method to construct a test entity that can be used in a test
-        /// </summary>
-        /// <param name="databaseEntity"></param>
-        /// <returns></returns>
         private DeveloperHubDb ConstructTestEntity()
         {
             var entity = _fixture.Create<DeveloperHubDb>();
             return entity;
         }
 
-        /// <summary>
-        /// Method to add an entity instance to the database so that it can be used in a test.
-        /// Also adds the corresponding action to remove the upserted data from the database when the test is done.
-        /// </summary>
-        /// <param name="databaseEntity"></param>
-        /// <returns></returns>
         private async Task SetupTestData(DeveloperHubDb entity)
         {
             await DynamoDbContext.SaveAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
             CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
         }
+
         [Test]
         public async Task GetApplicationByNameReturns404()
         {
