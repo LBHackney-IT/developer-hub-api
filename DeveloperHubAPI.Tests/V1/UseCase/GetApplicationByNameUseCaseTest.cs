@@ -10,25 +10,16 @@ using NUnit.Framework;
 using AutoFixture;
 using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Factories;
-using Hackney.Core.Testing.Shared;
-using Microsoft.Extensions.Logging;
-using Hackney.Core.Logging;
+using DeveloperHubAPI.Tests.V1.Helper;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
 {
     [TestFixture]
-    public class GetApplicationByNameUseCaseTests
+    public class GetApplicationByNameUseCaseTests : LogCallTestContext
     {
         private Mock<IDynamoDbGateway> _mockGateway;
         private GetApplicationByNameUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
-        public Mock<ILogger<LogCallAspect>> MockLogger { get; private set; }
-
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            MockLogger = LogCallAspectFixture.SetupLogCallAspect();
-        }
 
         [SetUp]
         public void SetUp()

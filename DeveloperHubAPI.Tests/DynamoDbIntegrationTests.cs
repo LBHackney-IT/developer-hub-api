@@ -26,7 +26,6 @@ namespace DeveloperHubAPI.Tests
                 Environment.SetEnvironmentVariable(name, defaultValue);
         }
 
-
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {

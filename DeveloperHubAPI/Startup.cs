@@ -63,8 +63,6 @@ namespace DeveloperHubAPI
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            // services.AddFluentValidation(Assembly.GetAssembly(typeof(ProcessDataValidator)));
-
             services.AddApiVersioning(o =>
             {
                 o.DefaultApiVersion = new ApiVersion(1, 0);

@@ -8,26 +8,16 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using AutoFixture;
-using Microsoft.Extensions.Logging;
-using Hackney.Core.Logging;
-using Hackney.Core.Testing.Shared;
+using DeveloperHubAPI.Tests.V1.Helper;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
 {
     [TestFixture]
-    public class GetDeveloperHubByIdUseCaseTests
+    public class GetDeveloperHubByIdUseCaseTests : LogCallTestContext
     {
         private Mock<IDynamoDbGateway> _mockGateway;
         private GetDeveloperHubByIdUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
-        public Mock<ILogger<LogCallAspect>> MockLogger { get; private set; }
-
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            MockLogger = LogCallAspectFixture.SetupLogCallAspect();
-        }
-
 
         [SetUp]
         public void SetUp()

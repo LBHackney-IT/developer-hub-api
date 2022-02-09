@@ -4,9 +4,6 @@ using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using FluentAssertions;
-using Hackney.Core.Logging;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
@@ -19,7 +16,6 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
     public class GetApplicationByNameTests : DynamoDbIntegrationTests<Startup>
     {
         private readonly Fixture _fixture = new Fixture();
-        public Mock<ILogger<LogCallAspect>> MockLogger { get; private set; }
 
         private DeveloperHubDb ConstructTestEntity()
         {
