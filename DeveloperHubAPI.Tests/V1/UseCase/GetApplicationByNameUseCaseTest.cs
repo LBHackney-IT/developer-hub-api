@@ -8,14 +8,14 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using AutoFixture;
-using DeveloperHubAPI.V1.Infrastructure;
 using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Factories;
+using DeveloperHubAPI.Tests.V1.Helper;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
 {
     [TestFixture]
-    public class GetApplicationByNameUseCaseTests
+    public class GetApplicationByNameUseCaseTests : LogCallTestContext
     {
         private Mock<IDynamoDbGateway> _mockGateway;
         private GetApplicationByNameUseCase _classUnderTest;

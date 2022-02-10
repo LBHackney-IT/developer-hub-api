@@ -1,4 +1,5 @@
 using AutoFixture;
+using DeveloperHubAPI.Tests.V1.Helper;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Controllers;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 namespace DeveloperHubAPI.Tests.V1.Controllers
 {
     [TestFixture]
-    public class DeveloperHubAPIControllerTests
+    public class DeveloperHubAPIControllerTests : LogCallTestContext
     {
         private Mock<IGetDeveloperHubByIdUseCase> _mockGetDeveloperHubByIdUseCase;
         private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;

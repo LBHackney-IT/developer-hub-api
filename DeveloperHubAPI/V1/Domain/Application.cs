@@ -1,5 +1,3 @@
-using System;
-
 namespace DeveloperHubAPI.V1.Domain
 {
     public class Application
