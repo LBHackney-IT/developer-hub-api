@@ -27,5 +27,13 @@ namespace DeveloperHubAPI.V1.Gateways
             var result = await _dynamoDbContext.LoadAsync<DeveloperHubDb>(id).ConfigureAwait(false);
             return result?.ToDomain();
         }
+
+        [LogCall]
+        public async Task SaveDeveloperHub(DevelopersHubApi api)
+        {
+            _logger.LogDebug($"Calling IDynamoDBContext.SaveAsync for Developer Hub API: {api.Id}");
+            var databaseAPi = api.ToDatabase();
+            await _dynamoDbContext.SaveAsync<DeveloperHubDb>(databaseAPi).ConfigureAwait(false);
+        }
     }
 }
