@@ -64,7 +64,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
 
             // Act
             await _classUnderTest.SaveDeveloperHub(entity).ConfigureAwait(false);
-            
+
 
             // Assert
             var result = await DynamoDbContext.LoadAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false);
