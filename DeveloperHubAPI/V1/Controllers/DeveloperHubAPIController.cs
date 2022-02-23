@@ -76,7 +76,7 @@ namespace DeveloperHubAPI.V1.Controllers
         {
             var api = await _createNewApplicationUseCase.Execute(pathParameters, bodyParameters).ConfigureAwait(false);
             if (api == null) return NotFound(pathParameters.Id);
-            return Created(new Uri($"api/v1/developerhubapi/{api.Id}/{api.Applications.LastOrDefault().Name}", UriKind.Relative), api);;
+            return Created(new Uri($"api/v1/developerhubapi/{api.Id}/{api.Applications.LastOrDefault().Name}", UriKind.Relative), api); ;
         }
     }
 }

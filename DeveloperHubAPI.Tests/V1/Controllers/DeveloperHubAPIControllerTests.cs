@@ -140,7 +140,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             // Assert
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
         }
-        
+
         [Test]
         public async Task CreateNewApplicationAsyncReturnsCreatedResponse()
         {
