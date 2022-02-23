@@ -19,6 +19,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
     {
         private Mock<IGetDeveloperHubByIdUseCase> _mockGetDeveloperHubByIdUseCase;
         private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;
+        private Mock<ICreateNewApplicationUseCase> _mockCreateNewApplicationUseCase;
         private DeveloperHubAPIController _classUnderTest;
         private Fixture _fixture = new Fixture();
 
@@ -27,13 +28,21 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         {
             _mockGetDeveloperHubByIdUseCase = new Mock<IGetDeveloperHubByIdUseCase>();
             _mockGetApplicationByNameUseCase = new Mock<IGetApplicationByNameUseCase>();
+            _mockCreateNewApplicationUseCase = new Mock<ICreateNewApplicationUseCase>();
 
-            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object);
+            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockCreateNewApplicationUseCase.Object);
         }
 
         private static DeveloperHubQuery ConstructQuery()
         {
             return new DeveloperHubQuery() { Id = "1" };
+        }
+
+        private (ApplicationByNameRequest, CreateApplicationListItem) ConstructCreateApplicationQuery()
+        {
+            var pathParameters = _fixture.Create<ApplicationByNameRequest>();
+            var bodyParameters = _fixture.Create<CreateApplicationListItem>();
+            return (pathParameters, bodyParameters);
         }
 
         [Test]
@@ -131,6 +140,35 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             // Assert
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
         }
+        
+        [Test]
+        public async Task CreateNewApplicationAsyncReturnsCreatedResponse()
+        {
+            // Arrange
+            (var pathParameters, var bodyParameters) = ConstructCreateApplicationQuery();
+            var api = _fixture.Create<DevelopersHubApi>();
+            _mockCreateNewApplicationUseCase.Setup(x => x.Execute(pathParameters, bodyParameters)).ReturnsAsync((DevelopersHubApi) api);
 
+            // Act
+            var response = await _classUnderTest.PostApplication(pathParameters, bodyParameters).ConfigureAwait(false);
+
+            // Assert
+            response.Should().BeOfType(typeof(CreatedResult));
+            (response as CreatedResult).Value.Should().Be(api);
+        }
+        [Test]
+        public async Task CreateNewApplicationAsyncNotFoundReturnsNotFound()
+        {
+            // Arrange
+            (var pathParameters, var bodyParameters) = ConstructCreateApplicationQuery();
+            _mockCreateNewApplicationUseCase.Setup(x => x.Execute(pathParameters, bodyParameters)).ReturnsAsync((DevelopersHubApi) null);
+
+            // Act
+            var response = await _classUnderTest.PostApplication(pathParameters, bodyParameters).ConfigureAwait(false);
+
+            // Assert
+            response.Should().BeOfType(typeof(NotFoundObjectResult));
+            (response as NotFoundObjectResult).Value.Should().Be(pathParameters.Id);
+        }
     }
 }
