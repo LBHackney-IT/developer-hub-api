@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Moq;
 using Microsoft.Extensions.Logging;
 using Hackney.Core.Testing.Shared;
+using DeveloperHubAPI.V1.Boundary.Request;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {
@@ -52,6 +53,26 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             // Assert
             result.Should().BeEquivalentTo(entity);
             _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.LoadAsync for Developer Hub API ID: {entity.Id}", Times.Once());
+        }
+
+        [Test]
+        public async Task DeleteApplicationSuccessfullyDeletes()
+        {
+            // Arrange
+            var application = _fixture.Create<Application>();
+            var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
+            var entity = _fixture.Create<DevelopersHubApi>();
+            
+            entity.Applications.Add(application);
+
+            var dbEntity = entity.ToDatabase();
+            await InsertDataToDynamoDB(dbEntity).ConfigureAwait(false);
+
+            // Act
+            var result = await _classUnderTest.DeleteApplication(query).ConfigureAwait(false);
+
+            // Assert
+            result.Should().BeEquivalentTo(entity);
         }
 
         private async Task InsertDataToDynamoDB(DeveloperHubDb entity)
