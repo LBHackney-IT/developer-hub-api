@@ -29,7 +29,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
         }
 
-        [Test]
+        // [Test]
 
     }
 }
