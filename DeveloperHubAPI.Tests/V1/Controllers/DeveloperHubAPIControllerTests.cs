@@ -41,7 +41,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
 
         private static DeleteApplicationByNameRequest DeletionQuery()
         {
-            return new DeleteApplicationByNameRequest() {Id = "1", ApplicationName = "TestApp"};
+            return new DeleteApplicationByNameRequest() { Id = "1", ApplicationName = "TestApp" };
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
 
         [Test]
         public async Task DeleteApplicationReturnsOkResponse()
-        {   
+        {
             var query = DeletionQuery();
             var applicationResponse = _fixture.Create<ApplicationResponse>();
 

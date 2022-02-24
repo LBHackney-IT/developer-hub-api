@@ -62,7 +62,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             var application = _fixture.Create<Application>();
             var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
             var entity = _fixture.Create<DevelopersHubApi>();
-            
+
             entity.Applications.Add(application);
 
             var dbEntity = entity.ToDatabase();

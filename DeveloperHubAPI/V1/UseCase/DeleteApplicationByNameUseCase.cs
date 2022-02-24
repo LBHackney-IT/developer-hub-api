@@ -21,7 +21,7 @@ namespace DeveloperHubAPI.V1.UseCase
         {
             var api = await _gateway.DeleteApplication(query).ConfigureAwait(false);
             if (api == null) return null;
-            
+
             var application = api.Applications.Find(x => x.Name == query.ApplicationName);
 
             return application?.ToResponse();

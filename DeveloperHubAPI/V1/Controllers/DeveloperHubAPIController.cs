@@ -20,7 +20,7 @@ namespace DeveloperHubAPI.V1.Controllers
         private readonly IGetApplicationByNameUseCase _getApplicationByNameUseCase;
 
         private readonly IDeleteApplicationByNameUseCase _deleteApplicationByNameUseCase;
-        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase, IDeleteApplicationByNameUseCase deleteApplicationByNameUseCase )
+        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase, IDeleteApplicationByNameUseCase deleteApplicationByNameUseCase)
         {
             _getDeveloperHubByIdUseCase = getDeveloperHubByIdUseCase;
             _getApplicationByNameUseCase = getApplicationByNameUseCase;
@@ -70,9 +70,9 @@ namespace DeveloperHubAPI.V1.Controllers
         [Route("{id}/{applicationName}")] //is this the correct route?
         public async Task<IActionResult> DeleteApplication([FromRoute] DeleteApplicationByNameRequest query)
         {
-            var response =  await _deleteApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
-            if(response == null) return NotFound(query.ApplicationName);
-            
+            var response = await _deleteApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
+            if (response == null) return NotFound(query.ApplicationName);
+
             return Ok(response);
         }
 

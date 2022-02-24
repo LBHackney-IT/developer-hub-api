@@ -30,7 +30,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         [Test]
         public async Task DeleteApplicationByNameUseCaseIsNull()
         {
-            
+
             var application = _fixture.Create<Application>();
             var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
 
@@ -38,30 +38,30 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             api.Applications.Add(application);
 
             _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync((DevelopersHubApi) null);
-            
+
             var response = await _classUnderTest.Execute(query).ConfigureAwait(false);
             response.Should().BeNull();
-        
+
         }
 
         [Test]
         public async Task DeleteApplicationByNameUseCaseReturnsOkResponse()
-        {   
+        {
             var application = _fixture.Create<Application>();
             var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
 
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
-           
+
             _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync(api);
             var response = await _classUnderTest.Execute(query).ConfigureAwait(false);
-            
+
             response.Should().BeEquivalentTo(api.ToResponse());
         }
 
         [Test]
         public void DeleteApplicationByNameUseThrowsException()
-        {   
+        {
             var application = _fixture.Create<Application>();
             var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
 
