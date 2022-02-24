@@ -38,7 +38,7 @@ namespace DeveloperHubAPI.V1.Gateways
            var entity = await _dynamoDbContext.LoadAsync<DeveloperHubDb>(query.Id, query.ApplicationName).ConfigureAwait(false);
            if(entity == null) return null;
            
-           await _dynamoDbContext.DeleteAsync<DeveloperHubDb>(entity).ConfigureAwait(false); // confirm if this is the right method. Do you need to save state?
+           await _dynamoDbContext.DeleteAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
 
            return entity.ToDomain();
         }
