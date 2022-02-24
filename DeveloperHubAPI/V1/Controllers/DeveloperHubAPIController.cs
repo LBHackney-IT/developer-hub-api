@@ -72,7 +72,8 @@ namespace DeveloperHubAPI.V1.Controllers
         {
             var response =  await _deleteApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
             if(response == null) return NotFound(query.ApplicationName);
-            return NoContent();
+            
+            return Ok(response);
         }
 
     }

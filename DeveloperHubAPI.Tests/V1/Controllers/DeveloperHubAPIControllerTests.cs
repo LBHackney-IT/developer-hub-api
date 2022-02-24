@@ -19,6 +19,8 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
     {
         private Mock<IGetDeveloperHubByIdUseCase> _mockGetDeveloperHubByIdUseCase;
         private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;
+
+        private Mock<IDeleteApplicationByNameUseCase> _mockDeleteApplicationByNameUseCase;
         private DeveloperHubAPIController _classUnderTest;
         private Fixture _fixture = new Fixture();
 
@@ -27,13 +29,19 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         {
             _mockGetDeveloperHubByIdUseCase = new Mock<IGetDeveloperHubByIdUseCase>();
             _mockGetApplicationByNameUseCase = new Mock<IGetApplicationByNameUseCase>();
+            _mockDeleteApplicationByNameUseCase = new Mock<IDeleteApplicationByNameUseCase>();
 
-            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object);
+            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockDeleteApplicationByNameUseCase.Object);
         }
 
         private static DeveloperHubQuery ConstructQuery()
         {
             return new DeveloperHubQuery() { Id = "1" };
+        }
+
+        private static DeleteApplicationByNameRequest DeletionQuery()
+        {
+            return new DeleteApplicationByNameRequest() {Id = "1", ApplicationName = "TestApp"};
         }
 
         [Test]
@@ -129,6 +137,42 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             Func<Task<IActionResult>> func = () => (Task<IActionResult>) _classUnderTest.GetApplication(query);
 
             // Assert
+            func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
+        }
+
+        [Test]
+        public async Task DeleteApplicationReturnsNotFound()
+        {
+            var query = DeletionQuery();
+            _mockDeleteApplicationByNameUseCase.Setup(x => x.Execute(query)).ReturnsAsync((ApplicationResponse) null);
+
+            var response = await _classUnderTest.DeleteApplication(query).ConfigureAwait(false);
+            response.Should().BeOfType(typeof(NotFoundObjectResult));
+            (response as NotFoundObjectResult).Value.Should().BeEquivalentTo(new { Application = query.Id, query.ApplicationName });
+        }
+
+        [Test]
+        public async Task DeleteApplicationReturnsOkResponse()
+        {   
+            var query = DeletionQuery();
+            var applicationResponse = _fixture.Create<ApplicationResponse>();
+
+            _mockDeleteApplicationByNameUseCase.Setup(x => x.Execute(query)).ReturnsAsync(applicationResponse);
+
+            var response = await _classUnderTest.DeleteApplication(query).ConfigureAwait(false);
+            response.Should().BeOfType(typeof(OkObjectResult));
+            (response as OkObjectResult).Value.Should().BeEquivalentTo(applicationResponse);
+        }
+
+        [Test]
+        public void DeleteApplicationThrowsException()
+        {
+            var query = DeletionQuery();
+            var exception = new ApplicationException("Test Exception");
+            _mockDeleteApplicationByNameUseCase.Setup(x => x.Execute(query)).ThrowsAsync(exception);
+
+            Func<Task<IActionResult>> func = async () => await _classUnderTest.DeleteApplication(query).ConfigureAwait(false);
+
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
         }
 
