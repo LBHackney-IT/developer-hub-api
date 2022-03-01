@@ -34,16 +34,16 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
-        public async Task CreateNewApplicationReturns404()
+        public async Task UpdateApplicationReturns404()
         {
             // Arrange  
             var id = 123456789;
             var applicationName = "random";
             var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationName}", UriKind.Relative);
-            var bodyParameters = _fixture.Create<CreateApplicationListItem>();
+            var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
 
             // Act
-            var message = new HttpRequestMessage(HttpMethod.Post, uri);
+            var message = new HttpRequestMessage(HttpMethod.Patch, uri);
             message.Content = new StringContent(JsonConvert.SerializeObject(bodyParameters), Encoding.UTF8, "application/json");
             var response = await Client.SendAsync(message).ConfigureAwait(false);
 
@@ -53,20 +53,20 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
-        public async Task CreateNewApplicationReturns201()
+        public async Task UpdateApplicationReturns204()
         {
             // Arrange  
-            var bodyParameters = _fixture.Create<CreateApplicationListItem>();
+            var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
             var api = _fixture.Create<DevelopersHubApi>();
             var uri = new Uri($"api/v1/developerhubapi/{api.Id}/{bodyParameters.Name}", UriKind.Relative);
             await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
             // Act
-            var message = new HttpRequestMessage(HttpMethod.Post, uri);
+            var message = new HttpRequestMessage(HttpMethod.Patch, uri);
             message.Content = new StringContent(JsonConvert.SerializeObject(bodyParameters), Encoding.UTF8, "application/json");
             var response = await Client.SendAsync(message).ConfigureAwait(false);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
             var updatedApi = await DynamoDbContext.LoadAsync<DeveloperHubDb>(api.Id).ConfigureAwait(false);
             updatedApi.Applications.LastOrDefault().Name.Should().Be(bodyParameters.Name);
             updatedApi.Applications.LastOrDefault().Link.Should().Be(bodyParameters.Link);

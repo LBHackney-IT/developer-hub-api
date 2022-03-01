@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.UseCase
 {
-    public class CreateNewApplicationUseCase : ICreateNewApplicationUseCase
+    public class UpdateApplicationUseCase : IUpdateApplicationUseCase
     {
         private IDynamoDbGateway _gateway;
 
-        public CreateNewApplicationUseCase(IDynamoDbGateway gateway)
+        public UpdateApplicationUseCase(IDynamoDbGateway gateway)
         {
             _gateway = gateway;
         }
 
         [LogCall]
-        public async Task<DevelopersHubApi> Execute(ApplicationByNameRequest pathParameters, CreateApplicationListItem bodyParameters)
+        public async Task<DevelopersHubApi> Execute(ApplicationByNameRequest pathParameters, UpdateApplicationListItem bodyParameters)
         {
             var api = await _gateway.GetDeveloperHubById(pathParameters.Id).ConfigureAwait(false);
             if (api == null)

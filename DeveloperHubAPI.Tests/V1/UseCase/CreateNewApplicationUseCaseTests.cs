@@ -15,17 +15,17 @@ using DeveloperHubAPI.Tests.V1.Helper;
 namespace DeveloperHubAPI.Tests.V1.UseCase
 {
     [TestFixture]
-    public class CreateNewApplicationUseCaseTests : LogCallTestContext
+    public class UpdateApplicationUseCaseTests : LogCallTestContext
     {
         private Mock<IDynamoDbGateway> _mockGateway;
-        private CreateNewApplicationUseCase _classUnderTest;
+        private UpdateApplicationUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
         public void SetUp()
         {
             _mockGateway = new Mock<IDynamoDbGateway>();
-            _classUnderTest = new CreateNewApplicationUseCase(_mockGateway.Object);
+            _classUnderTest = new UpdateApplicationUseCase(_mockGateway.Object);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         {
             //Arrange
             var pathParameters = _fixture.Create<ApplicationByNameRequest>();
-            var bodyParameters = _fixture.Create<CreateApplicationListItem>();
+            var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
             var api = _fixture.Build<DevelopersHubApi>().With(x => x.Id, pathParameters.Id).Create();
             _mockGateway.Setup(x => x.GetDeveloperHubById(pathParameters.Id)).ReturnsAsync(api);
             //Act
@@ -44,11 +44,11 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         }
 
         [Test]
-        public void CreateNewApplicationUseCaseAsyncExceptionIsThrown()
+        public void UpdateApplicationUseCaseAsyncExceptionIsThrown()
         {
             // Arrange
             var pathParameters = _fixture.Create<ApplicationByNameRequest>();
-            var bodyParameters = _fixture.Create<CreateApplicationListItem>();
+            var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
             var exception = new ApplicationException("Test exception");
             _mockGateway.Setup(x => x.GetDeveloperHubById(pathParameters.Id)).ThrowsAsync(exception);
             // Act
@@ -60,11 +60,11 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
 
         [Test]
 
-        public async Task CreateNewApplicationUseCaseReturnsNullIfAPIDoesNotExist()
+        public async Task UpdateApplicationUseCaseReturnsNullIfAPIDoesNotExist()
         {
             // Arrange
             var pathParameters = _fixture.Create<ApplicationByNameRequest>();
-            var bodyParameters = _fixture.Create<CreateApplicationListItem>();
+            var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
             _mockGateway.Setup(x => x.GetDeveloperHubById(pathParameters.Id)).ReturnsAsync((DevelopersHubApi) null);
             // Act
             var result = await _classUnderTest.Execute(pathParameters, bodyParameters).ConfigureAwait(false);
