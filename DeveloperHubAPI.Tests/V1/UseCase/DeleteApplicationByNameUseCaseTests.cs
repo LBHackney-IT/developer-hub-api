@@ -56,7 +56,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync(api);
             var response = await _classUnderTest.Execute(query).ConfigureAwait(false);
 
-            response.Should().BeEquivalentTo(api.ToResponse());
+            response.Should().BeEquivalentTo(application.ToResponse());
         }
 
         [Test]

@@ -148,7 +148,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
 
             var response = await _classUnderTest.DeleteApplication(query).ConfigureAwait(false);
             response.Should().BeOfType(typeof(NotFoundObjectResult));
-            (response as NotFoundObjectResult).Value.Should().BeEquivalentTo(new { Application = query.ApplicationName });
+            (response as NotFoundObjectResult).Value.Should().BeEquivalentTo(query.ApplicationName);
         }
 
         [Test]

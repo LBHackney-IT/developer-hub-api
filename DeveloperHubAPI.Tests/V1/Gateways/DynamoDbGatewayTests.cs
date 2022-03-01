@@ -72,7 +72,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             var result = await _classUnderTest.DeleteApplication(query).ConfigureAwait(false);
 
             // Assert
-            result.Should().BeEquivalentTo(entity);
+            result.Should().BeEquivalentTo(application);
         }
 
         private async Task InsertDataToDynamoDB(DeveloperHubDb entity)

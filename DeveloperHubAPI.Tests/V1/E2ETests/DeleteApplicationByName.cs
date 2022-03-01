@@ -62,6 +62,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
 
             apiEntity.Should().BeEquivalentTo(application);
         }
+
         //    [Fact]
         //    public async Task CreateAndDeleteChargeReturns204()
         //    {
