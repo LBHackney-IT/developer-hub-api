@@ -30,17 +30,12 @@ namespace DeveloperHubAPI.V1.Gateways
             var result = await _dynamoDbContext.LoadAsync<DeveloperHubDb>(id).ConfigureAwait(false);
             return result?.ToDomain();
         }
-
         [LogCall]
-        public async Task<DevelopersHubApi> DeleteApplication(DeleteApplicationByNameRequest query)
+        public async Task SaveDeveloperHub(DevelopersHubApi api)
         {
-
-            var entity = await _dynamoDbContext.LoadAsync<DeveloperHubDb>(query.Id, query.ApplicationName).ConfigureAwait(false);
-            if (entity == null) return null;
-
-            await _dynamoDbContext.DeleteAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
-
-            return entity.ToDomain();
+            _logger.LogDebug($"Calling IDynamoDBContext.SaveAsync for Developer Hub API: {api.Id}");
+            var databaseAPi = api.ToDatabase();
+            await _dynamoDbContext.SaveAsync<DeveloperHubDb>(databaseAPi).ConfigureAwait(false);
         }
     }
 }

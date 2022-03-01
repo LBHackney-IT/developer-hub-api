@@ -7,7 +7,6 @@ namespace DeveloperHubAPI.V1.Gateways
     public interface IDynamoDbGateway
     {
         Task<DevelopersHubApi> GetDeveloperHubById(string id);
-
-        Task<DevelopersHubApi> DeleteApplication(DeleteApplicationByNameRequest query);
+        Task SaveDeveloperHub(DevelopersHubApi api);
     }
 }

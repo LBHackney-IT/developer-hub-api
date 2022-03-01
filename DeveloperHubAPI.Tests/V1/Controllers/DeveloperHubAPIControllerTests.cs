@@ -19,8 +19,12 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
     {
         private Mock<IGetDeveloperHubByIdUseCase> _mockGetDeveloperHubByIdUseCase;
         private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;
+<<<<<<< HEAD
 
         private Mock<IDeleteApplicationByNameUseCase> _mockDeleteApplicationByNameUseCase;
+=======
+        private Mock<ICreateNewApplicationUseCase> _mockCreateNewApplicationUseCase;
+>>>>>>> origin/adding-new-application-endpoint
         private DeveloperHubAPIController _classUnderTest;
         private Fixture _fixture = new Fixture();
 
@@ -29,9 +33,15 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         {
             _mockGetDeveloperHubByIdUseCase = new Mock<IGetDeveloperHubByIdUseCase>();
             _mockGetApplicationByNameUseCase = new Mock<IGetApplicationByNameUseCase>();
+<<<<<<< HEAD
             _mockDeleteApplicationByNameUseCase = new Mock<IDeleteApplicationByNameUseCase>();
 
             _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockDeleteApplicationByNameUseCase.Object);
+=======
+            _mockCreateNewApplicationUseCase = new Mock<ICreateNewApplicationUseCase>();
+
+            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockCreateNewApplicationUseCase.Object);
+>>>>>>> origin/adding-new-application-endpoint
         }
 
         private static DeveloperHubQuery ConstructQuery()
@@ -39,9 +49,17 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             return new DeveloperHubQuery() { Id = "1" };
         }
 
+<<<<<<< HEAD
         private static DeleteApplicationByNameRequest DeletionQuery()
         {
             return new DeleteApplicationByNameRequest() { Id = "1", ApplicationName = "TestApp" };
+=======
+        private (ApplicationByNameRequest, CreateApplicationListItem) ConstructCreateApplicationQuery()
+        {
+            var pathParameters = _fixture.Create<ApplicationByNameRequest>();
+            var bodyParameters = _fixture.Create<CreateApplicationListItem>();
+            return (pathParameters, bodyParameters);
+>>>>>>> origin/adding-new-application-endpoint
         }
 
         [Test]
@@ -176,5 +194,33 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
         }
 
+        public async Task CreateNewApplicationAsyncReturnsCreatedResponse()
+        {
+            // Arrange
+            (var pathParameters, var bodyParameters) = ConstructCreateApplicationQuery();
+            var api = _fixture.Create<DevelopersHubApi>();
+            _mockCreateNewApplicationUseCase.Setup(x => x.Execute(pathParameters, bodyParameters)).ReturnsAsync((DevelopersHubApi) api);
+
+            // Act
+            var response = await _classUnderTest.PostApplication(pathParameters, bodyParameters).ConfigureAwait(false);
+
+            // Assert
+            response.Should().BeOfType(typeof(CreatedResult));
+            (response as CreatedResult).Value.Should().Be(api);
+        }
+        [Test]
+        public async Task CreateNewApplicationAsyncNotFoundReturnsNotFound()
+        {
+            // Arrange
+            (var pathParameters, var bodyParameters) = ConstructCreateApplicationQuery();
+            _mockCreateNewApplicationUseCase.Setup(x => x.Execute(pathParameters, bodyParameters)).ReturnsAsync((DevelopersHubApi) null);
+
+            // Act
+            var response = await _classUnderTest.PostApplication(pathParameters, bodyParameters).ConfigureAwait(false);
+
+            // Assert
+            response.Should().BeOfType(typeof(NotFoundObjectResult));
+            (response as NotFoundObjectResult).Value.Should().Be(pathParameters.Id);
+        }
     }
 }
