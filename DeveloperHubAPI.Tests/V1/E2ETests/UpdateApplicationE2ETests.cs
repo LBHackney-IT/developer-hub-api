@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace DeveloperHubAPI.Tests.V1.E2ETests
 {
     [TestFixture]
-    public class CreateNewApplicationTests : DynamoDbIntegrationTests<Startup>
+    public class UpdateApplicationE2ETests : DynamoDbIntegrationTests<Startup>
     {
         private readonly Fixture _fixture = new Fixture();
 
