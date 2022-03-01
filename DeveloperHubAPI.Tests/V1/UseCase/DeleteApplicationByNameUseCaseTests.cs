@@ -37,7 +37,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
 
-            _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync((DevelopersHubApi) null);
+            // _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync((DevelopersHubApi) null);
 
             var response = await _classUnderTest.Execute(query).ConfigureAwait(false);
             response.Should().BeNull();
@@ -53,7 +53,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
 
-            _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync(api);
+            // _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync(api);
             var response = await _classUnderTest.Execute(query).ConfigureAwait(false);
 
             response.Should().BeEquivalentTo(application.ToResponse());
@@ -69,7 +69,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             api.Applications.Add(application);
 
             var exception = new ApplicationException("Test Exception");
-            _mockGateway.Setup(x => x.DeleteApplication(query)).ThrowsAsync(exception);
+            // _mockGateway.Setup(x => x.DeleteApplication(query)).ThrowsAsync(exception);
 
             Func<Task<ApplicationResponse>> func = async () => await _classUnderTest.Execute(query).ConfigureAwait(false);
 

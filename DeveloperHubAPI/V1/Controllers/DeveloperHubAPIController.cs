@@ -83,6 +83,7 @@ namespace DeveloperHubAPI.V1.Controllers
             return Ok(response);
         }
 
+        /// <summary>
         /// adds information about an application that consumes the api
         /// </summary>
         /// <response code="201">Created</response>

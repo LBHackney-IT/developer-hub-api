@@ -55,47 +55,29 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.LoadAsync for Developer Hub API ID: {entity.Id}", Times.Once());
         }
 
-        [Test]
-        public async Task DeleteApplicationSuccessfullyDeletes()
+        public async Task SaveDeveloperHubSuccessfullySavesTheEntity()
         {
             // Arrange
-            var application = _fixture.Create<Application>();
-            var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
-            var entity = _fixture.Create<DevelopersHubApi>();
-
-            entity.Applications.Add(application);
-
-            var dbEntity = entity.ToDatabase();
-            await InsertDataToDynamoDB(dbEntity).ConfigureAwait(false);
+            var entity = _fixture.Build<DevelopersHubApi>()
+                                    .With(x => x.ApiName, "DevelopersHubApi")
+                                    .Create();
 
             // Act
-            var result = await _classUnderTest.DeleteApplication(query).ConfigureAwait(false);
+            await _classUnderTest.SaveDeveloperHub(entity).ConfigureAwait(false);
+
 
             // Assert
-            result.Should().BeEquivalentTo(application);
-            public async Task SaveDeveloperHubSuccessfullySavesTheEntity()
-            {
-                // Arrange
-                var entity = _fixture.Build<DevelopersHubApi>()
-                                        .With(x => x.ApiName, "DevelopersHubApi")
-                                        .Create();
-
-                // Act
-                await _classUnderTest.SaveDeveloperHub(entity).ConfigureAwait(false);
-
-
-                // Assert
-                var result = await DynamoDbContext.LoadAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false);
-                result.Should().BeEquivalentTo(entity);
-                _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.SaveAsync for Developer Hub API: {entity.Id}", Times.Once());
-                CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
-            }
-
-            private async Task InsertDataToDynamoDB(DeveloperHubDb entity)
-            {
-                await DynamoDbContext.SaveAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
-                CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
-            }
-
+            var result = await DynamoDbContext.LoadAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false);
+            result.Should().BeEquivalentTo(entity);
+            _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.SaveAsync for Developer Hub API: {entity.Id}", Times.Once());
+            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
         }
+
+        private async Task InsertDataToDynamoDB(DeveloperHubDb entity)
+        {
+            await DynamoDbContext.SaveAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
+            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
+        }
+
     }
+}

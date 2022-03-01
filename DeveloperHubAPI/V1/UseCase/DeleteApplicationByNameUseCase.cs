@@ -17,12 +17,16 @@ namespace DeveloperHubAPI.V1.UseCase
             _gateway = gateway;
         }
 
+        [LogCall]
         public async Task<ApplicationResponse> Execute(DeleteApplicationByNameRequest query)
         {
-            var api = await _gateway.DeleteApplication(query).ConfigureAwait(false);
+            var api = await _gateway.GetDeveloperHubById(query.Id).ConfigureAwait(false);
             if (api == null) return null;
 
             var application = api.Applications.Find(x => x.Name == query.ApplicationName);
+            api.Applications.Remove(application);
+
+            await _gateway.SaveDeveloperHub(api);
 
             return application?.ToResponse();
         }

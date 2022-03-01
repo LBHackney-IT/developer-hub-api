@@ -19,12 +19,9 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
     {
         private Mock<IGetDeveloperHubByIdUseCase> _mockGetDeveloperHubByIdUseCase;
         private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;
-<<<<<<< HEAD
-
         private Mock<IDeleteApplicationByNameUseCase> _mockDeleteApplicationByNameUseCase;
-=======
         private Mock<ICreateNewApplicationUseCase> _mockCreateNewApplicationUseCase;
->>>>>>> origin/adding-new-application-endpoint
+
         private DeveloperHubAPIController _classUnderTest;
         private Fixture _fixture = new Fixture();
 
@@ -33,15 +30,10 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         {
             _mockGetDeveloperHubByIdUseCase = new Mock<IGetDeveloperHubByIdUseCase>();
             _mockGetApplicationByNameUseCase = new Mock<IGetApplicationByNameUseCase>();
-<<<<<<< HEAD
+            _mockCreateNewApplicationUseCase = new Mock<ICreateNewApplicationUseCase>();
             _mockDeleteApplicationByNameUseCase = new Mock<IDeleteApplicationByNameUseCase>();
 
-            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockDeleteApplicationByNameUseCase.Object);
-=======
-            _mockCreateNewApplicationUseCase = new Mock<ICreateNewApplicationUseCase>();
-
-            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockCreateNewApplicationUseCase.Object);
->>>>>>> origin/adding-new-application-endpoint
+            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockDeleteApplicationByNameUseCase.Object, _mockCreateNewApplicationUseCase.Object);
         }
 
         private static DeveloperHubQuery ConstructQuery()
@@ -49,17 +41,16 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             return new DeveloperHubQuery() { Id = "1" };
         }
 
-<<<<<<< HEAD
         private static DeleteApplicationByNameRequest DeletionQuery()
         {
             return new DeleteApplicationByNameRequest() { Id = "1", ApplicationName = "TestApp" };
-=======
+        }
+
         private (ApplicationByNameRequest, CreateApplicationListItem) ConstructCreateApplicationQuery()
         {
             var pathParameters = _fixture.Create<ApplicationByNameRequest>();
             var bodyParameters = _fixture.Create<CreateApplicationListItem>();
             return (pathParameters, bodyParameters);
->>>>>>> origin/adding-new-application-endpoint
         }
 
         [Test]
