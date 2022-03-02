@@ -5,6 +5,8 @@ using Hackney.Core.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Controllers
@@ -17,10 +19,12 @@ namespace DeveloperHubAPI.V1.Controllers
     {
         private readonly IGetDeveloperHubByIdUseCase _getDeveloperHubByIdUseCase;
         private readonly IGetApplicationByNameUseCase _getApplicationByNameUseCase;
-        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase)
+        private readonly IUpdateApplicationUseCase _updateApplicationUseCase;
+        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase, IUpdateApplicationUseCase updateApplicationUseCase)
         {
             _getDeveloperHubByIdUseCase = getDeveloperHubByIdUseCase;
             _getApplicationByNameUseCase = getApplicationByNameUseCase;
+            _updateApplicationUseCase = updateApplicationUseCase;
         }
 
 
@@ -30,6 +34,7 @@ namespace DeveloperHubAPI.V1.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">No data found for the specified ID</response>
         [ProducesResponseType(typeof(DeveloperHubResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status404NotFound)]
         [HttpGet]
         [LogCall(LogLevel.Information)]
         [Route("{Id}")]
@@ -46,6 +51,7 @@ namespace DeveloperHubAPI.V1.Controllers
         /// <response code="200">Success</response>
         /// <response code="404">No data found for the specified ID</response>
         [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status404NotFound)]
         [HttpGet]
         [LogCall(LogLevel.Information)]
         [Route("{id}/{applicationName}")]
@@ -54,6 +60,23 @@ namespace DeveloperHubAPI.V1.Controllers
             var response = await _getApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
             if (response == null) return NotFound(query.ApplicationName);
             return Ok(response);
+        }
+
+        /// <summary>
+        /// adds information about an application that consumes the api
+        /// </summary>
+        /// <response code="204">NoContent</response>
+        /// <response code="404">No data found for the specified ID</response>
+        [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status404NotFound)]
+        [HttpPatch]
+        [LogCall(LogLevel.Information)]
+        [Route("{id}/{applicationName}")]
+        public async Task<IActionResult> PatchApplication([FromRoute] ApplicationByNameRequest pathParameters, [FromBody] UpdateApplicationListItem bodyParameters)
+        {
+            var api = await _updateApplicationUseCase.Execute(pathParameters, bodyParameters).ConfigureAwait(false);
+            if (api == null) return NotFound(pathParameters.Id);
+            return NoContent();
         }
     }
 }

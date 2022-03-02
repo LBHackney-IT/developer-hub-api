@@ -54,10 +54,29 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.LoadAsync for Developer Hub API ID: {entity.Id}", Times.Once());
         }
 
+        [Test]
+        public async Task SaveDeveloperHubSuccessfullySavesTheEntity()
+        {
+            // Arrange
+            var entity = _fixture.Build<DevelopersHubApi>()
+                                    .With(x => x.ApiName, "DevelopersHubApi")
+                                    .Create();
+
+            // Act
+            await _classUnderTest.SaveDeveloperHub(entity).ConfigureAwait(false);
+
+
+            // Assert
+            var result = await DynamoDbContext.LoadAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false);
+            result.Should().BeEquivalentTo(entity);
+            _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.SaveAsync for Developer Hub API: {entity.Id}", Times.Once());
+            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
+        }
+
         private async Task InsertDataToDynamoDB(DeveloperHubDb entity)
         {
             await DynamoDbContext.SaveAsync<DeveloperHubDb>(entity).ConfigureAwait(false);
-            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync(entity).ConfigureAwait(false));
+            CleanupActions.Add(async () => await DynamoDbContext.DeleteAsync<DeveloperHubDb>(entity.Id).ConfigureAwait(false));
         }
 
     }
