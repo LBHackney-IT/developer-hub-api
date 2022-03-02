@@ -29,7 +29,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         }
 
         [Test]
-        public async Task AddsApplicationToAPI()
+        public async Task AddsApplicationToAPISuccessfully()
         {
             //Arrange
             var pathParameters = _fixture.Create<ApplicationByNameRequest>();

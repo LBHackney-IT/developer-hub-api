@@ -167,6 +167,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
 
             // Assert
             response.Should().BeOfType(typeof(NotFoundObjectResult));
+            (response as NotFoundObjectResult).Value.Should().Be(pathParameters.Id);
         }
     }
 }
