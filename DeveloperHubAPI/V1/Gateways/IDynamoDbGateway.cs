@@ -9,5 +9,6 @@ namespace DeveloperHubAPI.V1.Gateways
         Task<DevelopersHubApi> GetDeveloperHubById(string id);
 
         Task<DevelopersHubApi> DeleteApplication(DeleteApplicationByNameRequest query);
+        Task SaveDeveloperHub(DevelopersHubApi api);
     }
 }

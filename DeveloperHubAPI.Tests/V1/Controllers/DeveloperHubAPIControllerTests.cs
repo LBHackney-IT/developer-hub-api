@@ -21,6 +21,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;
 
         private Mock<IDeleteApplicationByNameUseCase> _mockDeleteApplicationByNameUseCase;
+        private Mock<IUpdateApplicationUseCase> _mockUpdateApplicationUseCase;
         private DeveloperHubAPIController _classUnderTest;
         private Fixture _fixture = new Fixture();
 
@@ -30,8 +31,9 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             _mockGetDeveloperHubByIdUseCase = new Mock<IGetDeveloperHubByIdUseCase>();
             _mockGetApplicationByNameUseCase = new Mock<IGetApplicationByNameUseCase>();
             _mockDeleteApplicationByNameUseCase = new Mock<IDeleteApplicationByNameUseCase>();
+            _mockUpdateApplicationUseCase = new Mock<IUpdateApplicationUseCase>();
 
-            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockDeleteApplicationByNameUseCase.Object);
+            _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockDeleteApplicationByNameUseCase.Object, _mockUpdateApplicationUseCase.Object);
         }
 
         private static DeveloperHubQuery ConstructQuery()
@@ -42,6 +44,13 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         private static DeleteApplicationByNameRequest DeletionQuery()
         {
             return new DeleteApplicationByNameRequest() { Id = "1", ApplicationName = "TestApp" };
+        }
+        
+        private (ApplicationByNameRequest, UpdateApplicationListItem) ConstructUpdateApplicationQuery()
+        {
+            var pathParameters = _fixture.Create<ApplicationByNameRequest>();
+            var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
+            return (pathParameters, bodyParameters);
         }
 
         [Test]
@@ -176,5 +185,32 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
         }
 
+        public async Task UpdateApplicationAsyncReturnsNoContentResponse()
+        {
+            // Arrange
+            (var pathParameters, var bodyParameters) = ConstructUpdateApplicationQuery();
+            var api = _fixture.Create<DevelopersHubApi>();
+            _mockUpdateApplicationUseCase.Setup(x => x.Execute(pathParameters, bodyParameters)).ReturnsAsync((DevelopersHubApi) api);
+
+            // Act
+            var response = await _classUnderTest.PatchApplication(pathParameters, bodyParameters).ConfigureAwait(false);
+
+            // Assert
+            response.Should().BeOfType(typeof(NoContentResult));
+        }
+        [Test]
+        public async Task UpdateApplicationAsyncNotFoundReturnsNotFound()
+        {
+            // Arrange
+            (var pathParameters, var bodyParameters) = ConstructUpdateApplicationQuery();
+            _mockUpdateApplicationUseCase.Setup(x => x.Execute(pathParameters, bodyParameters)).ReturnsAsync((DevelopersHubApi) null);
+
+            // Act
+            var response = await _classUnderTest.PatchApplication(pathParameters, bodyParameters).ConfigureAwait(false);
+
+            // Assert
+            response.Should().BeOfType(typeof(NotFoundObjectResult));
+            (response as NotFoundObjectResult).Value.Should().Be(pathParameters.Id);
+        }
     }
 }

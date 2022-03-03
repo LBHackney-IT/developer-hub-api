@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace DeveloperHubAPI.Tests.V1.E2ETests
 {
     [TestFixture]
-    public class GetApplicationByNameTests : DynamoDbIntegrationTests<Startup>
+    public class GetApplicationByNameE2ETests : DynamoDbIntegrationTests<Startup>
     {
         private readonly Fixture _fixture = new Fixture();
 

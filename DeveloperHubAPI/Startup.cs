@@ -164,6 +164,7 @@ namespace DeveloperHubAPI
             services.AddScoped<IGetDeveloperHubByIdUseCase, GetDeveloperHubByIdUseCase>();
             services.AddScoped<IGetApplicationByNameUseCase, GetApplicationByNameUseCase>();
             services.AddScoped<IDeleteApplicationByNameUseCase, DeleteApplicationByNameUseCase>();
+            services.AddScoped<IUpdateApplicationUseCase, UpdateApplicationUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
