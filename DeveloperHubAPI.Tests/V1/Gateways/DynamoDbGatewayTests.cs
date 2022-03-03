@@ -74,7 +74,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             // Assert
             result.Should().BeEquivalentTo(entity);
         }
-        
+
         public async Task SaveDeveloperHubSuccessfullySavesTheEntity()
         {
             // Arrange

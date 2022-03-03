@@ -42,7 +42,7 @@ namespace DeveloperHubAPI.V1.Gateways
 
             return entity.ToDomain();
         }
-        
+
         public async Task SaveDeveloperHub(DevelopersHubApi api)
         {
             _logger.LogDebug($"Calling IDynamoDBContext.SaveAsync for Developer Hub API: {api.Id}");

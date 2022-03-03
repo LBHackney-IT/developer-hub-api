@@ -45,7 +45,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         {
             return new DeleteApplicationByNameRequest() { Id = "1", ApplicationName = "TestApp" };
         }
-        
+
         private (ApplicationByNameRequest, UpdateApplicationListItem) ConstructUpdateApplicationQuery()
         {
             var pathParameters = _fixture.Create<ApplicationByNameRequest>();
