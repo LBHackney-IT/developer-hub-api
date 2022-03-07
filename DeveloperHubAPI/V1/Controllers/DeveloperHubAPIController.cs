@@ -73,7 +73,7 @@ namespace DeveloperHubAPI.V1.Controllers
         /// <response code="404">No data found for the specified ID</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpDelete]
-        [Route("{id}/{applicationName}")] //is this the correct route?
+        [Route("{id}/{applicationName}")]
         public async Task<IActionResult> DeleteApplication([FromRoute] DeleteApplicationByNameRequest query)
         {
             var response = await _deleteApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
