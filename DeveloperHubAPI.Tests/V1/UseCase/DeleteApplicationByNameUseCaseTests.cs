@@ -37,7 +37,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
 
-            _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync((DevelopersHubApi) null);
+            // _mockGateway.Setup(x => x.SaveDeveloperHub(api)).Returns((DevelopersHubApi) null);
 
             var response = await _classUnderTest.Execute(query).ConfigureAwait(false);
             response.Should().BeNull();
@@ -48,31 +48,44 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         public async Task DeleteApplicationByNameUseCaseReturnsOkResponse()
         {
             var application = _fixture.Create<Application>();
-            var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
+            var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.Id).Create();
 
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
 
-            _mockGateway.Setup(x => x.DeleteApplication(query)).ReturnsAsync(api);
+            // _mockGateway.Setup(x => x.SaveDeveloperHub(query)).ReturnsAsync(api);
             var response = await _classUnderTest.Execute(query).ConfigureAwait(false);
 
             response.Should().BeEquivalentTo(api.ToResponse());
         }
+
+        // [Test]
+        // public void DeleteApplicationByNameUseCaseThrowsException()
+        // {
+        //     var application = _fixture.Create<Application>();
+        //     var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
+
+        //     var api = _fixture.Create<DevelopersHubApi>();
+        //     api.Applications.Add(application);
+
+        //     Func<Task<ApplicationResponse>> func = async () => await _classUnderTest.Execute(query).ConfigureAwait(false);
+
+        //     func.Should().BeNull();
+        // }
 
         [Test]
         public void DeleteApplicationByNameUseThrowsException()
         {
             var application = _fixture.Create<Application>();
             var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
-
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
 
-            var exception = new ApplicationException("Test Exception");
-            _mockGateway.Setup(x => x.DeleteApplication(query)).ThrowsAsync(exception);
+            var exception = new ApplicationException();
+
+            _mockGateway.Setup(x => x.SaveDeveloperHub(api)).ThrowsAsync(exception);
 
             Func<Task<ApplicationResponse>> func = async () => await _classUnderTest.Execute(query).ConfigureAwait(false);
-
             func.Should().Throw<ApplicationException>().WithMessage(exception.Message);
         }
     }
