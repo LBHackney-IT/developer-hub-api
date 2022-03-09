@@ -9,15 +9,6 @@ resource "aws_dynamodb_table" "developerhubapi_dynamodb_table" {
         name              = "id"
         type              = "S"
     }
-
-    global_secondary_index {
-    name                  = "DeleteByApplicationId"
-    hash_key              = "deleteId"
-    write_capacity        = 10
-    read_capacity         = 10
-    projection_type       = "ALL"
-    }
-
     tags = {
         Name              = "developer-hub-api-${var.environment_name}"
         Environment       = var.environment_name
