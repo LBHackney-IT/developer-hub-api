@@ -29,7 +29,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         }
 
         [Test]
-        public async Task DeleteApplicationByNameUseCaseIsNull()
+        public async Task DeleteApplicationByNameUseCaseReturnsNullWhenApiIsNotFound()
         {
 
             var application = _fixture.Create<Application>();
