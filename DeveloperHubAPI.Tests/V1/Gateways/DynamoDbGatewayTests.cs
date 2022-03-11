@@ -54,7 +54,7 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             result.Should().BeEquivalentTo(entity);
             _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.LoadAsync for Developer Hub API ID: {entity.Id}", Times.Once());
         }
-
+        [Test]
         public async Task SaveDeveloperHubSuccessfullySavesTheEntity()
         {
             // Arrange
