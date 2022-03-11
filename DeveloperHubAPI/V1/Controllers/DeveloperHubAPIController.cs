@@ -1,3 +1,4 @@
+using DeveloperHubAPI.V1.Authorization;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
@@ -5,8 +6,6 @@ using Hackney.Core.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.Controllers
@@ -20,13 +19,15 @@ namespace DeveloperHubAPI.V1.Controllers
         private readonly IGetDeveloperHubByIdUseCase _getDeveloperHubByIdUseCase;
         private readonly IGetApplicationByNameUseCase _getApplicationByNameUseCase;
         private readonly IUpdateApplicationUseCase _updateApplicationUseCase;
-        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase, IUpdateApplicationUseCase updateApplicationUseCase)
+
+        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase,
+                                        IUpdateApplicationUseCase updateApplicationUseCase)
         {
             _getDeveloperHubByIdUseCase = getDeveloperHubByIdUseCase;
             _getApplicationByNameUseCase = getApplicationByNameUseCase;
             _updateApplicationUseCase = updateApplicationUseCase;
-        }
 
+        }
 
         /// <summary>
         /// Retrieve all data by ID
@@ -70,6 +71,7 @@ namespace DeveloperHubAPI.V1.Controllers
         [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status404NotFound)]
         [HttpPatch]
+        [AuthorizeByGroups("googleGroups")]
         [LogCall(LogLevel.Information)]
         [Route("{id}/{applicationName}")]
         public async Task<IActionResult> PatchApplication([FromRoute] ApplicationByNameRequest pathParameters, [FromBody] UpdateApplicationListItem bodyParameters)
