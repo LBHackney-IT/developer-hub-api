@@ -56,11 +56,6 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var apiEntity = JsonConvert.DeserializeObject<ApplicationResponse>(responseContent);
-
-            apiEntity.Should().BeEquivalentTo(application);
         }
 
     }
