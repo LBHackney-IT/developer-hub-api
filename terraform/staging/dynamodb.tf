@@ -9,7 +9,6 @@ resource "aws_dynamodb_table" "developerhubapi_dynamodb_table" {
         name              = "id"
         type              = "S"
     }
-
     tags = {
         Name              = "developer-hub-api-${var.environment_name}"
         Environment       = var.environment_name
