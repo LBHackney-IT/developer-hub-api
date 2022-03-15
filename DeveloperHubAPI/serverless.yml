@@ -10,6 +10,8 @@ provider:
   stage: ${opt:stage}
   region: eu-west-2
 
+plugins:
+  - '@serverless/safeguards-plugin'
 package:
   artifact: ./bin/release/netcoreapp3.1/developer-hub-api.zip
 
@@ -119,6 +121,10 @@ resources:
                     - "lambda:InvokeFunction"
                   Resource: "*"
 custom:
+  safeguards:
+    - title: Require authorizer
+      safeguard: require-authorizer
+      path: ./policies
   vpc:
     development:
       subnetIds:
