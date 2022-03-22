@@ -1,4 +1,5 @@
 using AutoFixture;
+using DeveloperHubAPI.Tests.V1.E2ETests.Constants;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Domain;
@@ -45,6 +46,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             // Act
             var message = new HttpRequestMessage(HttpMethod.Patch, uri);
             message.Content = new StringContent(JsonConvert.SerializeObject(bodyParameters), Encoding.UTF8, "application/json");
+            message.Headers.Add("Authorization", TestToken.Value);
             var response = await Client.SendAsync(message).ConfigureAwait(false);
 
             // Assert
@@ -63,6 +65,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             // Act
             var message = new HttpRequestMessage(HttpMethod.Patch, uri);
             message.Content = new StringContent(JsonConvert.SerializeObject(bodyParameters), Encoding.UTF8, "application/json");
+            message.Headers.Add("Authorization", TestToken.Value);
             var response = await Client.SendAsync(message).ConfigureAwait(false);
 
             // Assert
