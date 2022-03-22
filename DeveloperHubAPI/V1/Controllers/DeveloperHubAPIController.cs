@@ -1,6 +1,7 @@
 using DeveloperHubAPI.V1.Authorization;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Boundary.Response;
+using DeveloperHubAPI.V1.Infrastructure;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using Hackney.Core.Logging;
 using Microsoft.AspNetCore.Http;
@@ -18,15 +19,16 @@ namespace DeveloperHubAPI.V1.Controllers
     {
         private readonly IGetDeveloperHubByIdUseCase _getDeveloperHubByIdUseCase;
         private readonly IGetApplicationByNameUseCase _getApplicationByNameUseCase;
-        private readonly IUpdateApplicationUseCase _updateApplicationUseCase;
 
-        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase,
-                                        IUpdateApplicationUseCase updateApplicationUseCase)
+        private readonly IDeleteApplicationByNameUseCase _deleteApplicationByNameUseCase;
+
+        private readonly IUpdateApplicationUseCase _updateApplicationUseCase;
+        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase, IDeleteApplicationByNameUseCase deleteApplicationByNameUseCase, IUpdateApplicationUseCase updateApplicationUseCase)
         {
             _getDeveloperHubByIdUseCase = getDeveloperHubByIdUseCase;
             _getApplicationByNameUseCase = getApplicationByNameUseCase;
+            _deleteApplicationByNameUseCase = deleteApplicationByNameUseCase;
             _updateApplicationUseCase = updateApplicationUseCase;
-
         }
 
         /// <summary>
@@ -60,6 +62,22 @@ namespace DeveloperHubAPI.V1.Controllers
         {
             var response = await _getApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
             if (response == null) return NotFound(query.ApplicationName);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// deletes information about an application from the entity
+        /// </summary>
+        /// <response code="200">Success</response>
+        /// <response code="404">No data found for the specified ID</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpDelete]
+        [Route("{id}/{applicationName}")]
+        public async Task<IActionResult> DeleteApplication([FromRoute] DeleteApplicationByNameRequest query)
+        {
+            var response = await _deleteApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
+            if (response == null) return NotFound(query.ApplicationName);
+
             return Ok(response);
         }
 

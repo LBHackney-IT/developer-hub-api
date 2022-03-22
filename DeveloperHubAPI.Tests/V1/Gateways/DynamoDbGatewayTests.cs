@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Moq;
 using Microsoft.Extensions.Logging;
 using Hackney.Core.Testing.Shared;
+using DeveloperHubAPI.V1.Boundary.Request;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {
@@ -53,7 +54,6 @@ namespace DeveloperHubAPI.Tests.V1.Gateways
             result.Should().BeEquivalentTo(entity);
             _logger.VerifyExact(LogLevel.Debug, $"Calling IDynamoDBContext.LoadAsync for Developer Hub API ID: {entity.Id}", Times.Once());
         }
-
         [Test]
         public async Task SaveDeveloperHubSuccessfullySavesTheEntity()
         {
