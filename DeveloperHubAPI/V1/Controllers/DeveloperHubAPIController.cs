@@ -72,6 +72,8 @@ namespace DeveloperHubAPI.V1.Controllers
         /// <response code="404">No data found for the specified ID</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpDelete]
+        [AuthorizeByGroups("googleGroups")]
+        [LogCall(LogLevel.Information)]
         [Route("{id}/{applicationName}")]
         public async Task<IActionResult> DeleteApplication([FromRoute] DeleteApplicationByNameRequest query)
         {
