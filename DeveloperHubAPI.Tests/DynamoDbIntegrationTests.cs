@@ -34,7 +34,7 @@ namespace DeveloperHubAPI.Tests
 
             EnsureEnvVarConfigured("DynamoDb_LocalMode", "true");
             EnsureEnvVarConfigured("DynamoDb_LocalServiceUrl", "http://localhost:8000");
-            EnsureEnvVarConfigured("googleGroups", "e2e-testing");
+            EnsureEnvVarConfigured("ALLOWED_GOOGLE_GROUPS", "e2e-testing");
             _factory = new DynamoDbMockWebApplicationFactory<TStartup>(_tables);
             Client = _factory.CreateClient();
         }
