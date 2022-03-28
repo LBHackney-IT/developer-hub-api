@@ -35,7 +35,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
 
         [Test]
 
-        public async Task DeleteApplicationByNameReturns404()
+        public async Task DeleteApplicationByNameReturns404NotFound()
         {
             // Arrange
             var id = 987654321;
@@ -53,6 +53,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             httpResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
             message.Dispose();
         }
+
         [Test]
         public async Task DeleteApplicationByNameDeletesTheApplication()
         {
@@ -72,6 +73,24 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
 
             // Assert
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            message.Dispose();
+        }
+
+        public async Task DeleteApplicationByNameReturns401Unauthorized()
+        {
+            // Arrange
+            var id = 987654321;
+            var applicationName = "random";
+            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationName}", UriKind.Relative);
+            var bodyParameters = _fixture.Create<DeleteApplicationByNameRequest>();
+
+            // Act
+            var message = new HttpRequestMessage(HttpMethod.Delete, uri);
+            message.Content = new StringContent(JsonConvert.SerializeObject(bodyParameters), Encoding.UTF8, "application/json");
+            var httpResponse = await Client.SendAsync(message).ConfigureAwait(false);
+
+            // Assert
+            httpResponse.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
             message.Dispose();
         }
 

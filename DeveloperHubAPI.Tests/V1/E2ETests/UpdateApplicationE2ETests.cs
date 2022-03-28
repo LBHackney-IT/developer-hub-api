@@ -35,7 +35,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
-        public async Task UpdateApplicationReturns404()
+        public async Task UpdateApplicationReturns404NotFound()
         {
             // Arrange  
             var id = 123456789;
@@ -55,7 +55,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
-        public async Task UpdateApplicationReturns204()
+        public async Task UpdateApplicationReturns204NoContent()
         {
             // Arrange  
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
@@ -73,6 +73,25 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             var updatedApi = await DynamoDbContext.LoadAsync<DeveloperHubDb>(api.Id).ConfigureAwait(false);
             updatedApi.Applications.LastOrDefault().Name.Should().Be(bodyParameters.Name);
             updatedApi.Applications.LastOrDefault().Link.Should().Be(bodyParameters.Link);
+            message.Dispose();
+        }
+
+        [Test]
+        public async Task UpdateApplicationReturns404Unauthorized()
+        {
+            // Arrange  
+            var id = 123456789;
+            var applicationName = "random";
+            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationName}", UriKind.Relative);
+            var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
+
+            // Act
+            var message = new HttpRequestMessage(HttpMethod.Patch, uri);
+            message.Content = new StringContent(JsonConvert.SerializeObject(bodyParameters), Encoding.UTF8, "application/json");
+            var response = await Client.SendAsync(message).ConfigureAwait(false);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
             message.Dispose();
         }
     }
