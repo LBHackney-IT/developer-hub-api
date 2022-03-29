@@ -35,7 +35,7 @@ namespace DeveloperHubAPI.V1.Authorization
             _tokenFactory = tokenFactory;
 
             var requiredGooglepermittedGroupsVariable = Environment.GetEnvironmentVariable(permittedGroupsVariable);
-            if (requiredGooglepermittedGroupsVariable is null) throw new Exception($"Cannot resolve {permittedGroupsVariable} environment variable!");
+            if (requiredGooglepermittedGroupsVariable is null) throw new EnvironmentVariableNullException(permittedGroupsVariable);
 
             _requiredGoogleGroups = requiredGooglepermittedGroupsVariable.Split(','); // Note: Env variable must not have spaces after commas
         }
@@ -45,7 +45,7 @@ namespace DeveloperHubAPI.V1.Authorization
             var token = _tokenFactory.Create(_contextWrapper.GetContextRequestHeaders(context.HttpContext));
             if (token is null || !token.Groups.Any(g => _requiredGoogleGroups.Contains(g)))
             {
-                context.Result = new UnauthorizedObjectResult($"User {token?.Name} is not authorized to access this endpoint");
+                context.Result = new UnauthorizedObjectResult($"User {token?.Name} is not authorized to access this endpoint.");
             }
         }
     }
