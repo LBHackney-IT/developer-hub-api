@@ -257,7 +257,7 @@ workflows:
             branches:
               only: master
   check-and-deploy-staging-and-production:
-      jobs:
+    jobs:
       - build-and-test:
           context: api-nuget-token-context
           filters:
