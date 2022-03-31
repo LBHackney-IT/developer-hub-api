@@ -183,7 +183,7 @@ jobs:
     steps:
       - terraform-apply:
           environment: "development"
-  terraform-init-and-apply-to-staging:
+  terraform-init-and-plan-staging:
     executor: docker-terraform
     steps:
       - terraform-init-then-plan:
