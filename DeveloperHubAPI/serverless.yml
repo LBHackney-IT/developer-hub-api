@@ -21,6 +21,7 @@ functions:
     handler: DeveloperHubAPI::DeveloperHubAPI.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
     environment:
+      ALLOWED_GOOGLE_GROUPS: ${ssm:/developer-hub/${self:provider.stage}/allowed-google-groups}
     events:
       - http:
           path: /{proxy+}
