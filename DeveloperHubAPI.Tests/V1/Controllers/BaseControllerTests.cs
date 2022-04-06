@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using DeveloperHubAPI.V1.Controllers;
-using DeveloperHubAPI.V1.Infrastructure;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

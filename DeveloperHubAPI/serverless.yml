@@ -8,9 +8,10 @@ provider:
     apiGateway: true
   vpc: ${self:custom.vpc.${opt:stage}}
   stage: ${opt:stage}
-  account: ${opt:account}
   region: eu-west-2
 
+plugins:
+  - '@serverless/safeguards-plugin'
 package:
   artifact: ./bin/release/netcoreapp3.1/developer-hub-api.zip
 
@@ -20,16 +21,16 @@ functions:
     handler: DeveloperHubAPI::DeveloperHubAPI.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
     environment:
+      ALLOWED_GOOGLE_GROUPS: ${ssm:/developer-hub/${self:provider.stage}/allowed-google-groups}
     events:
       - http:
           path: /{proxy+}
           method: ANY
           authorizer:
             arn: ${ssm:/api-authenticator/${self:provider.stage}/arn}
+            identitySource: method.request.header.Authorization
             type: request
             resultTtlInSeconds: 0
-            identitySource: method.request.header.Authorization
-            managedExternally: true
           cors:
             origin: '*'
             headers:
@@ -121,6 +122,10 @@ resources:
                     - "lambda:InvokeFunction"
                   Resource: "*"
 custom:
+  safeguards:
+    - title: Require authorizer
+      safeguard: require-authorizer
+      path: ./policies
   vpc:
     development:
       subnetIds:

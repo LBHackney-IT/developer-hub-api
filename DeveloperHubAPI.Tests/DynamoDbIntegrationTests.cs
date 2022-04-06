@@ -1,5 +1,6 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.XRay.Recorder.Core;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,11 @@ namespace DeveloperHubAPI.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+            AWSXRayRecorder.Instance.BeginSegment("Run tests");
 
             EnsureEnvVarConfigured("DynamoDb_LocalMode", "true");
             EnsureEnvVarConfigured("DynamoDb_LocalServiceUrl", "http://localhost:8000");
+            EnsureEnvVarConfigured("ALLOWED_GOOGLE_GROUPS", "e2e-testing");
             _factory = new DynamoDbMockWebApplicationFactory<TStartup>(_tables);
             Client = _factory.CreateClient();
         }
@@ -39,6 +42,7 @@ namespace DeveloperHubAPI.Tests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
+            AWSXRayRecorder.Instance.EndSegment();
             _factory.Dispose();
         }
 

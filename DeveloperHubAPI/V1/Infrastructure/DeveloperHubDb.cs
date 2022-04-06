@@ -1,10 +1,13 @@
 using Amazon.DynamoDBv2.DataModel;
+using System.Collections.Generic;
+using DeveloperHubAPI.V1.Domain;
+using Hackney.Core.DynamoDb.Converters;
 
 namespace DeveloperHubAPI.V1.Infrastructure
 {
 
     [DynamoDBTable("DevelopersHubApi", LowerCamelCaseProperties = true)]
-    public class DatabaseEntity
+    public class DeveloperHubDb
     {
 
         [DynamoDBHashKey]
@@ -30,6 +33,9 @@ namespace DeveloperHubAPI.V1.Infrastructure
 
         [DynamoDBProperty]
         public string ApiSpecificationLink { get; set; }
+
+        [DynamoDBProperty(Converter = typeof(DynamoDbObjectListConverter<Application>))]
+        public List<Application> Applications { get; set; }
 
     }
 }

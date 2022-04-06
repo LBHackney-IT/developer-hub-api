@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using AutoFixture;
 using FluentAssertions;
-using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
 using NUnit.Framework;
@@ -13,7 +10,7 @@ namespace DeveloperHubAPI.Tests.V1.Factories
         [Test]
         public void CanMapADatabaseEntityToADomainObject()
         {
-            var dbEntity = new DatabaseEntity();
+            var dbEntity = new DeveloperHubDb();
             var response = dbEntity.ToDomain();
 
             dbEntity.Id.Should().Be(response.Id);

@@ -15,7 +15,7 @@ namespace DeveloperHubAPI.Tests.V1.Factories
         [Test]
         public void CanMapADatabaseEntityToADomainObject()
         {
-            var databaseEntity = _fixture.Create<DatabaseEntity>();
+            var databaseEntity = _fixture.Create<DeveloperHubDb>();
             var entity = databaseEntity.ToDomain();
 
             databaseEntity.Id.Should().Be(entity.Id);
@@ -26,10 +26,11 @@ namespace DeveloperHubAPI.Tests.V1.Factories
             databaseEntity.DevelopmentBaseURL.Should().Be(entity.DevelopmentBaseURL);
             databaseEntity.StagingBaseURL.Should().Be(entity.StagingBaseURL);
             databaseEntity.ApiSpecificationLink.Should().Be(entity.ApiSpecificationLink);
+            databaseEntity.Applications.Should().BeEquivalentTo(entity.Applications);
         }
 
         [Test]
-        public void CanMapDeveloperHubToADatabaseObject()
+        public void CanMapDomainToADatabaseObject()
         {
             var entity = _fixture.Create<DevelopersHubApi>();
             var databaseEntity = entity.ToDatabase();
@@ -42,6 +43,7 @@ namespace DeveloperHubAPI.Tests.V1.Factories
             entity.DevelopmentBaseURL.Should().Be(databaseEntity.DevelopmentBaseURL);
             entity.StagingBaseURL.Should().Be(databaseEntity.StagingBaseURL);
             entity.ApiSpecificationLink.Should().Be(databaseEntity.ApiSpecificationLink);
+            entity.Applications.Should().BeEquivalentTo(databaseEntity.Applications);
         }
     }
 }
