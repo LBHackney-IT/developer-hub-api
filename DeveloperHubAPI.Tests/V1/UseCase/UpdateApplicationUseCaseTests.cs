@@ -44,6 +44,30 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         }
 
         [Test]
+        public async Task SuccessfullyUpdatesAnExistingApplication()
+        {
+            var pathParameters = _fixture.Create<ApplicationByNameRequest>();
+            var bodyParameters = _fixture.Build<UpdateApplicationListItem>()
+                                         .With(x => x.Name, pathParameters.ApplicationName)
+                                         .Create();
+
+            var api = _fixture.Build<DevelopersHubApi>()
+                              .With(x => x.Id, pathParameters.Id)
+                              .Create();
+            var application = new Application()
+            {
+                Name = pathParameters.ApplicationName
+            };
+            api.Applications.Add(application);
+            _mockGateway.Setup(x => x.GetDeveloperHubById(pathParameters.Id)).ReturnsAsync(api);
+            //Act
+            var result = await _classUnderTest.Execute(pathParameters, bodyParameters).ConfigureAwait(false);
+            //Assert
+            _mockGateway.Verify(x => x.SaveDeveloperHub(It.IsAny<DevelopersHubApi>()), Times.Once());
+            result.Applications.Should().Contain(x => x.Name == bodyParameters.Name);
+        }
+
+        [Test]
         public void UpdateApplicationUseCaseAsyncExceptionIsThrown()
         {
             // Arrange

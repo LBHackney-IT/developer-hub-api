@@ -5,6 +5,7 @@ using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Gateways;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using Hackney.Core.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.UseCase
@@ -24,12 +25,26 @@ namespace DeveloperHubAPI.V1.UseCase
             var api = await _gateway.GetDeveloperHubById(pathParameters.Id).ConfigureAwait(false);
             if (api == null)
                 return null;
-            var applicationData = new Application()
+            var doesApplicationExist = api.Applications.Find(x => x.Name == pathParameters.ApplicationName);
+            if (doesApplicationExist != null)
             {
-                Name = bodyParameters.Name,
-                Link = bodyParameters.Link
-            };
-            api.Applications.Add(applicationData);
+                var applicationData = new Application()
+                {
+                    Name = bodyParameters.Name ?? doesApplicationExist.Name,
+                    Link = bodyParameters.Link ?? doesApplicationExist.Link
+                };
+                api.Applications.Add(applicationData);
+            }
+            else
+            {
+
+                var applicationData = new Application()
+                {
+                    Name = bodyParameters.Name,
+                    Link = bodyParameters.Link
+                };
+                api.Applications.Add(applicationData);
+            }
             await _gateway.SaveDeveloperHub(api).ConfigureAwait(false);
             return api;
         }
