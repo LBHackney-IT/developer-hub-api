@@ -5,6 +5,7 @@ using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Gateways;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
 using Hackney.Core.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,9 +31,11 @@ namespace DeveloperHubAPI.V1.UseCase
             {
                 var applicationData = new Application()
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Name = bodyParameters.Name ?? doesApplicationExist.Name,
                     Link = bodyParameters.Link ?? doesApplicationExist.Link
                 };
+
                 api.Applications.Add(applicationData);
             }
             else
@@ -40,6 +43,7 @@ namespace DeveloperHubAPI.V1.UseCase
 
                 var applicationData = new Application()
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Name = bodyParameters.Name,
                     Link = bodyParameters.Link
                 };
