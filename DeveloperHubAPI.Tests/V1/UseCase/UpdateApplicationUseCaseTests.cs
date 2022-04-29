@@ -61,6 +61,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             var result = await _classUnderTest.Execute(pathParameters, bodyParameters).ConfigureAwait(false);
             //Assert
             _mockGateway.Verify(x => x.SaveDeveloperHub(It.IsAny<DevelopersHubApi>()), Times.Once());
+
             result.Applications.Should().Contain(x => x.Id == pathParameters.ApplicationId);
             result.Applications.Should().Contain(x => x.Name == bodyParameters.Name);
             result.Applications.Should().Contain(x => x.Link == bodyParameters.Link);

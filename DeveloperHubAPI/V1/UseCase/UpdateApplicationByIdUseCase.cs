@@ -29,6 +29,7 @@ namespace DeveloperHubAPI.V1.UseCase
             var doesApplicationExist = api.Applications.Find(x => x.Id == pathParameters.ApplicationId);
             if (doesApplicationExist != null)
             {
+                api.Applications.Remove(doesApplicationExist);
                 var applicationData = new Application()
                 {
                     Id = pathParameters.ApplicationId,
