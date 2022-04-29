@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace DeveloperHubAPI.Tests.V1.E2ETests
 {
     [TestFixture]
-    public class DeleteApplicationByName : DynamoDbIntegrationTests<Startup>
+    public class DeleteApplicationById : DynamoDbIntegrationTests<Startup>
     {
         private readonly Fixture _fixture = new Fixture();
 
@@ -39,9 +39,9 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         {
             // Arrange
             var id = 987654321;
-            var applicationName = "random";
-            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationName}", UriKind.Relative);
-            var bodyParameters = _fixture.Create<DeleteApplicationByNameRequest>();
+            var applicationId = Guid.NewGuid();
+            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationId}", UriKind.Relative);
+            var bodyParameters = _fixture.Create<ApplicationByIdRequest>();
 
             // Act
             var message = new HttpRequestMessage(HttpMethod.Delete, uri);
@@ -62,8 +62,8 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
             await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
-            var uri = new Uri($"api/v1/developerhubapi/{api.Id}/{application.Name}", UriKind.Relative);
-            var bodyParameters = _fixture.Create<DeleteApplicationByNameRequest>();
+            var uri = new Uri($"api/v1/developerhubapi/{api.Id}/{application.Id}", UriKind.Relative);
+            var bodyParameters = _fixture.Create<ApplicationByIdRequest>();
 
             // Act
             var message = new HttpRequestMessage(HttpMethod.Delete, uri);
@@ -80,9 +80,9 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         {
             // Arrange
             var id = 987654321;
-            var applicationName = "random";
-            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationName}", UriKind.Relative);
-            var bodyParameters = _fixture.Create<DeleteApplicationByNameRequest>();
+            var applicationId = Guid.NewGuid();
+            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationId}", UriKind.Relative);
+            var bodyParameters = _fixture.Create<ApplicationByIdRequest>();
 
             // Act
             var message = new HttpRequestMessage(HttpMethod.Delete, uri);

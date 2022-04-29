@@ -1,3 +1,5 @@
+using System;
+
 namespace DeveloperHubAPI.V1.Domain
 {
     public class Application
@@ -6,6 +8,6 @@ namespace DeveloperHubAPI.V1.Domain
 
         public string Link { get; set; }
 
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

@@ -11,27 +11,27 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.UseCase
 {
-    public class UpdateApplicationUseCase : IUpdateApplicationUseCase
+    public class UpdateApplicationByIdUseCase : IUpdateApplicationByIdUseCase
     {
         private IDynamoDbGateway _gateway;
 
-        public UpdateApplicationUseCase(IDynamoDbGateway gateway)
+        public UpdateApplicationByIdUseCase(IDynamoDbGateway gateway)
         {
             _gateway = gateway;
         }
 
         [LogCall]
-        public async Task<DevelopersHubApi> Execute(ApplicationByNameRequest pathParameters, UpdateApplicationListItem bodyParameters)
+        public async Task<DevelopersHubApi> Execute(ApplicationByIdRequest pathParameters, UpdateApplicationListItem bodyParameters)
         {
             var api = await _gateway.GetDeveloperHubById(pathParameters.Id).ConfigureAwait(false);
             if (api == null)
                 return null;
-            var doesApplicationExist = api.Applications.Find(x => x.Name == pathParameters.ApplicationName);
+            var doesApplicationExist = api.Applications.Find(x => x.Id == pathParameters.ApplicationId);
             if (doesApplicationExist != null)
             {
                 var applicationData = new Application()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = pathParameters.ApplicationId,
                     Name = bodyParameters.Name ?? doesApplicationExist.Name,
                     Link = bodyParameters.Link ?? doesApplicationExist.Link
                 };
@@ -43,7 +43,7 @@ namespace DeveloperHubAPI.V1.UseCase
 
                 var applicationData = new Application()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = Guid.NewGuid(),
                     Name = bodyParameters.Name,
                     Link = bodyParameters.Link
                 };

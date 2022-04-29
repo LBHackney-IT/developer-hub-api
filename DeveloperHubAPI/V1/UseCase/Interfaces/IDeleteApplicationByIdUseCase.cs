@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.UseCase.Interfaces
 {
-    public interface IDeleteApplicationByNameUseCase
+    public interface IDeleteApplicationByIdUseCase
     {
-        Task<ApplicationResponse> Execute(DeleteApplicationByNameRequest query);
+        Task<ApplicationResponse> Execute(ApplicationByIdRequest query);
     }
 }

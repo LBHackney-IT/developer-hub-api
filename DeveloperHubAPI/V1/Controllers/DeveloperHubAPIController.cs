@@ -18,16 +18,16 @@ namespace DeveloperHubAPI.V1.Controllers
     public class DeveloperHubAPIController : BaseController
     {
         private readonly IGetDeveloperHubByIdUseCase _getDeveloperHubByIdUseCase;
-        private readonly IGetApplicationByNameUseCase _getApplicationByNameUseCase;
+        private readonly IGetApplicationByIdUseCase _getApplicationByIdUseCase;
 
-        private readonly IDeleteApplicationByNameUseCase _deleteApplicationByNameUseCase;
+        private readonly IDeleteApplicationByIdUseCase _deleteApplicationByIdUseCase;
 
-        private readonly IUpdateApplicationUseCase _updateApplicationUseCase;
-        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByNameUseCase getApplicationByNameUseCase, IDeleteApplicationByNameUseCase deleteApplicationByNameUseCase, IUpdateApplicationUseCase updateApplicationUseCase)
+        private readonly IUpdateApplicationByIdUseCase _updateApplicationUseCase;
+        public DeveloperHubAPIController(IGetDeveloperHubByIdUseCase getDeveloperHubByIdUseCase, IGetApplicationByIdUseCase getApplicationByIdUseCase, IDeleteApplicationByIdUseCase deleteApplicationByIdUseCase, IUpdateApplicationByIdUseCase updateApplicationUseCase)
         {
             _getDeveloperHubByIdUseCase = getDeveloperHubByIdUseCase;
-            _getApplicationByNameUseCase = getApplicationByNameUseCase;
-            _deleteApplicationByNameUseCase = deleteApplicationByNameUseCase;
+            _getApplicationByIdUseCase = getApplicationByIdUseCase;
+            _deleteApplicationByIdUseCase = deleteApplicationByIdUseCase;
             _updateApplicationUseCase = updateApplicationUseCase;
         }
 
@@ -57,11 +57,11 @@ namespace DeveloperHubAPI.V1.Controllers
         [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status404NotFound)]
         [HttpGet]
         [LogCall(LogLevel.Information)]
-        [Route("{id}/{applicationName}")]
-        public async Task<IActionResult> GetApplication([FromRoute] ApplicationByNameRequest query)
+        [Route("{id}/{applicationId}")]
+        public async Task<IActionResult> GetApplication([FromRoute] ApplicationByIdRequest query)
         {
-            var response = await _getApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
-            if (response == null) return NotFound(query.ApplicationName);
+            var response = await _getApplicationByIdUseCase.Execute(query).ConfigureAwait(false);
+            if (response == null) return NotFound(query.ApplicationId);
             return Ok(response);
         }
 
@@ -74,11 +74,11 @@ namespace DeveloperHubAPI.V1.Controllers
         [HttpDelete]
         [AuthorizeByGroups("ALLOWED_GOOGLE_GROUPS")]
         [LogCall(LogLevel.Information)]
-        [Route("{id}/{applicationName}")]
-        public async Task<IActionResult> DeleteApplication([FromRoute] DeleteApplicationByNameRequest query)
+        [Route("{id}/{applicationId}")]
+        public async Task<IActionResult> DeleteApplication([FromRoute] ApplicationByIdRequest query)
         {
-            var response = await _deleteApplicationByNameUseCase.Execute(query).ConfigureAwait(false);
-            if (response == null) return NotFound(query.ApplicationName);
+            var response = await _deleteApplicationByIdUseCase.Execute(query).ConfigureAwait(false);
+            if (response == null) return NotFound(query.ApplicationId);
 
             return Ok(response);
         }
@@ -93,8 +93,8 @@ namespace DeveloperHubAPI.V1.Controllers
         [HttpPatch]
         [AuthorizeByGroups("ALLOWED_GOOGLE_GROUPS")]
         [LogCall(LogLevel.Information)]
-        [Route("{id}/{applicationName}")]
-        public async Task<IActionResult> PatchApplication([FromRoute] ApplicationByNameRequest pathParameters, [FromBody] UpdateApplicationListItem bodyParameters)
+        [Route("{id}/{applicationId}")]
+        public async Task<IActionResult> PatchApplication([FromRoute] ApplicationByIdRequest pathParameters, [FromBody] UpdateApplicationListItem bodyParameters)
         {
             var api = await _updateApplicationUseCase.Execute(pathParameters, bodyParameters).ConfigureAwait(false);
             if (api == null) return NotFound(pathParameters.Id);

@@ -18,22 +18,22 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
     public class GetApplicationByNameUseCaseTests : LogCallTestContext
     {
         private Mock<IDynamoDbGateway> _mockGateway;
-        private GetApplicationByNameUseCase _classUnderTest;
+        private GetApplicationByIdUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
         public void SetUp()
         {
             _mockGateway = new Mock<IDynamoDbGateway>();
-            _classUnderTest = new GetApplicationByNameUseCase(_mockGateway.Object);
+            _classUnderTest = new GetApplicationByIdUseCase(_mockGateway.Object);
         }
 
         [Test]
-        public async Task GetApplicationByNameUseCaseReturnsApplicationFromTheQuery()
+        public async Task GetApplicationByIdUseCaseReturnsApplicationFromTheQuery()
         {
             //Arrange
             var application = _fixture.Create<Application>();
-            var query = _fixture.Build<ApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
+            var query = _fixture.Build<ApplicationByIdRequest>().With(x => x.ApplicationId, application.Id).Create();
 
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
@@ -46,11 +46,11 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         }
 
         [Test]
-        public void GetApplicationByNameUseCaseAsyncExceptionIsThrown()
+        public void GetApplicationByIdUseCaseAsyncExceptionIsThrown()
         {
             // Arrange
             var application = _fixture.Create<DevelopersHubApi>();
-            var query = _fixture.Create<ApplicationByNameRequest>();
+            var query = _fixture.Create<ApplicationByIdRequest>();
             var exception = new ApplicationException("Test exception");
             _mockGateway.Setup(x => x.GetDeveloperHubById(query.Id)).ThrowsAsync(exception);
             // Act
@@ -62,11 +62,11 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
 
         [Test]
 
-        public async Task GetApplicationByNameUseCaseReturnsNullIfApplicationDoesNotExist()
+        public async Task GetApplicationByIdUseCaseReturnsNullIfApplicationDoesNotExist()
         {
             // Arrange
             var application = _fixture.Create<Application>();
-            var query = _fixture.Create<ApplicationByNameRequest>();
+            var query = _fixture.Create<ApplicationByIdRequest>();
             _mockGateway.Setup(x => x.GetDeveloperHubById(query.Id)).ReturnsAsync((DevelopersHubApi) null);
             // Act
             var result = await _classUnderTest.Execute(query).ConfigureAwait(false);
