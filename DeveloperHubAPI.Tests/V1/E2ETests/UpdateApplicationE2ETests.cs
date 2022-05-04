@@ -55,6 +55,26 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
+        public async Task UpdateApplicationReturns404NotFoundWhenApplicationDoesNotExist()
+        {
+            // Arrange  
+            var pathParameters = _fixture.Create<ApplicationByIdRequest>();
+
+            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{pathParameters.ApplicationId}", UriKind.Relative);
+            var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
+
+            // Act
+            var message = new HttpRequestMessage(HttpMethod.Patch, uri);
+            message.Content = new StringContent(JsonConvert.SerializeObject(bodyParameters), Encoding.UTF8, "application/json");
+            message.Headers.Add("Authorization", TestToken.Value);
+            var response = await Client.SendAsync(message).ConfigureAwait(false);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            message.Dispose();
+        }
+
+        [Test]
         public async Task UpdateApplicationReturns204NoContent()
         {
             // Arrange  

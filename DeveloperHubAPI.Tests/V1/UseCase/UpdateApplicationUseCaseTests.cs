@@ -9,6 +9,7 @@ using Moq;
 using NUnit.Framework;
 using AutoFixture;
 using DeveloperHubAPI.Tests.V1.Helper;
+using System.Linq;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
 {
@@ -32,13 +33,16 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
             //Arrange
             var pathParameters = _fixture.Build<ApplicationByIdRequest>().With(x => x.ApplicationId, Guid.Empty).Create();
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
-            var api = _fixture.Build<DevelopersHubApi>().With(x => x.Id, pathParameters.Id).Create();
+            var api = _fixture.Build<DevelopersHubApi>().Create();
             _mockGateway.Setup(x => x.GetDeveloperHubById(pathParameters.Id)).ReturnsAsync(api);
             //Act
             var result = await _classUnderTest.Execute(pathParameters, bodyParameters).ConfigureAwait(false);
             //Assert
+            var numberOfApplications = result.Applications.Count;
             _mockGateway.Verify(x => x.SaveDeveloperHub(It.IsAny<DevelopersHubApi>()), Times.Once());
             result.Applications.Should().Contain(x => x.Name == bodyParameters.Name);
+            result.Applications.Distinct().Count();
+            numberOfApplications.Should().Be(api.Applications.Count);
         }
 
         [Test]
