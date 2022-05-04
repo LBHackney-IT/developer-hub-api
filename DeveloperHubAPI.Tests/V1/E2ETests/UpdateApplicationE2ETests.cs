@@ -60,7 +60,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             // Arrange  
             var pathParameters = _fixture.Create<ApplicationByIdRequest>();
 
-            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{pathParameters.ApplicationId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{Guid.Empty}", UriKind.Relative);
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
 
             // Act
