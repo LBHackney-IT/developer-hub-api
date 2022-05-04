@@ -81,7 +81,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         public async Task UpdateExistingApplicationReturns204NoContent()
         {
             // Arrange
-            var pathParameters = _fixture.Build<ApplicationByIdRequest>().With(x=> x.ApplicationId, Guid.Empty).Create();
+            var pathParameters = _fixture.Build<ApplicationByIdRequest>().With(x => x.ApplicationId, Guid.Empty).Create();
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
             var api = _fixture.Build<DevelopersHubApi>()
                               .With(x => x.Id, pathParameters.Id)
