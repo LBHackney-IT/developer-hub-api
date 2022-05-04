@@ -7,8 +7,8 @@ namespace DeveloperHubAPI.V1.Boundary.Request.Validation
     {
         public ApplicationByIdValidation()
         {
-            RuleFor(x => x.ApplicationId).NotNull()
-                              .NotEqual(Guid.Empty);
+            RuleFor(x => x.Id).NotNull()
+                              .NotEqual(string.Empty);
         }
     }
 }

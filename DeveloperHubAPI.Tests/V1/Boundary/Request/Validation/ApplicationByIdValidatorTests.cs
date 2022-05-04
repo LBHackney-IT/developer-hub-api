@@ -19,9 +19,9 @@ namespace DeveloperHubAPI.Tests.V1.Boundary.Request.Validation
         [Test]
         public void QueryShouldErrorWithEmptyId()
         {
-            var query = new ApplicationByIdRequest() { ApplicationId = Guid.Empty };
+            var query = new ApplicationByIdRequest() { Id = string.Empty };
             var result = _sut.TestValidate(query);
-            result.ShouldHaveValidationErrorFor(x => x.ApplicationId);
+            result.ShouldHaveValidationErrorFor(x => x.Id);
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace DeveloperHubAPI.Tests.V1.Boundary.Request.Validation
         {
             var query = new ApplicationByIdRequest();
             var result = _sut.TestValidate(query);
-            result.ShouldHaveValidationErrorFor(x => x.ApplicationId);
+            result.ShouldHaveValidationErrorFor(x => x.Id);
         }
     }
 }

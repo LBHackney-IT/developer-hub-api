@@ -81,14 +81,14 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         public async Task UpdateExistingApplicationReturns204NoContent()
         {
             // Arrange
-            var pathParameters = _fixture.Create<ApplicationByIdRequest>();
+            var pathParameters = _fixture.Build<ApplicationByIdRequest>().With(x=> x.ApplicationId, Guid.Empty).Create();
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
             var api = _fixture.Build<DevelopersHubApi>()
                               .With(x => x.Id, pathParameters.Id)
                               .Create();
             var application = new Application()
             {
-                Id = pathParameters.ApplicationId
+                Id = (Guid) pathParameters.ApplicationId
             };
             api.Applications.Add(application);
             var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{pathParameters.ApplicationId}", UriKind.Relative);
@@ -104,7 +104,6 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             var updatedApi = await DynamoDbContext.LoadAsync<DeveloperHubDb>(api.Id).ConfigureAwait(false);
             updatedApi.Applications.LastOrDefault().Name.Should().Be(bodyParameters.Name);
             updatedApi.Applications.LastOrDefault().Link.Should().Be(bodyParameters.Link);
-            updatedApi.Applications.LastOrDefault().Id.Should().Be(pathParameters.ApplicationId);
             message.Dispose();
         }
 

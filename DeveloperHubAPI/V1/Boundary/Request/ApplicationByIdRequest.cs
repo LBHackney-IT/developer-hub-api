@@ -10,6 +10,6 @@ namespace DeveloperHubAPI.V1.Boundary.Request
         public string Id { get; set; }
 
         [FromRoute(Name = "applicationId")]
-        public Guid ApplicationId { get; set; }
+        public Guid? ApplicationId { get; set; }
     }
 }

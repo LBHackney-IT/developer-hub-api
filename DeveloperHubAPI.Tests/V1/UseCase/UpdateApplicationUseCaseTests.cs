@@ -8,8 +8,6 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using AutoFixture;
-using DeveloperHubAPI.V1.Boundary.Response;
-using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.Tests.V1.Helper;
 
 namespace DeveloperHubAPI.Tests.V1.UseCase
@@ -32,7 +30,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         public async Task AddsApplicationToAPISuccessfully()
         {
             //Arrange
-            var pathParameters = _fixture.Create<ApplicationByIdRequest>();
+            var pathParameters = _fixture.Build<ApplicationByIdRequest>().With(x => x.ApplicationId, Guid.Empty).Create();
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
             var api = _fixture.Build<DevelopersHubApi>().With(x => x.Id, pathParameters.Id).Create();
             _mockGateway.Setup(x => x.GetDeveloperHubById(pathParameters.Id)).ReturnsAsync(api);
@@ -53,7 +51,7 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
                               .Create();
             var application = new Application()
             {
-                Id = pathParameters.ApplicationId
+                Id = (Guid) pathParameters.ApplicationId
             };
             api.Applications.Add(application);
             _mockGateway.Setup(x => x.GetDeveloperHubById(pathParameters.Id)).ReturnsAsync(api);
