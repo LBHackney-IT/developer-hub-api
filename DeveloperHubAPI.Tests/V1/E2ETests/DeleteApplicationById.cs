@@ -40,7 +40,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             // Arrange
             var id = 987654321;
             var applicationId = Guid.NewGuid();
-            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{id}/application/{applicationId}", UriKind.Relative);
             var bodyParameters = _fixture.Create<ApplicationByIdRequest>();
 
             // Act
@@ -62,7 +62,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
             await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
-            var uri = new Uri($"api/v1/developerhubapi/{api.Id}/{application.Id}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{api.Id}/application/{application.Id}", UriKind.Relative);
             var bodyParameters = _fixture.Create<ApplicationByIdRequest>();
 
             // Act
@@ -81,7 +81,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             // Arrange
             var id = 987654321;
             var applicationId = Guid.NewGuid();
-            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{id}/application/{applicationId}", UriKind.Relative);
             var bodyParameters = _fixture.Create<ApplicationByIdRequest>();
 
             // Act

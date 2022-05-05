@@ -57,7 +57,7 @@ namespace DeveloperHubAPI.V1.Controllers
         [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status404NotFound)]
         [HttpGet]
         [LogCall(LogLevel.Information)]
-        [Route("{id}/{applicationId}")]
+        [Route("{id}/application/{applicationId}")]
         public async Task<IActionResult> GetApplication([FromRoute] ApplicationByIdRequest query)
         {
             var response = await _getApplicationByIdUseCase.Execute(query).ConfigureAwait(false);
@@ -74,7 +74,7 @@ namespace DeveloperHubAPI.V1.Controllers
         [HttpDelete]
         [AuthorizeByGroups("ALLOWED_GOOGLE_GROUPS")]
         [LogCall(LogLevel.Information)]
-        [Route("{id}/{applicationId}")]
+        [Route("{id}/application/{applicationId}")]
         public async Task<IActionResult> DeleteApplication([FromRoute] ApplicationByIdRequest query)
         {
             var response = await _deleteApplicationByIdUseCase.Execute(query).ConfigureAwait(false);
@@ -93,7 +93,7 @@ namespace DeveloperHubAPI.V1.Controllers
         [HttpPatch]
         [AuthorizeByGroups("ALLOWED_GOOGLE_GROUPS")]
         [LogCall(LogLevel.Information)]
-        [Route("{id}/{applicationId}")]
+        [Route("{id}/application/{applicationId}")]
         public async Task<IActionResult> PatchApplication([FromRoute] ApplicationByIdRequest pathParameters, [FromBody] UpdateApplicationListItem bodyParameters)
         {
             var api = await _updateApplicationUseCase.Execute(pathParameters, bodyParameters).ConfigureAwait(false);
