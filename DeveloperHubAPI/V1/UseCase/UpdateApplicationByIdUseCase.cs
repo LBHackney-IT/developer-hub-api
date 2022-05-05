@@ -26,9 +26,9 @@ namespace DeveloperHubAPI.V1.UseCase
             var api = await _gateway.GetDeveloperHubById(pathParameters.Id).ConfigureAwait(false);
             if (api == null)
                 return null;
-            var doesApplicationExist = api.Applications.Find(x => x.Id == pathParameters.ApplicationId);
             if (pathParameters.ApplicationId != Guid.Empty)
             {
+                var doesApplicationExist = api.Applications.Find(x => x.Id == pathParameters.ApplicationId);
                 if (doesApplicationExist == null) return null;
                 api.Applications.Remove(doesApplicationExist);
                 var applicationData = new Application()
