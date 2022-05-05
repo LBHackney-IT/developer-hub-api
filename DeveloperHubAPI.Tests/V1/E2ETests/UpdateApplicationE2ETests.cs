@@ -75,12 +75,19 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
-        public async Task UpdateApplicationReturns204NoContent()
+        public async Task UpdateExistingApplicationReturns204NoContent()
         {
             // Arrange  
             var pathParameters = _fixture.Create<ApplicationByIdRequest>();
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
-            var api = _fixture.Build<DevelopersHubApi>().With(x => x.Id, pathParameters.Id).Create();
+            var api = _fixture.Build<DevelopersHubApi>()
+                              .With(x => x.Id, pathParameters.Id)
+                              .Create();
+            var application = new Application()
+            {
+                Id = (Guid) pathParameters.ApplicationId
+            };
+            api.Applications.Add(application);
             var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{pathParameters.ApplicationId}", UriKind.Relative);
             await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
             // Act
@@ -98,7 +105,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
-        public async Task UpdateExistingApplicationReturns204NoContent()
+        public async Task UpdateApplicationReturns204NoContent()
         {
             // Arrange
             var pathParameters = _fixture.Build<ApplicationByIdRequest>().With(x => x.ApplicationId, Guid.Empty).Create();
@@ -106,11 +113,6 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             var api = _fixture.Build<DevelopersHubApi>()
                               .With(x => x.Id, pathParameters.Id)
                               .Create();
-            var application = new Application()
-            {
-                Id = (Guid) pathParameters.ApplicationId
-            };
-            api.Applications.Add(application);
             var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{pathParameters.ApplicationId}", UriKind.Relative);
             await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
             // Act
