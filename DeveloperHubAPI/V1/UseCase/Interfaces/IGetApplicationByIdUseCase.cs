@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.UseCase.Interfaces
 {
-    public interface IGetApplicationByNameUseCase
+    public interface IGetApplicationByIdUseCase
     {
-        Task<ApplicationResponse> Execute(ApplicationByNameRequest query);
+        Task<ApplicationResponse> Execute(ApplicationByIdRequest query);
     }
 }

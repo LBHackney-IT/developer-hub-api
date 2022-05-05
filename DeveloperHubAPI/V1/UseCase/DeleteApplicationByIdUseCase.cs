@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.UseCase
 {
-    public class DeleteApplicationByNameUseCase : IDeleteApplicationByNameUseCase
+    public class DeleteApplicationByIdUseCase : IDeleteApplicationByIdUseCase
     {
         private IDynamoDbGateway _gateway;
 
-        public DeleteApplicationByNameUseCase(IDynamoDbGateway gateway)
+        public DeleteApplicationByIdUseCase(IDynamoDbGateway gateway)
         {
             _gateway = gateway;
         }
 
         [LogCall]
-        public async Task<ApplicationResponse> Execute(DeleteApplicationByNameRequest query)
+        public async Task<ApplicationResponse> Execute(ApplicationByIdRequest query)
         {
             var api = await _gateway.GetDeveloperHubById(query.Id).ConfigureAwait(false);
             if (api == null) return null;
 
-            var application = api.Applications.Find(x => x.Name == query.ApplicationName);
+            var application = api.Applications.Find(x => x.Id == query.ApplicationId);
 
             api.Applications.Remove(application);
 

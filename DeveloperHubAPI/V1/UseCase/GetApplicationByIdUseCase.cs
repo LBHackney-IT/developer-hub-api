@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace DeveloperHubAPI.V1.UseCase
 {
-    public class GetApplicationByNameUseCase : IGetApplicationByNameUseCase
+    public class GetApplicationByIdUseCase : IGetApplicationByIdUseCase
     {
         private IDynamoDbGateway _gateway;
 
-        public GetApplicationByNameUseCase(IDynamoDbGateway gateway)
+        public GetApplicationByIdUseCase(IDynamoDbGateway gateway)
         {
             _gateway = gateway;
         }
 
         [LogCall]
-        public async Task<ApplicationResponse> Execute(ApplicationByNameRequest query)
+        public async Task<ApplicationResponse> Execute(ApplicationByIdRequest query)
         {
             var api = await _gateway.GetDeveloperHubById(query.Id).ConfigureAwait(false);
             if (api == null)
                 return null;
-            var application = api.Applications.Find(x => x.Name == query.ApplicationName);
+            var application = api.Applications.Find(x => x.Id == query.ApplicationId);
 
             return application?.ToResponse();
         }

@@ -15,25 +15,25 @@ using DeveloperHubAPI.Tests.V1.Helper;
 namespace DeveloperHubAPI.Tests.V1.UseCase
 {
     [TestFixture]
-    public class DeleteApplicationByNameUseCaseTests : LogCallTestContext
+    public class DeleteApplicationByIdUseCaseTests : LogCallTestContext
     {
         private Mock<IDynamoDbGateway> _mockGateway;
-        private DeleteApplicationByNameUseCase _classUnderTest;
+        private DeleteApplicationByIdUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
         public void SetUp()
         {
             _mockGateway = new Mock<IDynamoDbGateway>();
-            _classUnderTest = new DeleteApplicationByNameUseCase(_mockGateway.Object);
+            _classUnderTest = new DeleteApplicationByIdUseCase(_mockGateway.Object);
         }
 
         [Test]
-        public async Task DeleteApplicationByNameUseCaseReturnsNullWhenApiIsNotFound()
+        public async Task DeleteApplicationByIdUseCaseReturnsNullWhenApiIsNotFound()
         {
 
             var application = _fixture.Create<Application>();
-            var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
+            var query = _fixture.Build<ApplicationByIdRequest>().With(x => x.ApplicationId, application.Id).Create();
 
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
@@ -46,10 +46,10 @@ namespace DeveloperHubAPI.Tests.V1.UseCase
         }
 
         [Test]
-        public async Task DeleteApplicationByNameUseCaseReturnsOkResponse()
+        public async Task DeleteApplicationByIdUseCaseReturnsOkResponse()
         {
             var application = _fixture.Create<Application>();
-            var query = _fixture.Build<DeleteApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
+            var query = _fixture.Build<ApplicationByIdRequest>().With(x => x.ApplicationId, application.Id).Create();
             var api = _fixture.Create<DevelopersHubApi>();
 
             api.Applications.Add(application);
