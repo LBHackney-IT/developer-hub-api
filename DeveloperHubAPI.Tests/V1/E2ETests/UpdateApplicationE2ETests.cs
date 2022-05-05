@@ -40,7 +40,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             // Arrange  
             var id = 123456789;
             var applicationId = Guid.NewGuid();
-            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{id}/application/{applicationId}", UriKind.Relative);
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
 
             // Act
@@ -60,7 +60,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             // Arrange  
             var pathParameters = _fixture.Create<ApplicationByIdRequest>();
 
-            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{Guid.Empty}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/application/{Guid.Empty}", UriKind.Relative);
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
 
             // Act
@@ -88,7 +88,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
                 Id = (Guid) pathParameters.ApplicationId
             };
             api.Applications.Add(application);
-            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{pathParameters.ApplicationId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/application/{pathParameters.ApplicationId}", UriKind.Relative);
             await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
             // Act
             var message = new HttpRequestMessage(HttpMethod.Patch, uri);
@@ -113,7 +113,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             var api = _fixture.Build<DevelopersHubApi>()
                               .With(x => x.Id, pathParameters.Id)
                               .Create();
-            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/{pathParameters.ApplicationId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{pathParameters.Id}/application/{pathParameters.ApplicationId}", UriKind.Relative);
             await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
             // Act
             var message = new HttpRequestMessage(HttpMethod.Patch, uri);
@@ -135,7 +135,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             // Arrange  
             var id = 123456789;
             var applicationId = Guid.NewGuid();
-            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{id}/application/{applicationId}", UriKind.Relative);
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
 
             // Act
