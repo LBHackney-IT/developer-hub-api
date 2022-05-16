@@ -18,10 +18,10 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
     public class DeveloperHubAPIControllerTests : LogCallTestContext
     {
         private Mock<IGetDeveloperHubByIdUseCase> _mockGetDeveloperHubByIdUseCase;
-        private Mock<IGetApplicationByNameUseCase> _mockGetApplicationByNameUseCase;
+        private Mock<IGetApplicationByIdUseCase> _mockGetApplicationByNameUseCase;
 
-        private Mock<IDeleteApplicationByNameUseCase> _mockDeleteApplicationByNameUseCase;
-        private Mock<IUpdateApplicationUseCase> _mockUpdateApplicationUseCase;
+        private Mock<IDeleteApplicationByIdUseCase> _mockDeleteApplicationByNameUseCase;
+        private Mock<IUpdateApplicationByIdUseCase> _mockUpdateApplicationUseCase;
         private DeveloperHubAPIController _classUnderTest;
         private Fixture _fixture = new Fixture();
 
@@ -29,9 +29,9 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
         public void Init()
         {
             _mockGetDeveloperHubByIdUseCase = new Mock<IGetDeveloperHubByIdUseCase>();
-            _mockGetApplicationByNameUseCase = new Mock<IGetApplicationByNameUseCase>();
-            _mockDeleteApplicationByNameUseCase = new Mock<IDeleteApplicationByNameUseCase>();
-            _mockUpdateApplicationUseCase = new Mock<IUpdateApplicationUseCase>();
+            _mockGetApplicationByNameUseCase = new Mock<IGetApplicationByIdUseCase>();
+            _mockDeleteApplicationByNameUseCase = new Mock<IDeleteApplicationByIdUseCase>();
+            _mockUpdateApplicationUseCase = new Mock<IUpdateApplicationByIdUseCase>();
 
             _classUnderTest = new DeveloperHubAPIController(_mockGetDeveloperHubByIdUseCase.Object, _mockGetApplicationByNameUseCase.Object, _mockDeleteApplicationByNameUseCase.Object, _mockUpdateApplicationUseCase.Object);
         }
@@ -41,14 +41,14 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             return new DeveloperHubQuery() { Id = "1" };
         }
 
-        private static DeleteApplicationByNameRequest DeletionQuery()
+        private static ApplicationByIdRequest DeletionQuery()
         {
-            return new DeleteApplicationByNameRequest() { Id = "1", ApplicationName = "TestApp" };
+            return new ApplicationByIdRequest() { Id = "1", ApplicationId = Guid.NewGuid() };
         }
 
-        private (ApplicationByNameRequest, UpdateApplicationListItem) ConstructUpdateApplicationQuery()
+        private (ApplicationByIdRequest, UpdateApplicationListItem) ConstructUpdateApplicationQuery()
         {
-            var pathParameters = _fixture.Create<ApplicationByNameRequest>();
+            var pathParameters = _fixture.Create<ApplicationByIdRequest>();
             var bodyParameters = _fixture.Create<UpdateApplicationListItem>();
             return (pathParameters, bodyParameters);
         }
@@ -108,7 +108,7 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             //Arrange
 
             var application = _fixture.Create<ApplicationResponse>();
-            var query = _fixture.Build<ApplicationByNameRequest>().With(x => x.ApplicationName, application.Name).Create();
+            var query = _fixture.Build<ApplicationByIdRequest>().With(x => x.ApplicationId, application.Id).Create();
             _mockGetApplicationByNameUseCase.Setup(x => x.Execute(query)).ReturnsAsync(application);
 
             //Act
@@ -120,24 +120,24 @@ namespace DeveloperHubAPI.Tests.V1.Controllers
             result.Value.Should().Be(application);
         }
         [Test]
-        public async Task GetApplicationByNameReturnsNotFoundAsync()
+        public async Task GetApplicationByIdReturnsNotFoundAsync()
         {
             // Arrange             
             var application = _fixture.Create<ApplicationResponse>();
-            var query = _fixture.Create<ApplicationByNameRequest>();
+            var query = _fixture.Create<ApplicationByIdRequest>();
             // Act
             var result = await _classUnderTest.GetApplication(query).ConfigureAwait(false) as NotFoundObjectResult;
             // Assert
-            result.Value.Should().Be(query.ApplicationName);
+            result.Value.Should().Be(query.ApplicationId);
             result.StatusCode.Should().Be(404);
         }
         [Test]
-        public void GetApplicationByNameExceptionIsThrown()
+        public void GetApplicationByIdExceptionIsThrown()
         {
             // Arrange
 
             var application = _fixture.Create<ApplicationResponse>();
-            var query = _fixture.Create<ApplicationByNameRequest>();
+            var query = _fixture.Create<ApplicationByIdRequest>();
             var exception = _fixture.Create<ApplicationException>();
             _mockGetApplicationByNameUseCase.Setup(x => x.Execute(query)).ThrowsAsync(exception);
 

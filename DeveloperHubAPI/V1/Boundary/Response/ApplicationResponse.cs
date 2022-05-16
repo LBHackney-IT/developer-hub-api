@@ -1,3 +1,5 @@
+using System;
+
 namespace DeveloperHubAPI.V1.Boundary.Response
 {
     public class ApplicationResponse
@@ -5,5 +7,7 @@ namespace DeveloperHubAPI.V1.Boundary.Response
         public string Name { get; set; }
 
         public string Link { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

@@ -13,15 +13,9 @@ using System.Threading.Tasks;
 namespace DeveloperHubAPI.Tests.V1.E2ETests
 {
     [TestFixture]
-    public class GetApplicationByNameE2ETests : DynamoDbIntegrationTests<Startup>
+    public class GetApplicationByIdE2ETests : DynamoDbIntegrationTests<Startup>
     {
         private readonly Fixture _fixture = new Fixture();
-
-        private DeveloperHubDb ConstructTestEntity()
-        {
-            var entity = _fixture.Create<DeveloperHubDb>();
-            return entity;
-        }
 
         private async Task SetupTestData(DeveloperHubDb entity)
         {
@@ -30,12 +24,12 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
         }
 
         [Test]
-        public async Task GetApplicationByNameReturns404()
+        public async Task GetApplicationByIdReturns404()
         {
             // Arrange  
             var id = 123456789;
-            var applicationName = "random";
-            var uri = new Uri($"api/v1/developerhubapi/{id}/{applicationName}", UriKind.Relative);
+            var applicationId = Guid.NewGuid();
+            var uri = new Uri($"api/v1/developerhubapi/{id}/application/{applicationId}", UriKind.Relative);
 
             // Act
             var response = await Client.GetAsync(uri).ConfigureAwait(false);
@@ -54,7 +48,7 @@ namespace DeveloperHubAPI.Tests.V1.E2ETests
             var api = _fixture.Create<DevelopersHubApi>();
             api.Applications.Add(application);
             await SetupTestData(api.ToDatabase()).ConfigureAwait(false);
-            var uri = new Uri($"api/v1/developerhubapi/{api.Id}/{application.Name}", UriKind.Relative);
+            var uri = new Uri($"api/v1/developerhubapi/{api.Id}/application/{application.Id}", UriKind.Relative);
 
             //Act
             var response = await Client.GetAsync(uri).ConfigureAwait(false);

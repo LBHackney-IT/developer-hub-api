@@ -29,6 +29,7 @@ namespace DeveloperHubAPI.V1.Factories
         {
             return new ApplicationResponse()
             {
+                Id = domain.Id,
                 Name = domain.Name,
                 Link = domain.Link
             };
