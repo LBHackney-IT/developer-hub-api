@@ -27,3 +27,16 @@ terraform {
     key     = "services/developer-hub-api/state"
   }
 }
+
+resource "aws_cloudwatch_metric_alarm" "api-calls" {
+  alarm_name                = "developer-hub-api-calls-dev"
+  alarm_description         = "This metric monitors the total number API requests in a given period"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "3"
+  metric_name               = "Count"
+  namespace                 = "AWS/ApiGateway"
+  period                    = "300"
+  statistic                 = "SampleCount"
+  threshold                 = "80"
+  treat_missing_data        = "missing"
+}
