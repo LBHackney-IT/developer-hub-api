@@ -1,7 +1,6 @@
 using AutoFixture;
 using DeveloperHubAPI.Tests.V1.E2ETests.Constants;
 using DeveloperHubAPI.V1.Boundary.Request;
-using DeveloperHubAPI.V1.Boundary.Response;
 using DeveloperHubAPI.V1.Domain;
 using DeveloperHubAPI.V1.Factories;
 using DeveloperHubAPI.V1.Infrastructure;
