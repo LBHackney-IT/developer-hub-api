@@ -1,8 +1,7 @@
-using DeveloperHubAPI.V1.Authorization;
 using DeveloperHubAPI.V1.Boundary.Request;
 using DeveloperHubAPI.V1.Boundary.Response;
-using DeveloperHubAPI.V1.Infrastructure;
 using DeveloperHubAPI.V1.UseCase.Interfaces;
+using Hackney.Core.Authorization;
 using Hackney.Core.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -72,7 +71,7 @@ namespace DeveloperHubAPI.V1.Controllers
         /// <response code="404">No data found for the specified ID</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpDelete]
-        [AuthorizeByGroups("ALLOWED_GOOGLE_GROUPS")]
+        [AuthorizeEndpointByGroups("ALLOWED_GOOGLE_GROUPS")]
         [LogCall(LogLevel.Information)]
         [Route("{id}/application/{applicationId}")]
         public async Task<IActionResult> DeleteApplication([FromRoute] ApplicationByIdRequest query)
@@ -91,7 +90,7 @@ namespace DeveloperHubAPI.V1.Controllers
         [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApplicationResponse), StatusCodes.Status404NotFound)]
         [HttpPatch]
-        [AuthorizeByGroups("ALLOWED_GOOGLE_GROUPS")]
+        [AuthorizeEndpointByGroups("ALLOWED_GOOGLE_GROUPS")]
         [LogCall(LogLevel.Information)]
         [Route("{id}/application/{applicationId}")]
         public async Task<IActionResult> PatchApplication([FromRoute] ApplicationByIdRequest pathParameters, [FromBody] UpdateApplicationListItem bodyParameters)

@@ -5,9 +5,6 @@ using DeveloperHubAPI.V1.Infrastructure;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using System;
-using System.Linq;
-using DeveloperHubAPI.V1.Boundary.Request;
 
 namespace DeveloperHubAPI.V1.Gateways
 {

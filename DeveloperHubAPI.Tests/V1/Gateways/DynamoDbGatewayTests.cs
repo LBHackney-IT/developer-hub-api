@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Moq;
 using Microsoft.Extensions.Logging;
 using Hackney.Core.Testing.Shared;
-using DeveloperHubAPI.V1.Boundary.Request;
 
 namespace DeveloperHubAPI.Tests.V1.Gateways
 {
